@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 
-const ReviewInfo = ({ setNotification }) => {
+const ReviewInfo = () => {
   const { id } = useParams();
 
   // Convert the `id` to a string
-  const idString = id.toString();
+  const idString = id?.toString() || "No ID provided";
 
   return (
     <div>

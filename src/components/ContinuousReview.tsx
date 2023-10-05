@@ -7,7 +7,7 @@ const ContinuousReview = () => {
         buttonLabel="view"
         buttonLabelExit="hide"
         reviewTitle="Jatkuva katselmointi">
-        <table border="1" className="table">
+        <table className="table">
           <thead>
             <tr>
               <th>Tila</th>

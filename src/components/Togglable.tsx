@@ -2,8 +2,19 @@ import PropTypes from 'prop-types'
 import { useState, useImperativeHandle, forwardRef } from 'react'
 import "./styles.css"
 
-const Togglable = forwardRef((props, ref) => {
-  const [visible, setVisible] = useState(false)
+interface TogglableProps {
+  buttonLabel: string;
+  buttonLabelExit: string;
+  reviewTitle: string;
+  children?: React.ReactNode;
+}
+
+interface TogglableHandle {
+  toggleVisibility: () => void;
+}
+
+const Togglable = forwardRef<TogglableHandle, TogglableProps>((props, ref) => {
+  const [visible, setVisible] = useState<boolean>(false)
 
   const hideWhenVisible = {
     display: visible ? 'none' : '',

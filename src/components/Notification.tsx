@@ -1,6 +1,8 @@
-import { useState } from "react";
+type NotificationProps = {
+  notification: string;
+};
 
-const Notification = ({notification}) => {
+const Notification = ({notification}: NotificationProps) => {
   const notificationStyle = {
     color: "purple",
     background: "lightgrey",

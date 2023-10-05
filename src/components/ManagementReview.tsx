@@ -7,7 +7,7 @@ const ManagementReview = () => {
         buttonLabel="view"
         buttonLabelExit="hide"
         reviewTitle="Toimintamallin ja johtamisen katselmointi">
-        <table border="1" className="table">
+        <table className="table">
           <thead>
             <tr>
               <th>Tila</th>

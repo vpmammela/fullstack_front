@@ -8,9 +8,9 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 // Main app
 const App = () => {
-  const [page, setPage] = useState("home");
-  const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState("default notification")
+  const [page, setPage] = useState<string>("home");
+  const [user, setUser] = useState<string>(null);
+  const [notification, setNotification] = useState<string>("default notification")
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedUser");
@@ -74,7 +74,7 @@ const App = () => {
       <Routes>
         <Route
           path="/reviews/:id"
-          element={<ReviewInfo setNotification={setNotification} />}
+          element={<ReviewInfo />}
         />
         <Route path="/users" element={<Users />} />
         <Route path="/" element={Home()} />
@@ -85,13 +85,3 @@ const App = () => {
 
 export default App;
 
-/*
-export default function App() {
-
-  return (
-  <div>
-    Hello World!!!
-    Hei
-  </div>
-  )
-}*/

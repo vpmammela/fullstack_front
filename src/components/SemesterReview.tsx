@@ -7,7 +7,7 @@ const SemesterReview = () => {
         buttonLabel="view"
         buttonLabelExit="hide"
         reviewTitle="Lukukausi / vuosikatselmointi">
-        <table border="1" className="table">
+        <table className="table">
           <thead>
             <tr>
               <th>Tila</th>

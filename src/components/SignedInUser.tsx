@@ -1,13 +1,19 @@
-const SignedInUser = ({ name, setUser, setNotification }) => {
+interface SignedInUserProps {
+  name: string;
+  setUser: (user: string) => void;
+  setNotification: (notification: string) => void;
+}
 
-  const handleLogout = async (event) => {
+const SignedInUser = ({ name, setUser, setNotification }: SignedInUserProps) => {
+
+  const handleLogout = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     try {
       window.localStorage.removeItem("loggedUser");
       console.log("logged out", name);
       setUser(null)
     } catch (exception) {
-      setNotification(`Logout failed: ${exception.message}`, 3);
+      setNotification(`Logout failed: ${exception.message}`);
     }
   };
 

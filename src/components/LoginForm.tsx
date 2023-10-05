@@ -1,10 +1,15 @@
 import { useState } from "react";
 
-const LoginForm = ({ setUser, setPage }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+interface LoginFormProps {
+  setUser: (user: string) => void;
+  setPage: (page: string) => void;
+}
 
-  const handleLogin = async (event) => {
+const LoginForm = ({ setUser, setPage }: LoginFormProps) => {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const handleLogin = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     try {
       // Tähän tulee joku service joka hoitaa kirjautumisen

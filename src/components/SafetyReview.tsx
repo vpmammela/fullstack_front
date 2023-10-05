@@ -7,7 +7,7 @@ const SafetyReview = () => {
         buttonLabel="view"
         buttonLabelExit="hide"
         reviewTitle="Turvallisuuskatselmointi">
-        <table border="1" className="table">
+        <table className="table">
           <thead>
             <tr>
               <th>Tila</th>
