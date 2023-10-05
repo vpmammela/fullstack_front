@@ -7,6 +7,7 @@ const LoginForm = ({ setUser, setPage }) => {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
+      // Tähän tulee joku service joka hoitaa kirjautumisen
       const user = {
         username,
         password,
