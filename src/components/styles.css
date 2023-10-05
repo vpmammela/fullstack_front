@@ -1,0 +1,60 @@
+.table {
+  border: 2px solid black;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  padding: 2px;
+  background-color: #f0f0ff;
+  transition: background-color 0.3s;
+  text-align: center;
+}
+
+.link {
+  color: #4f1616;
+  transition: color 0.3s;
+}
+
+.link:hover {
+  color: #00ffae;
+  background-color: #115599;
+}
+
+button {
+  color: #0f0f0f;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  padding: 4px;
+  background-color: #fff4ef;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  color: #00ffae;
+  background-color: #115599;
+}
+
+h1,
+h2,
+h3 {
+  color: #115599;
+}
+
+li {
+  font-style: italic;
+}
+
+.bad {
+  background-color: red;
+}
+.almost-bad {
+  background-color: orange;
+}
+.neutral {
+  background-color: yellow;
+}
+.almost-good{
+  background-color: limegreen;
+}
+.good {
+  background-color: green;
+}
+
