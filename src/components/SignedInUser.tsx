@@ -2,7 +2,7 @@ import { useNavigate} from "react-router-dom";
 
 interface SignedInUserProps {
   user: string;
-  setUser: (user: string) => void;
+  setUser: (user: string | null) => void;
   setNotification: (notification: string) => void;
 }
 
