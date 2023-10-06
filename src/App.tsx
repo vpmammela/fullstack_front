@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 // Main app
 const App = () => {
   const [page, setPage] = useState<string>("home");
-  const [user, setUser] = useState<string>(null);
+  const [user, setUser] = useState<string | null>(null);
   const [notification, setNotification] = useState<string>("default notification")
 
   useEffect(() => {
@@ -30,14 +30,14 @@ const App = () => {
 
   const reviewForm = () => (
     <div>
-      <SignedInUser name={user} setUser={setUser} setNotification={setNotification} />
+      <SignedInUser name={user || ''} setUser={setUser} setNotification={setNotification} />
       <ReviewForm />
     </div>
   );
 
   const userForm = () => (
     <div>
-      <SignedInUser name={user} setUser={setUser} setNotification={setNotification} />
+      <SignedInUser name={user || ''} setUser={setUser} setNotification={setNotification} />
       <h1>all users</h1>
     </div>
   );
