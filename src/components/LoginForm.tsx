@@ -2,10 +2,9 @@ import { useState } from "react";
 
 interface LoginFormProps {
   setUser: (user: string) => void;
-  setPage: (page: string) => void;
 }
 
-const LoginForm = ({ setUser, setPage }: LoginFormProps) => {
+const LoginForm = ({ setUser }: LoginFormProps) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -22,7 +21,6 @@ const LoginForm = ({ setUser, setPage }: LoginFormProps) => {
       setPassword("");
       console.log("logging in with", user.username, password);
       setUser(user.username)
-      setPage("home");
     } catch (exception) {
       console.log("wrong username or password");
     }

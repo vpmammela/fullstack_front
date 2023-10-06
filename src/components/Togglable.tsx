@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import { useState, useImperativeHandle, forwardRef } from 'react'
-import "./styles.css"
 
 interface TogglableProps {
   buttonLabel: string;

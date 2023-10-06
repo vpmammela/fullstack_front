@@ -5,10 +5,13 @@ import LoginForm from "./components/LoginForm";
 import ReviewForm from "./components/ReviewForm";
 import ReviewInfo from "./components/ReviewInfo";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import ContinuousReview from "./components/ContinuousReview/ContinuousReview";
+import ManagementReview from "./components/ManagementReview/ManagementReview";
+import SafetyReview from "./components/SafetyReview/SafetyReview";
+import SemesterReview from "./components/SemesterReview/SemesterReview";
 
 // Main app
 const App = () => {
-  const [page, setPage] = useState<string>("home");
   const [user, setUser] = useState<string | null>(null);
   const [notification, setNotification] = useState<string>("default notification")
 
@@ -23,60 +26,56 @@ const App = () => {
   const loginForm = () => {
     return (
       <div>
-        <LoginForm setUser={setUser} setPage={setPage} />
+        <LoginForm setUser={setUser} />
       </div>
     );
   };
-
-  const reviewForm = () => (
-    <div>
-      <SignedInUser name={user || ''} setUser={setUser} setNotification={setNotification} />
-      <ReviewForm />
-    </div>
-  );
-
-  const userForm = () => (
-    <div>
-      <SignedInUser name={user || ''} setUser={setUser} setNotification={setNotification} />
-      <h1>all users</h1>
-    </div>
-  );
   
   const Home = () => (
     <div>
-      <Notification notification={notification}/>
-      {user === null ? loginForm() : reviewForm()}
+      {user === null ? loginForm() : <ReviewForm />}
     </div>
   );
 
-  const Users = () => (
+  const Continuous = () => (
     <div>
-      <Notification notification={notification}/>
-      {user === null ? loginForm() : userForm()}
+      {user === null ? loginForm() : <ContinuousReview />}
     </div>
   );
 
-  const padding = {
-    padding: 5,
-  };
+  const Management = () => (
+    <div>
+      {user === null ? loginForm() : <ManagementReview />}
+    </div>
+  );
+
+  const Safety = () => (
+    <div>
+      {user === null ? loginForm() : <SafetyReview />}
+    </div>
+  );
+
+  const Semester = () => (
+    <div>
+      {user === null ? loginForm() : <SemesterReview />}
+    </div>
+  );
 
   return (
     <Router>
       <div>
-        <Link style={padding} to="/">
+        <Link to="/">
           home
         </Link>
-        <Link style={padding} to="/users">
-          users
-        </Link>
       </div>
-
+      <Notification notification={notification}/>
+      <SignedInUser user={user || ''} setUser={setUser} setNotification={setNotification} />
       <Routes>
-        <Route
-          path="/reviews/:id"
-          element={<ReviewInfo />}
-        />
-        <Route path="/users" element={<Users />} />
+        <Route path="/reviews/:id" element={<ReviewInfo />} />
+        <Route path="/continuous" element={Continuous()} />
+        <Route path="/semester" element={Semester()} />
+        <Route path="/safety" element={Safety()} />
+        <Route path="/management" element={Management()} />
         <Route path="/" element={Home()} />
       </Routes>
     </Router>

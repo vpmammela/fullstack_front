@@ -1,15 +1,21 @@
-import ContinuousReview from "./ContinuousReview";
-import SemesterReview from "./SemesterReview";
-import SafetyReview from "./SafetyReview";
-import ManagementReview from "./ManagementReview";
+import { Link } from "react-router-dom";
+import "./styles.css";
 
 const ReviewForm = () => {
   return (
     <div>
-      <ContinuousReview />
-      <SemesterReview />
-      <SafetyReview />
-      <ManagementReview />
+      <Link className="review-link" to="/continuous">
+        Continuous Review
+      </Link><br></br>
+      <Link className="review-link" to="/semester">
+        Semester Review
+      </Link><br></br>
+      <Link className="review-link" to="/safety">
+        Safety Review
+      </Link><br></br>
+      <Link className="review-link" to="/management">
+        Management Review
+      </Link><br></br>
     </div>
   );
 };

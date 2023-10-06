@@ -36,6 +36,13 @@ button:hover {
   background-color: #115599;
 }
 
+.review-link {
+  color: black;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+
 h1,
 h2,
 h3 {
@@ -61,4 +68,16 @@ li {
 .good {
   background-color: green;
 }
+
+.notification {
+  color: purple;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: block;
+}
+
 
