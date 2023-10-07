@@ -9,6 +9,7 @@ import ContinuousReview from "./components/ContinuousReview/ContinuousReview";
 import ManagementReview from "./components/ManagementReview/ManagementReview";
 import SafetyReview from "./components/SafetyReview/SafetyReview";
 import SemesterReview from "./components/SemesterReview/SemesterReview";
+import backgroundImage from './Images/redsnow.jpg';
 
 // Main app
 const App = () => {
@@ -25,7 +26,7 @@ const App = () => {
 
   const loginForm = () => {
     return (
-      <div>
+      <div >
         <LoginForm setUser={setUser} />
       </div>
     );
@@ -65,7 +66,7 @@ const App = () => {
     <Router>
       <div>
         <Link to="/">
-          home
+          Home
         </Link>
       </div>
       <Notification notification={notification}/>

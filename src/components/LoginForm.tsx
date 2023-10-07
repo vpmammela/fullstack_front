@@ -28,10 +28,12 @@ const LoginForm = ({ setUser }: LoginFormProps) => {
 
   return (
     <div className="login-form-container">
-      <h2>log in to application</h2>
+      <div className="logincontainer">
+        <div className="form">
+      <h2 className="login-title">Sign in</h2>
+      
       <form onSubmit={handleLogin}>
-        <div>
-          username
+          <div className="usernametext">username</div>
           <input
             id="username"
             type="text"
@@ -39,9 +41,7 @@ const LoginForm = ({ setUser }: LoginFormProps) => {
             name="Username"
             onChange={({ target }) => setUsername(target.value)}
           />
-        </div>
-        <div>
-          password
+          <div className="passwordtext">password</div>
           <input
             id="password"
             type="password"
@@ -49,11 +49,12 @@ const LoginForm = ({ setUser }: LoginFormProps) => {
             name="Password"
             onChange={({ target }) => setPassword(target.value)}
           />
-        </div>
-        <button id="login-button" type="submit">
-          login
+        <button id="login-button" type="submit" className="loginbutton">
+          Login
         </button>
       </form>
+      </div>
+    </div>
     </div>
   );
 };
