@@ -9,6 +9,7 @@ import ContinuousReview from "./components/ContinuousReview/ContinuousReview";
 import ManagementReview from "./components/ManagementReview/ManagementReview";
 import SafetyReview from "./components/SafetyReview/SafetyReview";
 import SemesterReview from "./components/SemesterReview/SemesterReview";
+import TestBackendConnection from "./components/TestBackendConnection/TestBackendConnection";
 
 // Main app
 const App = () => {
@@ -78,6 +79,7 @@ const App = () => {
         <Route path="/management" element={Management()} />
         <Route path="/" element={Home()} />
       </Routes>
+      <TestBackendConnection/>
     </Router>
   );
 };
