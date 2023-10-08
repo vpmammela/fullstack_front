@@ -11,6 +11,7 @@ import SafetyReview from "./components/SafetyReview/SafetyReview";
 import SemesterReview from "./components/SemesterReview/SemesterReview";
 import backgroundImage from './Images/redsnow.jpg';
 import TestBackendConnection from "./components/TestBackendConnection/TestBackendConnection";
+import { HomePage} from "./components/HomePage";
 
 
 const App = () => {
@@ -31,24 +32,22 @@ const App = () => {
     </div>
   );
 
+  // Navigation: Login --> Home.
   return (
     <Router>
       <div>
-        <Link to="/">
-          Home
-        </Link>
+        <Link to="/"></Link>
       </div>
-      <Notification notification={notification}/>
       <SignedInUser user={user || ''} setUser={setUser} setNotification={setNotification} />
       <Routes>
         <Route path="/reviews/:id" element={<ReviewInfo />} />
-        <Route path="/continuous" element={<ContinuousReview user={user}/>} />
         <Route path="/semester" element={<SemesterReview user={user}/>} />
         <Route path="/safety" element={<SafetyReview user={user}/>} />
         <Route path="/management" element={<ManagementReview user={user}/>} />
         <Route path="/" element={Home()} />
+        <Route path="/HomePage" element={<HomePage/>}/>
       </Routes>
-      <TestBackendConnection/>
+      <TestBackendConnection/>    
     </Router>
   );
 };
