@@ -12,7 +12,7 @@ import SemesterReview from "./components/SemesterReview/SemesterReview";
 import backgroundImage from './Images/redsnow.jpg';
 import TestBackendConnection from "./components/TestBackendConnection/TestBackendConnection";
 
-// Main app
+
 const App = () => {
   const [user, setUser] = useState<string | null>(null);
   const [notification, setNotification] = useState<string>("default notification");

@@ -2,14 +2,14 @@ import "../styles.css";
 import { useNavigate} from "react-router-dom";
 import { useEffect } from "react";
 
-const SemesterReview = ({user}) => {
+const SemesterReview = ({user}: { user: string | null }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
     if(user === null) {
       navigate("/")
     }
-  }, [user])
+  }, [navigate, user])
 
   return (
     <div>
