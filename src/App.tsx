@@ -24,18 +24,10 @@ const App = () => {
       console.log("user:", user)
     }
   }, []);
-
-  const loginForm = () => {
-    return (
-      <div >
-        <LoginForm setUser={setUser} />
-      </div>
-    );
-  };
   
   const Home = () => (
     <div>
-      {user === null ? loginForm() : <ReviewForm />}
+      {user === null ? <LoginForm setUser={setUser} /> : <ReviewForm />}
     </div>
   );
 
