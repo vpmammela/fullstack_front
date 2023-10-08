@@ -112,3 +112,9 @@ button:hover {
   color: #ffffff;
   background-color: #000000;
 }
+@media (max-width: 912px) {
+  .logincontainer {
+    width: 80%;  
+    height: 60%;
+
+}}
