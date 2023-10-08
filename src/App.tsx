@@ -15,7 +15,7 @@ import TestBackendConnection from "./components/TestBackendConnection/TestBacken
 // Main app
 const App = () => {
   const [user, setUser] = useState<string | null>(null);
-  const [notification, setNotification] = useState<string>("default notification")
+  const [notification, setNotification] = useState<string>("default notification");
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedUser");
@@ -39,30 +39,6 @@ const App = () => {
     </div>
   );
 
-  const Continuous = () => (
-    <div>
-      {user === null ? loginForm() : <ContinuousReview />}
-    </div>
-  );
-
-  const Management = () => (
-    <div>
-      {user === null ? loginForm() : <ManagementReview />}
-    </div>
-  );
-
-  const Safety = () => (
-    <div>
-      {user === null ? loginForm() : <SafetyReview />}
-    </div>
-  );
-
-  const Semester = () => (
-    <div>
-      {user === null ? loginForm() : <SemesterReview />}
-    </div>
-  );
-
   return (
     <Router>
       <div>
@@ -74,10 +50,10 @@ const App = () => {
       <SignedInUser user={user || ''} setUser={setUser} setNotification={setNotification} />
       <Routes>
         <Route path="/reviews/:id" element={<ReviewInfo />} />
-        <Route path="/continuous" element={Continuous()} />
-        <Route path="/semester" element={Semester()} />
-        <Route path="/safety" element={Safety()} />
-        <Route path="/management" element={Management()} />
+        <Route path="/continuous" element={<ContinuousReview user={user}/>} />
+        <Route path="/semester" element={<SemesterReview user={user}/>} />
+        <Route path="/safety" element={<SafetyReview user={user}/>} />
+        <Route path="/management" element={<ManagementReview user={user}/>} />
         <Route path="/" element={Home()} />
       </Routes>
       <TestBackendConnection/>

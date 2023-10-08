@@ -1,6 +1,16 @@
 import "../styles.css";
+import { useNavigate} from "react-router-dom";
+import { useEffect } from "react";
 
-const SafetyReview = () => {
+const SafetyReview = ({user}) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(user === null) {
+      navigate("/")
+    }
+  }, [user])
+
   return (
     <div>
       <h2>
