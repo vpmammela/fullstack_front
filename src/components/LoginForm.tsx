@@ -1,10 +1,14 @@
 import { useState } from "react";
 
 interface LoginFormProps {
-  setUser: (user: string) => void;
+  onLogin: () => void;
 }
 
-const LoginForm = ({ setUser }: LoginFormProps) => {
+export const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
+  const handleSignInClick = () => {
+    onLogin();
+  };
+
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -50,7 +54,8 @@ const LoginForm = ({ setUser }: LoginFormProps) => {
               name="Password"
               onChange={({ target }) => setPassword(target.value)}
             />
-            <button id="login-button" type="submit" className="loginbutton">
+            <button id="login-button" type="submit" className="loginbutton"
+            onClick={handleSignInClick}>
               Login
             </button>
 
@@ -62,3 +67,7 @@ const LoginForm = ({ setUser }: LoginFormProps) => {
 };
 
 export default LoginForm;
+function setUser(_username: string) {
+  throw new Error("Function not implemented.");
+}
+
