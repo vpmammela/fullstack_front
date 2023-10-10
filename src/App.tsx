@@ -1,13 +1,18 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Notification from "./components/Notification";
 import SignedInUser from "./components/SignedInUser";
+import LoginForm from "./components/LoginForm";
 import ReviewForm from "./components/ReviewForm";
 import ReviewInfo from "./components/ReviewInfo";
-import { LoginPage } from "./components/LoginScreen/LoginPage";
-import { Outlet, useNavigate } from "react-router-dom";
-import { NavigationBar } from "./components/NavBar/NavigationBar";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import ContinuousReview from "./components/ContinuousReview/ContinuousReview";
+import ManagementReview from "./components/ManagementReview/ManagementReview";
+import SafetyReview from "./components/SafetyReview/SafetyReview";
+import SemesterReview from "./components/SemesterReview/SemesterReview";
+import backgroundImage from './Images/redsnow.jpg';
+import TestBackendConnection from "./components/TestBackendConnection/TestBackendConnection";
 
-// This level shows LoginPage, after logging in user goes to HomePage.
+
 const App = () => {
   const [user, setUser] = useState<string | null>(null);
   const [notification, setNotification] = useState<string>("default notification");
@@ -19,28 +24,34 @@ const App = () => {
       console.log("user:", user)
     }
   }, []);
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
-
-  // On Logout --> LoginPage.
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    navigate('/');
-  };
+  
+  const Home = () => (
+    <div>
+      {user === null ? <LoginForm setUser={setUser} /> : <ReviewForm />}
+    </div>
+  );
 
   return (
-    <div>
-      {isLoggedIn ? (
-        <Fragment>
-          <NavigationBar handleLogout={handleLogout} />
-          <Outlet />
-        </Fragment>
-      ) : (
-        <LoginPage onLoginFunction={setIsLoggedIn} />
-      )}
-    </div>
-  )
+    <Router>
+      <div>
+        <Link to="/">
+          Home
+        </Link>
+      </div>
+      <Notification notification={notification}/>
+      <SignedInUser user={user || ''} setUser={setUser} setNotification={setNotification} />
+      <Routes>
+        <Route path="/reviews/:id" element={<ReviewInfo />} />
+        <Route path="/continuous" element={<ContinuousReview user={user}/>} />
+        <Route path="/semester" element={<SemesterReview user={user}/>} />
+        <Route path="/safety" element={<SafetyReview user={user}/>} />
+        <Route path="/management" element={<ManagementReview user={user}/>} />
+        <Route path="/" element={Home()} />
+      </Routes>
+      <TestBackendConnection/>
+    </Router>
+  );
 };
+
 export default App;
 

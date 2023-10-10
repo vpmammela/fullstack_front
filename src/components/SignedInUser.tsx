@@ -28,7 +28,7 @@ const SignedInUser = ({ user, setUser, setNotification }: SignedInUserProps) => 
   return (
     <div className="signedIn">
       <br></br>
-      {user} Logged in <button onClick={handleLogout}>Logout</button>
+      {user} logged in <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };
