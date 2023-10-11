@@ -9,9 +9,8 @@ import ContinuousReview from "./components/ContinuousReview/ContinuousReview";
 import ManagementReview from "./components/ManagementReview/ManagementReview";
 import SafetyReview from "./components/SafetyReview/SafetyReview";
 import SemesterReview from "./components/SemesterReview/SemesterReview";
-import backgroundImage from './Images/redsnow.jpg';
 import TestBackendConnection from "./components/TestBackendConnection/TestBackendConnection";
-
+import redSnow from './Images/redsnow.jpg';
 
 const App = () => {
   const [user, setUser] = useState<string | null>(null);
@@ -27,32 +26,31 @@ const App = () => {
   
   // Shows LoginForm when user is not signed in. Shows HomeComponent when user is signed in.
   const Home = () => (
-    <div>
+    <div className="home-container">
       {user === null ? <LoginForm setUser={setUser} /> : <HomeComponent />}
     </div>
   );
 
   return (
     <Router>
-      <div>
-        <Link to="/">
-          Home
-        </Link>
+      <div className="app-container">
+        {/*TODO: possibly change backgroun image location to homecomponent */}
+        <img src={redSnow} alt="Background" className="background-image" />
+        <div></div>
+        <Notification notification={notification}/>
+        <SignedInUser user={user || ''} setUser={setUser} setNotification={setNotification} />
+        <Routes>
+          <Route path="/reviews/:id" element={<ReviewInfo />} />
+          <Route path="/continuous" element={<ContinuousReview user={user}/>} />
+          <Route path="/semester" element={<SemesterReview user={user}/>} />
+          <Route path="/safety" element={<SafetyReview user={user}/>} />
+          <Route path="/management" element={<ManagementReview user={user}/>} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+        <TestBackendConnection/>
       </div>
-      <Notification notification={notification}/>
-      <SignedInUser user={user || ''} setUser={setUser} setNotification={setNotification} />
-      <Routes>
-        <Route path="/reviews/:id" element={<ReviewInfo />} />
-        <Route path="/continuous" element={<ContinuousReview user={user}/>} />
-        <Route path="/semester" element={<SemesterReview user={user}/>} />
-        <Route path="/safety" element={<SafetyReview user={user}/>} />
-        <Route path="/management" element={<ManagementReview user={user}/>} />
-        <Route path="/" element={Home()} />
-      </Routes>
-      <TestBackendConnection/>
     </Router>
   );
 };
 
 export default App;
-

@@ -28,7 +28,8 @@ const SignedInUser = ({ user, setUser, setNotification }: SignedInUserProps) => 
   return (
     <div className="signedIn">
       <br></br>
-      {user} logged in <button onClick={handleLogout}>Logout</button>
+      {user} logged in
+        <button className="logoutButton" onClick={handleLogout}>Logout</button>
     </div>
   );
 };
