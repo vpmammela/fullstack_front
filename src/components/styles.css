@@ -22,8 +22,13 @@
   background-color: #115599;
 }
 
-.linksBackground {
-  border: 3px solid #00ffae;
+.links-container {
+  position: relative;
+  background-color: rgb(180, 180, 180);
+  margin-left: 50px;
+  margin-right: 500px;
+  padding-right: 30px;
+
 }
 
 .review-link {
@@ -31,7 +36,12 @@
   text-decoration: none;
   font-size: 18px;
   font-weight: bold;
-  padding-left: 100px;
+  margin-left: 50px;
+}
+
+.links {
+  margin-bottom: 1000px;
+  padding-bottom: 500px;
 }
 
 h1,
@@ -119,7 +129,7 @@ button:hover {
 }
 
 .logoutButton {
-  position: fixed;
+  display: flex;
   margin-bottom: 50%;
   border-radius: 10px;
   padding-left: 30px;
@@ -133,13 +143,14 @@ button:hover {
 
 .app-container {
   position: relative;
-  height: 100%;
+  height: 1000px;
+
 }
 
 .background-image {
   position: absolute;
-  top: -5;
-  left: -5;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;

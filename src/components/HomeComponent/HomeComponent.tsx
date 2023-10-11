@@ -24,7 +24,7 @@ const HomeComponent = () => {
   // Admins can access all reviews and other features as well.
   if(storedUser?.role === "admin"){
     return (
-      <div className="linksBackground">
+      <div className="links">
         <h1>ADMIN EXTRA STUFF GOES HERE</h1>
         <Link className="review-link" to="/continuous">
           Continuous Review

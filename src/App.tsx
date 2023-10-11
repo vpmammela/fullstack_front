@@ -36,7 +36,7 @@ const App = () => {
       <div className="app-container">
         {/*TODO: possibly change backgroun image location to homecomponent */}
         <img src={redSnow} alt="Background" className="background-image" />
-        <div></div>
+        <div className="links-container">
         <Notification notification={notification}/>
         <SignedInUser user={user || ''} setUser={setUser} setNotification={setNotification} />
         <Routes>
@@ -48,6 +48,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
         </Routes>
         <TestBackendConnection/>
+        </div>
       </div>
     </Router>
   );
