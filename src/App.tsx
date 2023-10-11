@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Notification from "./components/Notification";
-import SignedInUser from "./components/SignedInUser";
-import LoginForm from "./components/LoginForm";
-import ReviewForm from "./components/ReviewForm";
-import ReviewInfo from "./components/ReviewInfo";
+import Notification from "./components/Notification/Notification";
+import SignedInUser from "./components/SignedInUser/SignedInUser";
+import LoginForm from "./components/LoginForm/LoginForm";
+import HomeComponent from "./components/HomeComponent/HomeComponent";
+import ReviewInfo from "./components/ReviewInfo/ReviewInfo";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import ContinuousReview from "./components/ContinuousReview/ContinuousReview";
 import ManagementReview from "./components/ManagementReview/ManagementReview";
@@ -25,9 +25,10 @@ const App = () => {
     }
   }, []);
   
+  // Shows LoginForm when user is not signed in. Shows HomeComponent when user is signed in.
   const Home = () => (
     <div>
-      {user === null ? <LoginForm setUser={setUser} /> : <ReviewForm />}
+      {user === null ? <LoginForm setUser={setUser} /> : <HomeComponent />}
     </div>
   );
 

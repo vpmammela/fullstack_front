@@ -11,12 +11,22 @@ const LoginForm = ({ setUser }: LoginFormProps) => {
   const handleLogin = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     try {
-      // Tähän tulee joku service joka hoitaa kirjautumisen
-      const user = {
+      // Here a loginService will take care of logging in the user
+      // the login function should return the user's role as well
+      /*
+      const user = await loginService.login({
         username,
         password,
+      });
+      */
+      // Placeholder user object, until loginService is implemented
+      const user = {
+        username,
+        role: "user role" // value can be student, staff, or admin
       };
-      window.localStorage.setItem("loggedUser", JSON.stringify(user.username));
+      window.localStorage.setItem("loggedUser", JSON.stringify(user));
+      // reviewService will set a token
+      //reviewService.setToken(user.token);
       setUsername("");
       setPassword("");
       console.log("logging in with", user.username, password);
