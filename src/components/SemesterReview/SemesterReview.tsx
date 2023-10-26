@@ -1,9 +1,11 @@
 import "../styles.css";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useUser } from '../../UserContext';
 
-const SemesterReview = ({user}: { user: string | null }) => {
+const SemesterReview = () => {
   const navigate = useNavigate();
+  const { user } = useUser();
 
   useEffect(() => {
     if(user === null) {
@@ -29,28 +31,12 @@ const SemesterReview = ({user}: { user: string | null }) => {
         </thead>
         <tbody>
           <tr>
-            <td><b>Huone 1</b></td>
+            <td><input type="text" id="roomName" /></td>
             <td><input type="radio" name="room1" value="bad"/></td>
             <td><input type="radio" name="room1" value="neutral"/></td>
             <td><input type="radio" name="room1" value="good"/></td>
             <td><input type="text" id="comments1" /></td>
-            <td><a href="#" id="picture1link">pic1</a></td>
-          </tr>
-          <tr>
-            <td><b>Huone 2</b></td>
-            <td><input type="radio" name="room2" value="bad"/></td>
-            <td><input type="radio" name="room2" value="neutral"/></td>
-            <td><input type="radio" name="room2" value="good"/></td>
-            <td><input type="text" id="comments2" /></td>
-            <td><a href="#" id="picture2link">pic2</a></td>
-          </tr>
-          <tr>
-            <td><b>Huone 3</b></td>
-            <td><input type="radio" name="room3" value="bad"/></td>
-            <td><input type="radio" name="room3" value="neutral"/></td>
-            <td><input type="radio" name="room3" value="good"/></td>
-            <td><input type="text" id="comments3" /></td>
-            <td><a href="#" id="picure3link">pic3</a></td>
+            <td><a href="#" id="picturelink">pictures</a></td>
           </tr>
         </tbody>
       </table>

@@ -1,12 +1,12 @@
 import { useState } from "react";
+import { useUser } from '../../UserContext';
 
-interface LoginFormProps {
-  setUser: (user: string) => void;
-}
 
-const LoginForm = ({ setUser }: LoginFormProps) => {
+const LoginForm = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const { setUser } = useUser();
+
 
   const handleLogin = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();

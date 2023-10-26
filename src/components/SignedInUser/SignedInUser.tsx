@@ -1,13 +1,14 @@
 import { useNavigate} from "react-router-dom";
+import { useUser } from '../../UserContext';
+
 
 interface SignedInUserProps {
-  user: string;
-  setUser: (user: string | null) => void;
   setNotification: (notification: string) => void;
 }
 
-const SignedInUser = ({ user, setUser, setNotification }: SignedInUserProps) => {
+const SignedInUser = ({ setNotification }: SignedInUserProps) => {
   const navigate = useNavigate();
+  const { user, setUser } = useUser();
 
   const handleLogout = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
