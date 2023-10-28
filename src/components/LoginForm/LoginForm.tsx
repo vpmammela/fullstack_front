@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useUser } from '../../UserContext';
 
-
 const LoginForm = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");

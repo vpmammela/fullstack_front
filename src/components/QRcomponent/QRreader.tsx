@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 const QRreader: React.FC = () => {
   const [scanResult, setScanResult] = useState<string | null>(null);
 
+  // Setting scanner. 
   useEffect(() => {
     const scanner = new Html5QrcodeScanner('reader', {
       qrbox: {
@@ -13,20 +14,22 @@ const QRreader: React.FC = () => {
       fps: 5,
     });
 
+    // Handle successfula and failed scan.
     scanner.render(success, error);
 
     function success(result: string): void {
       scanner.clear();
       setScanResult(result);
     }
-
     function error(err: any) {
       console.warn(err);
     }
   }, []);
 
+  // Successful scan --> Render link.
+  // TODO: delete http// on line 36, to make link work, alter to make work in app.
   return (
-    <div>
+    <div className="qr-reader">
       <h2>Skannaa QR koodi:</h2>
       {scanResult ? (
         <div>
