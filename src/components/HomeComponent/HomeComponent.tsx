@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "../styles.css";
+import QRreader from "../QRcomponent/QRreader";
 
 
 // Links to all types of reviews when user is admin/staff. Link to ContinuousReview if user is student
@@ -7,6 +8,7 @@ const HomeComponent = () => {
   // Retrieve the logged user from localStorage
   const storedUserJSON = window.localStorage.getItem("loggedUser");
   let storedUser = null;
+
 
   if (storedUserJSON !== null) {
     storedUser = JSON.parse(storedUserJSON);
@@ -57,6 +59,7 @@ const HomeComponent = () => {
       <Link className="review-link" to="/management">
         Management Review
       </Link><br></br>
+      <QRreader/>
     </div>
   )
 };
