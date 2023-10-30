@@ -1,9 +1,12 @@
 import "../styles.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useUser } from '../../UserContext';
+import getFormsValues from "../../functions/getFormValues";
 
-const ContinuousReview = () => {
+
+export default function ContinuousReview() {
+  
   const navigate = useNavigate();
   const { user } = useUser();
 
@@ -13,35 +16,70 @@ const ContinuousReview = () => {
     }
   }, [navigate, user])
 
+  //
+  const handleContinuosReview=(event: React.FormEvent<HTMLFormElement>)=>{
+    event.preventDefault();
+
+    const {isEmpty, data}= getFormsValues(event.currentTarget)
+    
+    //checks whether all fields have been answered
+    if (isEmpty) {
+      console.log("Form data is empty or there are empty flieds.");
+    } 
+      
+    console.log(data)
+    //clear inputs
+    event.currentTarget.reset();
+
+  }
+
   return (
     <div>
       <h2>
         Jatkuva katselmointi
       </h2>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Tila</th>
-            <th className="bad">Bad</th>
-            <th className="neutral">Neutral</th>
-            <th className="good">Good</th>
-            <th>Huomiot</th>
-            <th>Kuva</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><input type="text" id="roomName" /></td>
-            <td><input type="radio" name="room1" value="bad"/></td>
-            <td><input type="radio" name="room1" value="neutral"/></td>
-            <td><input type="radio" name="room1" value="good"/></td>
-            <td><input type="text" id="comments1" /></td>
-            <td><a href="#" id="picturelink">pictures</a></td>
-          </tr>
-        </tbody>
-      </table>
+      <p>Hei {user}, täytä katselmointi ja tallenna lopuksi</p>
+      <form onSubmit={handleContinuosReview}>
+        <label> Tilan yleisilme</label>
+        <div>
+          <span className="material-symbols-outlined">
+            sentiment_dissatisfied
+          </span>
+          <input type="radio" value="bad" name="condition"/>
+        </div>
+        <div>
+          <span className="material-symbols-outlined">
+            sentiment_satisfied
+          </span>
+          <input type="radio" value="good" name="condition"/>
+        </div>
+        <div>
+          <span className="material-symbols-outlined">
+            sentiment_very_satisfied
+          </span>
+          <input type="radio" value="excellent" name="condition"/>
+        </div>
+        <div>
+          <label>Huomiot
+          <input type="text" name="attentions"></input>
+          </label>
+        </div>
+        <div>
+          <label>Muita huomioita/ kehitysideoita
+          <input type="text" name="developmentIdeas"></input>
+          </label>
+        </div>
+        <div>
+          <label>Mitä positiivista olet huomannut tarkastusjasolla?
+          <input type="text" name="positiveThings"></input>
+          </label>
+        </div>
+        <label>**Tähän vielä valokuvan lisäys**</label>
+        <div>
+          <button type="submit">Tallenna</button>
+        </div>
+      </form>
     </div>
   );
 };
   
-export default ContinuousReview;
