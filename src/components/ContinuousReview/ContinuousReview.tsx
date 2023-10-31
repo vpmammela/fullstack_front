@@ -1,9 +1,25 @@
 import "../styles.css";
-import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import { useNavigate, Form} from "react-router-dom";
+import { useEffect } from "react";
 import { useUser } from '../../UserContext';
-import getFormsValues from "../../functions/getFormValues";
 
+
+//ACTION
+export async function action({request}: { request: Request }){
+    const formData = await request.formData()
+    //data variable is an object containing the key-value pairs from the form that were previously collected into the formData object.
+    const data = Object.fromEntries(formData)
+    const response = await fetch("",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify(data)
+    })
+    //Onko hyvä nimi result
+    //mihin result pitäisi laittaa?
+    const result =await response.json()
+}
 
 export default function ContinuousReview() {
   
@@ -16,22 +32,7 @@ export default function ContinuousReview() {
     }
   }, [navigate, user])
 
-  //
-  const handleContinuosReview=(event: React.FormEvent<HTMLFormElement>)=>{
-    event.preventDefault();
 
-    const {isEmpty, data}= getFormsValues(event.currentTarget)
-    
-    //checks whether all fields have been answered
-    if (isEmpty) {
-      console.log("Form data is empty or there are empty flieds.");
-    } 
-      
-    console.log(data)
-    //clear inputs
-    event.currentTarget.reset();
-
-  }
 
   return (
     <div>
@@ -39,7 +40,7 @@ export default function ContinuousReview() {
         Jatkuva katselmointi
       </h2>
       <p>Hei {user}, täytä katselmointi ja tallenna lopuksi</p>
-      <form onSubmit={handleContinuosReview}>
+      <Form method="post">
         <label> Tilan yleisilme</label>
         <div>
           <span className="material-symbols-outlined">
@@ -78,7 +79,7 @@ export default function ContinuousReview() {
         <div>
           <button type="submit">Tallenna</button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 };

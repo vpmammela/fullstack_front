@@ -4,10 +4,11 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Root from './Root.jsx'
 import ReviewInfo from './components/ReviewInfo/ReviewInfo.tsx'
 import SemesterReview from './components/SemesterReview/SemesterReview.tsx'
-import ContinuousReview from './components/ContinuousReview/ContinuousReview.tsx'
+import ContinuousReview, {action as continuosReviewAction} from './components/ContinuousReview/ContinuousReview.tsx'
 import SafetyReview from './components/SafetyReview/SafetyReview.tsx'
 import ManagementReview from './components/ManagementReview/ManagementReview.tsx'
 import { UserProvider } from './UserContext';
+
 
 
 const router = createBrowserRouter([
@@ -22,8 +23,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/continuous",
-        element: <ContinuousReview></ContinuousReview>
-        //action: createContinuousReview
+        element: <ContinuousReview></ContinuousReview>,
+        action: continuosReviewAction
       },
       {
         path: "/semester",

@@ -14,7 +14,7 @@ export default function Root(){
       <img src={redSnow} alt="Background" className="background-image" />
       <Notification notification={notification}/>
       <SignedInUser setNotification={setNotification} />
-      <Home></Home>
+      <Home></Home> 
       <Outlet></Outlet>
       <TestBackendConnection/>
     </div>
