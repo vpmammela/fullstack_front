@@ -23,7 +23,7 @@ const LoginForm = () => {
         username,
         role: "user role" // value can be student, staff, or admin
       };
-      window.localStorage.setItem("loggedUser", JSON.stringify(user));
+      window.sessionStorage.setItem("loggedUser", JSON.stringify(user));
       // reviewService will set a token
       //reviewService.setToken(user.token);
       setUsername("");

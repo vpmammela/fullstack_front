@@ -13,7 +13,7 @@ const SignedInUser = ({ setNotification }: SignedInUserProps) => {
   const handleLogout = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     try {
-      window.localStorage.removeItem("loggedUser");
+      window.sessionStorage.removeItem("loggedUser");
       console.log("logged out", user);
       setUser(null);
       navigate("/");
@@ -22,7 +22,7 @@ const SignedInUser = ({ setNotification }: SignedInUserProps) => {
     }
   };
 
-  if(window.localStorage.getItem("loggedUser") == null){
+  if(window.sessionStorage.getItem("loggedUser") == null){
     return null
   }
   

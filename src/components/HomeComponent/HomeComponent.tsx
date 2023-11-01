@@ -5,8 +5,8 @@ import QRreader from "../QRcomponent/QRreader";
 
 // Links to all types of reviews when user is admin/staff. Link to ContinuousReview if user is student
 const HomeComponent = () => {
-  // Retrieve the logged user from localStorage
-  const storedUserJSON = window.localStorage.getItem("loggedUser");
+  // Retrieve the logged user from sessionStorage
+  const storedUserJSON = window.sessionStorage.getItem("loggedUser");
   let storedUser = null;
 
 
