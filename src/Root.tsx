@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 import redSnow from './Images/redsnow.jpg';
 import TestBackendConnection from "./components/TestBackendConnection/TestBackendConnection";
 import Home from "./Home";
-import Instructions from "./instructions";
+import Instructions from "./Instructions";
 
 export default function Root() {
   const [notification, setNotification] = useState("default notification");
