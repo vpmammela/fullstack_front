@@ -2,13 +2,11 @@ import { Link } from "react-router-dom";
 import "../styles.css";
 import QRreader from "../QRcomponent/QRreader";
 
-
 // Links to all types of reviews when user is admin/staff. Link to ContinuousReview if user is student
 const HomeComponent = () => {
   // Retrieve the logged user from sessionStorage
   const storedUserJSON = window.sessionStorage.getItem("loggedUser");
   let storedUser = null;
-
 
   if (storedUserJSON !== null) {
     storedUser = JSON.parse(storedUserJSON);

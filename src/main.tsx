@@ -8,6 +8,7 @@ import ContinuousReview, {action as continuosReviewAction} from './components/Co
 import SafetyReview from './components/SafetyReview/SafetyReview.tsx'
 import ManagementReview from './components/ManagementReview/ManagementReview.tsx'
 import { UserProvider } from './UserContext';
+import HomeComponent from './components/HomeComponent/HomeComponent.tsx'
 
 
 
@@ -17,7 +18,11 @@ const router = createBrowserRouter([
     element: <Root></Root>,
     children: [
       {
-        path: "/reviews/:id" ,
+        path: "/home",
+        element: <HomeComponent></HomeComponent>
+      },
+      {
+        path: "/reviews/:id",
         element: <ReviewInfo></ReviewInfo>
         //loader: reviewLoader
       },

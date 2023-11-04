@@ -1,0 +1,23 @@
+.sliding-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background-color: rgb(240, 240, 240);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .sliding-panel.open {
+    transform: translateX(-300px);
+  }
+  
+  .toggle-button {
+    margin: 10px;
+  }
+  
+  .content {
+    padding: 20px;
+  }
