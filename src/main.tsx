@@ -8,7 +8,6 @@ import ContinuousReview, {action as continuosReviewAction} from './components/Co
 import SafetyReview from './components/SafetyReview/SafetyReview.tsx'
 import ManagementReview from './components/ManagementReview/ManagementReview.tsx'
 import { UserProvider } from './UserContext';
-import HomeComponent from './components/ReviewSelection/ReviewSelection.tsx'
 import RoomSelection from './components/RoomSelection/RoomSelection.tsx'
 import Home from './Home.tsx'
 import ReviewSelection from './components/ReviewSelection/ReviewSelection.tsx'
