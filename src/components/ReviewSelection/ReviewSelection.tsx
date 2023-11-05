@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import "../styles.css";
-import QRreader from "../QRcomponent/QRreader";
+
 
 // Links to all types of reviews when user is admin/staff. Link to ContinuousReview if user is student
 const HomeComponent = () => {
@@ -44,20 +44,29 @@ const HomeComponent = () => {
 
   // Staff can access all reviews
   return (
-    <div className="gray-background">
-      <Link className="review-link" to="/continuous">
-        Continuous Review
-      </Link><br></br>
-      <Link className="review-link" to="/semester">
-        Semester Review
-      </Link><br></br>
-      <Link className="review-link" to="/safety">
-        Safety Review
-      </Link><br></br>
-      <Link className="review-link" to="/management">
-        Management Review
-      </Link><br></br>
-      <QRreader/>
+    <div>
+      <div className="linkbutton">
+        <Link className="review-link" to="/continuous">
+          Continuous Review
+        </Link>
+      </div>
+      <div className="linkbutton">
+        <Link className="review-link" to="/semester">
+          Semester Review
+        </Link>
+      </div>
+      <div className="linkbutton">
+        <Link className="review-link" to="/safety">
+          Safety Review
+        </Link>
+      </div>
+      <div className="linkbutton">
+        <Link className="review-link" to="/management">
+          Management Review
+        </Link>
+      </div>
+  
+      <Outlet></Outlet>
     </div>
   )
 };

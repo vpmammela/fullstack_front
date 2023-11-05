@@ -1,0 +1,33 @@
+
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .selectStyle{
+    margin: 15px;
+  }
+  .roomSelectionButton{
+    display: flex;
+    
+    border-radius: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    background-color: #78d8d2;
+    font: black;
+  }
+  .roomSelectionButton-container{
+    display: flex;
+    justify-content: center;
+ 
+  }

@@ -18,14 +18,26 @@
   padding-right: 30px;
 
 }
+.linkbutton{
+  display: block;
+  padding: 10px 20px; 
+  background-color: #78d8d2;
+  color: #fff; 
+  text-decoration: none; 
+  border: none; 
+  border-radius: 5px; 
+  font-weight: bold;
+  cursor: pointer; 
+  text-align: center; 
+  margin: 15px;
+}
+
 
 .review-link {
-  color: black;
+  color:black;
   text-decoration: none;
   font-size: 18px;
   font-weight: bold;
-  margin-left: 44%;
-  margin-right: 45%;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -74,8 +86,8 @@ li {
 .logincontainer {
   display: flex;
   opacity: 100%;
-  width: 30%;  
-  height: 50%;
+  width: 100%;  
+  height: 100%;
   background-color: rgb(194, 194, 194);
   margin: auto;
   margin-top: 100px;
@@ -125,10 +137,13 @@ button:hover {
   font: #ffffff;
 }
 
-.app-container {
-  position: relative;
-  height: 1000px;
-
+/* .app-container {
+} */
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .background-image {
@@ -148,15 +163,13 @@ button:hover {
 
 .qr-reader {
   position: relative;
-  margin-left: 40%;
-  margin-right: 40%;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(216, 212, 212);
+  border-radius: 5px; 
+  
 }
 
 .gray-background {
   background-color: #bbbbbb;
-  border-radius: 0 130px 0 0; /* Top-right corner rounded */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 100%;
   margin: 16px;
   overflow: hidden;

@@ -1,6 +1,8 @@
+
 import { useUser } from './UserContext';
-import HomeComponent from './components/HomeComponent/HomeComponent';
 import LoginForm from './components/LoginForm/LoginForm';
+import { Link } from "react-router-dom";
+import './components/styles.css'
   
 // Shows LoginForm when user is not signed in. Shows HomeComponent when user is signed in.
 const Home = () => {
@@ -8,7 +10,29 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {user === null ? <LoginForm /> : <HomeComponent />}
+      {user === null 
+      ?
+      (<LoginForm />)
+      : (
+        <div >
+          <div className="linkbutton">
+            <Link className="review-link" to="/roomselection">
+              Tee katselmointi
+            </Link>
+          </div>
+          <div className="linkbutton">
+            <Link className="review-link" to="/roomselection">
+              Huoneen ohjeet
+            </Link>
+          </div>
+          <div className="linkbutton">
+            <Link className="review-link" to="/roomselection">
+              Raportit
+            </Link>
+          </div>
+
+      </div>
+      )}
     </div>
   )
 }

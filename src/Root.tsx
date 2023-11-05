@@ -4,8 +4,9 @@ import SignedInUser from "./components/SignedInUser/SignedInUser";
 import { Outlet } from "react-router-dom";
 import redSnow from './Images/redsnow.jpg';
 import TestBackendConnection from "./components/TestBackendConnection/TestBackendConnection";
-import Home from "./Home";
 import Instructions from "./Instructions";
+import './components/styles.css'
+
 
 export default function Root() {
   const [notification, setNotification] = useState("default notification");
@@ -23,12 +24,13 @@ export default function Root() {
         Open instructions
       </button>
       <Instructions isOpen={isOpen} togglePanel={togglePanel} />
-      <img src={redSnow} alt="Background" className="background-image" />
       <Notification notification={notification} />
-      <SignedInUser setNotification={setNotification} />
-      <Home></Home>
-      <Outlet></Outlet>
-      <TestBackendConnection />
+      <div className="content-container">
+        <SignedInUser setNotification={setNotification} />
+        <Outlet></Outlet>
+        <TestBackendConnection />
+      </div>
+      <img src={redSnow} alt="Background" className="background-image" /> 
     </div>
   );
 }
