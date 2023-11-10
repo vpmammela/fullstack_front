@@ -1,31 +1,24 @@
 import { useState } from "react";
 import { useUser } from '../../UserContext';
+import useAuthStore from "../../stores/auth";
 
 const LoginForm = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { setUser } = useUser();
-
+  const authStore = useAuthStore();
 
   const handleLogin = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     try {
-      // Here a loginService will take care of logging in the user
-      // the login function should return the user's role as well
-      /*
-      const user = await loginService.login({
-        username,
-        password,
-      });
-      */
-      // Placeholder user object, until loginService is implemented
+      //await authStore.login([["username", username], ["password", password]]);
+      
       const user = {
         username,
         role: "user role" // value can be student, staff, or admin
       };
       window.sessionStorage.setItem("loggedUser", JSON.stringify(user));
-      // reviewService will set a token
-      //reviewService.setToken(user.token);
+
       setUsername("");
       setPassword("");
       console.log("logging in with", user.username, password);

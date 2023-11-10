@@ -13,6 +13,7 @@ const SignedInUser = ({ setNotification }: SignedInUserProps) => {
   const handleLogout = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     try {
+      window.sessionStorage.removeItem("auth-store");
       window.sessionStorage.removeItem("loggedUser");
       console.log("logged out", user);
       setUser(null);
@@ -25,7 +26,13 @@ const SignedInUser = ({ setNotification }: SignedInUserProps) => {
   if(window.sessionStorage.getItem("loggedUser") == null){
     return null
   }
-  
+
+  /*
+  if(window.sessionStorage.getItem("auth-store") == null){
+    return null
+  }
+  */
+ 
   return (
     <div className="signedIn">
       <br></br>
