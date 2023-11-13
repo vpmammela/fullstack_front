@@ -15,7 +15,8 @@ const useAuthStore = create(persist<AuthStore>((set) => ({
     csrfToken: null,
     login: async (credentials: string[][]) => {
       // fetch request from backend
-      const response = await fetch("https://localhost:8001/api/v1/auth/login", {
+      //const response = await fetch("https://localhost:8001/api/v1/auth/login", {
+        const response = await fetch("https://fullstack-backend-w94q.onrender.com/api/v1/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
