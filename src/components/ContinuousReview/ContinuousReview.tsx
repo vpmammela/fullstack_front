@@ -19,6 +19,7 @@ export async function action({request}: { request: Request }){
     //Onko hyvä nimi result
     //mihin result pitäisi laittaa?
     const result =await response.json()
+    console.log(result)
 }
 
 export default function ContinuousReview() {

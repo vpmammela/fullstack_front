@@ -18,7 +18,7 @@ const SignedInUser = ({ setNotification }: SignedInUserProps) => {
       console.log("logged out", user);
       setUser(null);
       navigate("/");
-    } catch (exception) {
+    } catch (exception: any) {
       setNotification(`Logout failed: ${exception.message}`);
     }
   };

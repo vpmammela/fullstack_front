@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Notification from "./components/Notification/Notification";
 import SignedInUser from "./components/SignedInUser/SignedInUser";
 import { Outlet } from "react-router-dom";

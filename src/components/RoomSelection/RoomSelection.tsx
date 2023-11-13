@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 export default function Home() {
     const [location, setLocation]=useState('')
-    const [room, setroom]=useState('')
+    //const [room, setroom]=useState('')
 
     //Locations are searched from the database
   const locationsArray=["Rovaniemi", "Kemi", "Tornio"]
