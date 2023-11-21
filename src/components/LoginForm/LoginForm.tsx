@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useUser } from '../../UserContext';
-//import useAuthStore from "../../stores/auth";
+import useAuthStore from "../../stores/auth";
 
 const LoginForm = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { setUser } = useUser();
-  //const authStore = useAuthStore();
+  const authStore = useAuthStore();
 
   const handleLogin = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     try {
-      //await authStore.login([["username", username], ["password", password]]);
+      await authStore.login([["username", username], ["password", password]]);
       
       const user = {
         username,

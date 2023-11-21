@@ -23,15 +23,9 @@ const SignedInUser = ({ setNotification }: SignedInUserProps) => {
     }
   };
 
-  if(window.sessionStorage.getItem("loggedUser") == null){
-    return null
-  }
-
-  /*
   if(window.sessionStorage.getItem("auth-store") == null){
     return null
   }
-  */
  
   return (
     <div className="signedIn">
