@@ -35,7 +35,20 @@ const useAuthStore = create(persist<AuthStore>((set) => ({
         set({csrfToken: res.detail, auth: true})
       }
     },
-    logout: async () => set(() => ({ auth: false })) 
+    logout: async () => {
+      const response = await fetch("https://localhost:8001/api/v1/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+      });
+
+      const res = await response.json();
+      console.log("STATUS", res)
+      if (res) {
+        set({csrfToken: null, auth: false})
+      }
+    }
 }), {
     name: "auth-store", 
     storage: createJSONStorage(() => sessionStorage)

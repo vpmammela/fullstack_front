@@ -1,5 +1,6 @@
 import { useNavigate} from "react-router-dom";
 import { useUser } from '../../UserContext';
+import useAuthStore from "../../stores/auth";
 
 
 interface SignedInUserProps {
@@ -9,10 +10,13 @@ interface SignedInUserProps {
 const SignedInUser = ({ setNotification }: SignedInUserProps) => {
   const navigate = useNavigate();
   const { user, setUser } = useUser();
+  const authStore = useAuthStore();
 
   const handleLogout = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     try {
+      await authStore.logout();
+
       window.sessionStorage.removeItem("auth-store");
       window.sessionStorage.removeItem("loggedUser");
       console.log("logged out", user);
