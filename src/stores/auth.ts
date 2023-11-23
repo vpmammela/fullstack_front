@@ -44,7 +44,7 @@ const useAuthStore = create(persist<AuthStore>((set) => ({
       });
 
       const res = await response.json();
-      console.log("STATUS", res)
+      console.log("RESPONSE", res)
       if (res) {
         set({csrfToken: null, auth: false})
       }
