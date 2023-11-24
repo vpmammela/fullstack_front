@@ -10,9 +10,14 @@ const LoginForm = () => {
 
   const handleLogin = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
+
     try {
-      await authStore.login([["username", username], ["password", password]]);
-      
+
+      await authStore.login({
+        "username": username, 
+        "password": password
+      });
+
       const user = {
         username,
         role: "user role" // value can be student, staff, or admin
@@ -24,7 +29,7 @@ const LoginForm = () => {
       console.log("logging in with", user.username, password);
       setUser(user.username)
     } catch (exception) {
-      console.log("wrong username or password");
+      console.log("wrong username or password:", exception);
     }
   };
 
