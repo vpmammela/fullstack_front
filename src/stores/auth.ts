@@ -1,54 +1,43 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import loginService from "../services/auth"
 
+
+interface LoginCredentials {
+  username: string;
+  password: string;
+}
 
 type AuthStore = {
-  auth: boolean;
-  csrfToken: string | null;
-  login: (credentials: string[][]) => Promise<void>;
-  logout: () => Promise<void>;
+  isAuth: boolean;
+  //csrfToken: string | null;
+  login: (credentials: LoginCredentials) => Promise<void>;
+  logout: () => void;
 };
 
-
 const useAuthStore = create(persist<AuthStore>((set) => ({
-    auth: false,
-    csrfToken: null,
-    login: async (credentials: string[][]) => {
-      // fetch request from backend
-        const response = await fetch("https://localhost:8001/api/v1/auth/login", {
-        //const response = await fetch("https://fullstack-backend-w94q.onrender.com/api/v1/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: new URLSearchParams(credentials)
-      })
+    isAuth: false,
+    //csrfToken: null,
+    login: async (credentials: LoginCredentials) => {
 
-      const res = await response.json()
-      console.log(res)
-      if(res.csrf_token){
-        set({csrfToken: res.csrf_token, auth: true})
+      try {
+        const {csrf_token} = await loginService(credentials)
+        console.log("CSRF FROM LOGIN", csrf_token)
+        if(csrf_token){
+          set({isAuth: true})
+        }
+      } catch(e) {
+        console.log("Error with login in authStore", e)
+        throw new Error("Login failed")
       }
-      // Laitetaan toistaiseksi jotain auth-storeen, että se kirjautuu aina sisään.
-      // Tässä detail on esimerkiksi virheilmoituksesta saatu {"detail": "user not found"} jos backend ei palauta csrf_tokenia
-      else {
-        set({csrfToken: res.detail, auth: true})
-      }
+
     },
-    logout: async () => {
-      const response = await fetch("https://localhost:8001/api/v1/auth/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-      });
-
-      const res = await response.json();
-      console.log("RESPONSE", res)
-      if (res) {
-        set({csrfToken: null, auth: false})
-      }
+    logout: () => {
+      return set(() => ({
+        isAuth: false
+      }))
     }
+
 }), {
     name: "auth-store", 
     storage: createJSONStorage(() => sessionStorage)

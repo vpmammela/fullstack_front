@@ -11,8 +11,11 @@ import { UserProvider } from './UserContext';
 import RoomSelection from './components/RoomSelection/RoomSelection.tsx'
 import Home from './Home.tsx'
 import ReviewSelection from './components/ReviewSelection/ReviewSelection.tsx'
+import axios from 'axios'
 
 
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
+//axios.defaults.withCredentials = true
 
 const router = createBrowserRouter([
   {
