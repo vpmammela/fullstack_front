@@ -22,7 +22,6 @@ const useAuthStore = create(persist<AuthStore>((set) => ({
 
       try {
         const {csrf_token} = await loginService(credentials)
-        console.log("CSRF FROM LOGIN", csrf_token)
         if(csrf_token){
           set({isAuth: true})
         }
