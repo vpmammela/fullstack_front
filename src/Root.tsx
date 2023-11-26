@@ -1,12 +1,13 @@
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import Notification from "./components/Notification/Notification";
 import SignedInUser from "./components/SignedInUser/SignedInUser";
 import { Outlet } from "react-router-dom";
 import redSnow from './Images/redsnow.jpg';
 import TestBackendConnection from "./components/TestBackendConnection/TestBackendConnection";
 import Instructions from "./Instructions";
-import './components/styles.css'
-
+import './components/styles.css';
 
 export default function Root() {
   const [notification, setNotification] = useState("default notification");
@@ -21,7 +22,7 @@ export default function Root() {
   return (
     <div className="app-container">
       <button onClick={togglePanel} className="toggle-button">
-        Open instructions
+        <FontAwesomeIcon icon={faArrowCircleLeft}/>
       </button>
       <Instructions isOpen={isOpen} togglePanel={togglePanel} />
       <Notification notification={notification} />
