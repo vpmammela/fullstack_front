@@ -14,7 +14,7 @@ const Home = () => {
       ?
       (<LoginForm />)
       : (
-        <div >
+        <div className='selection-background'>
           <div className="linkbutton">
             <Link className="review-link" to="/roomselection">
               Tee katselmointi
