@@ -3,7 +3,7 @@ import "../styles.css";
 
 
 // Links to all types of reviews when user is admin/staff. Link to ContinuousReview if user is student
-const HomeComponent = () => {
+const ReviewSelection = () => {
   // Retrieve the logged user from sessionStorage
   const storedUserJSON = window.sessionStorage.getItem("loggedUser");
   let storedUser = null;
@@ -71,4 +71,4 @@ const HomeComponent = () => {
   )
 };
 
-export default HomeComponent;
+export default ReviewSelection;

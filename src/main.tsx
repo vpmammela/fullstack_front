@@ -12,6 +12,7 @@ import RoomSelection from './components/RoomSelection/RoomSelection.tsx'
 import Home from './Home.tsx'
 import ReviewSelection from './components/ReviewSelection/ReviewSelection.tsx'
 import axios from 'axios'
+import { NotificationProvider } from './NotificationContext.tsx'
 
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
@@ -67,9 +68,11 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <UserProvider>
-      <RouterProvider router={router}></RouterProvider>
-    </UserProvider>
+    <NotificationProvider>
+      <UserProvider>
+        <RouterProvider router={router}></RouterProvider>
+      </UserProvider>
+    </NotificationProvider>
   </React.StrictMode>
 )
 
