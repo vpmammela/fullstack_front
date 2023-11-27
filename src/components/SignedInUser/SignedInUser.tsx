@@ -9,6 +9,7 @@ const SignedInUser = () => {
   const { user, setUser } = useUser();
   const authStore = useAuthStore();
   const { setNotification } = useNotification();
+  
 
   const handleLogout = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -25,7 +26,7 @@ const SignedInUser = () => {
     }
   };
 
-  if(window.sessionStorage.getItem("auth-store") == null){
+  if(!authStore.isAuth){
     return null
   }
  
