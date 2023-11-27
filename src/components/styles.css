@@ -156,10 +156,6 @@ button:hover {
   font: #ffffff;
 }
 
-.signedIn {
-  justify-content: center;
-}
-
 .app-container {
   display: flex;
   flex-direction: column;
