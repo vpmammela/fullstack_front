@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useUser } from '../../UserContext';
 import useAuthStore from "../../stores/auth";
+import { useNotification } from "../../NotificationContext";
 
 const LoginForm = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { setUser } = useUser();
+  const { setNotification } = useNotification();
   const authStore = useAuthStore();
 
   const handleLogin = async (event: { preventDefault: () => void; }) => {
@@ -26,8 +28,9 @@ const LoginForm = () => {
 
       setUsername("");
       setPassword("");
-      console.log("logging in with", user.username, password);
       setUser(user.username)
+
+      setNotification(`logging in with ${user.username}`);
     } catch (exception) {
       console.log("wrong username or password:", exception);
     }

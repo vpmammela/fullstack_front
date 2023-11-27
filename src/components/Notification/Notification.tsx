@@ -1,12 +1,19 @@
 import "../styles.css"
+import { useNotification } from "../../NotificationContext";
 
-type NotificationProps = {
-  notification: string;
-};
+const Notification = () => {
+  const { notification } = useNotification();
 
-const Notification = ({notification}: NotificationProps) => {
+  if(notification == null) {
+    return (    
+      <div className="notification">
+        {notification}
+      </div>
+    );
+  }
+  
   return (
-    <div className="notification">
+    <div className={`notification ${notification ? 'with-border' : ''}`}>
       {notification}
     </div>
   );
