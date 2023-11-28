@@ -14,11 +14,7 @@ const LoginForm = () => {
     event.preventDefault();
 
     try {
-
-      await authStore.login({
-        "username": username, 
-        "password": password
-      });
+      await authStore.login({username, password});
 
       const user = {
         username,
@@ -32,7 +28,7 @@ const LoginForm = () => {
 
       setNotification(`logging in with ${user.username}`);
     } catch (exception) {
-      console.log("wrong username or password:", exception);
+      setNotification("Tarkista kirjautumistiedot");
     }
   };
 

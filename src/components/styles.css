@@ -83,6 +83,7 @@ li {
 
 .notification.with-border {
   border: solid;
+  background-color: #bbbbbb;
 }
 
 .logincontainer {
