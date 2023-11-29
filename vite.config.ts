@@ -10,13 +10,13 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:8001",
+        target: "http://localhost:8000",
         secure: false,
         changeOrigin: true,
         //rewrite: (path) => path +
       },
-      "/docs": "http://localhost:8001",
-      "/openapi.json": "http://localhost:8001"
+      "/docs": "http://localhost:8000",
+      "/openapi.json": "http://localhost:8000"
     }
   }
 })
