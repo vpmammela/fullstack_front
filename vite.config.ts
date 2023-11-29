@@ -11,6 +11,7 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "http://localhost:8000",
+        //target: "https://backend.onrender.com"
         secure: false,
         changeOrigin: true,
         //rewrite: (path) => path +
