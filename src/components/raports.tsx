@@ -11,7 +11,7 @@ const ReportsPage: React.FC = () => {
   useEffect(() => {
     // Fetch reports when the component mounts.
     axios
-      .get('/api/reports') // TODO: Replace with API endpoint.
+      .get('http://localhost:8001/reports')
       .then((response) => {
         setReports(response.data);
       })
@@ -25,7 +25,10 @@ const ReportsPage: React.FC = () => {
       <h1>Reports Page</h1>
       <ul>
         {reports.map((report) => (
-          <li key={report.id}>{/* TODO: Show report details here */}</li>
+          <li key={report.id}>
+            Report ID: {report.id}
+            {/* TODO: Add details based on report structure --> make more visual*/}
+          </li>
         ))}
       </ul>
     </div>
