@@ -13,6 +13,8 @@ import Home from './Home.tsx'
 import ReviewSelection from './components/ReviewSelection/ReviewSelection.tsx'
 import axios from 'axios'
 import { NotificationProvider } from './NotificationContext.tsx'
+import LoginForm from './components/LoginForm/LoginForm.tsx'
+import ProtectedRoute from './components/ProtectedRoute.tsx'
 
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
@@ -22,7 +24,7 @@ axios.defaults.withCredentials = true
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root></Root>,
+    element: <ProtectedRoute><Root></Root></ProtectedRoute>,
     children: [
       {
         path: "/",
@@ -62,9 +64,11 @@ const router = createBrowserRouter([
         //action: createManagementReview
       }
     ]
-  
   },
- 
+  {  
+    path: "/login",
+    element: <LoginForm></LoginForm>
+  }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

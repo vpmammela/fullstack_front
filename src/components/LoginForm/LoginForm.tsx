@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useUser } from '../../UserContext';
 import useAuthStore from "../../stores/auth";
 import { useNotification } from "../../NotificationContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [username, setUsername] = useState<string>("");
@@ -9,7 +10,8 @@ const LoginForm = () => {
   const { setUser } = useUser();
   const { setNotification } = useNotification();
   const authStore = useAuthStore();
-
+  const navigate = useNavigate();
+  
   const handleLogin = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
 
@@ -27,6 +29,7 @@ const LoginForm = () => {
       setUser(user.username)
 
       setNotification(`logging in with ${user.username}`);
+      navigate("/")
     } catch (exception) {
       setNotification("Tarkista kirjautumistiedot");
     }
