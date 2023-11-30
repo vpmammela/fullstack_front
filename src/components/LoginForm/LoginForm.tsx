@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Notification from '../Notification/Notification';
 import redSnow from '../../Images/redsnow.jpg';
 import logo from '../../Images/logo.png';
+import RoomSelection from '../RoomSelection/RoomSelection';
 
 const AppContainer = styled.div`
   position: relative;
@@ -131,6 +132,8 @@ const LoginForm = () => {
 
   return (
     <AppContainer>
+      <RoomSelection></RoomSelection>
+
       <Notification />
       <LogoContainer>
         <LogoImage src={logo} alt="Logo" />
