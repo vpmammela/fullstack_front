@@ -1,8 +1,6 @@
 import "../styles.css";
-import { useNavigate, Form} from "react-router-dom";
-import { useEffect } from "react";
+import { Form} from "react-router-dom";
 import { useUser } from '../../UserContext';
-import useAuthStore from "../../stores/auth";
 
 
 //ACTION
@@ -24,18 +22,7 @@ export async function action({request}: { request: Request }){
 }
 
 export default function ContinuousReview() {
-  
-  const navigate = useNavigate();
   const { user } = useUser();
-  const authStore = useAuthStore();
-
-  useEffect(() => {
-    if(!authStore.isAuth) {
-      navigate("/login")
-    }
-  }, [navigate, authStore])
-
-
 
   return (
     <div>
