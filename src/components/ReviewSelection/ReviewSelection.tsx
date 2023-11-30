@@ -15,11 +15,14 @@ const ReviewSelection = () => {
   const { setNotification } = useNotification();
   
   useEffect(() => {
-    if(role === null || !allowedRoles.includes(role)) {
-      setNotification("Wrong user role!");
-      navigate("/login")
+    if (role === null || !allowedRoles.includes(role)) {
+      (async () => {
+        await authStore.logout();
+        setNotification('Wrong user role!');
+        navigate('/login');
+      })();
     }
-  }, [navigate, role])
+  }, [navigate, role, authStore]);
 
   if(role === null || !allowedRoles.includes(role)) {
     navigate("/login")
