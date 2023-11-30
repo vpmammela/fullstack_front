@@ -24,10 +24,6 @@ const ReviewSelection = () => {
     }
   }, [navigate, role, authStore]);
 
-  if(role === null || !allowedRoles.includes(role)) {
-    navigate("/login")
-  }
-
   // Students can only access continuous reviews
   if(role === "student"){
     return (
