@@ -1,18 +1,6 @@
 import "../styles.css";
-import { useNavigate} from "react-router-dom";
-import { useEffect } from "react";
-import useAuthStore from "../../stores/auth";
 
 const ManagementReview = () => {
-  const navigate = useNavigate();
-  const authStore = useAuthStore();
-
-  useEffect(() => {
-    if(!authStore.isAuth) {
-      navigate("/login")
-    }
-  }, [navigate, authStore])
-
   return (
     <div>
       <h2>

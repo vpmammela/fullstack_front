@@ -1,11 +1,9 @@
-import { useNavigate} from "react-router-dom";
 import { useUser } from '../../UserContext';
 import useAuthStore from "../../stores/auth";
 import { useNotification } from "../../NotificationContext";
 
 
 const SignedInUser = () => {
-  const navigate = useNavigate();
   const { user, setUser } = useUser();
   const authStore = useAuthStore();
   const { setNotification } = useNotification();
@@ -20,7 +18,6 @@ const SignedInUser = () => {
       window.sessionStorage.removeItem("loggedUser");
       setNotification(`logged out ${user}`);
       setUser(null);
-      navigate("/");
     } catch (exception: any) {
       setNotification(`Logout failed: ${exception.message}`);
     }

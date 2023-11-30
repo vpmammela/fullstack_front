@@ -2,7 +2,6 @@
 import { Link } from "react-router-dom";
 import './components/styles.css'
   
-// Shows LoginForm when user is not signed in. Shows HomeComponent when user is signed in.
 const Home = () => {
   return (
     <div className="home-container">

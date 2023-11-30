@@ -1,74 +1,104 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import "../styles.css";
+import useAuthStore from "../../stores/auth";
+import { useEffect, useState } from "react";
+import { useNotification } from "../../NotificationContext";
 
 
 // Links to all types of reviews when user is admin/staff. Link to ContinuousReview if user is student
 const ReviewSelection = () => {
-  // Retrieve the logged user from sessionStorage
-  const storedUserJSON = window.sessionStorage.getItem("loggedUser");
-  let storedUser = null;
 
-  if (storedUserJSON !== null) {
-    storedUser = JSON.parse(storedUserJSON);
+  const allowedRoles = ["student", "admin", "staff"];
+  const authStore = useAuthStore();
+  const [role] = useState(authStore.role)
+  const navigate = useNavigate();
+  const { setNotification } = useNotification();
+  
+  useEffect(() => {
+    if(role === null || !allowedRoles.includes(role)) {
+      setNotification("Wrong user role!");
+      navigate("/login")
+    }
+  }, [navigate, role])
+
+  if(role === null || !allowedRoles.includes(role)) {
+    navigate("/login")
   }
 
   // Students can only access continuous reviews
-  if(storedUser?.role === "student"){
+  if(role === "student"){
     return (
-      <Link className="review-link" to="/continuous">
-        Continuous Review
-      </Link>
+      <div className="linkbutton">
+        <Link className="review-link" to="/continuous">
+          Continuous Review
+        </Link>
+
+        <Outlet></Outlet>
+      </div>
     )
   }
 
   // Admins can access all reviews and other features as well.
-  if(storedUser?.role === "admin"){
+  if(role === "admin"){
     return (
       <div className="all-links">
         <h1>ADMIN EXTRA STUFF GOES HERE</h1>
-        <Link className="review-link" to="/continuous">
-          Continuous Review
-        </Link><br></br>
-        <Link className="review-link" to="/semester">
-          Semester Review
-        </Link><br></br>
-        <Link className="review-link" to="/safety">
-          Safety Review
-        </Link><br></br>
-        <Link className="review-link" to="/management">
-          Management Review
-        </Link><br></br>
+      
+        <div className="linkbutton">
+          <Link className="review-link" to="/continuous">
+            Continuous Review
+          </Link>
+        </div>
+        <div className="linkbutton">
+          <Link className="review-link" to="/semester">
+            Semester Review
+          </Link>
+        </div>
+        <div className="linkbutton">
+          <Link className="review-link" to="/safety">
+            Safety Review
+          </Link>
+        </div>
+        <div className="linkbutton">
+          <Link className="review-link" to="/management">
+            Management Review
+          </Link>
+        </div>
+    
+        <Outlet></Outlet>
       </div>
     )
   }
 
   // Staff can access all reviews
-  return (
-    <div>
-      <div className="linkbutton">
-        <Link className="review-link" to="/continuous">
-          Continuous Review
-        </Link>
+  if(role === "staff"){
+    return (
+      <div>
+        <div className="linkbutton">
+          <Link className="review-link" to="/continuous">
+            Continuous Review
+          </Link>
+        </div>
+        <div className="linkbutton">
+          <Link className="review-link" to="/semester">
+            Semester Review
+          </Link>
+        </div>
+        <div className="linkbutton">
+          <Link className="review-link" to="/safety">
+            Safety Review
+          </Link>
+        </div>
+        <div className="linkbutton">
+          <Link className="review-link" to="/management">
+            Management Review
+          </Link>
+        </div>
+    
+        <Outlet></Outlet>
       </div>
-      <div className="linkbutton">
-        <Link className="review-link" to="/semester">
-          Semester Review
-        </Link>
-      </div>
-      <div className="linkbutton">
-        <Link className="review-link" to="/safety">
-          Safety Review
-        </Link>
-      </div>
-      <div className="linkbutton">
-        <Link className="review-link" to="/management">
-          Management Review
-        </Link>
-      </div>
-  
-      <Outlet></Outlet>
-    </div>
-  )
+    )
+  }
 };
 
 export default ReviewSelection;

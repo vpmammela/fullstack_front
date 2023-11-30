@@ -1,17 +1,8 @@
 import "../styles.css";
-import { Form, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import useAuthStore from "../../stores/auth";
+import { Form } from "react-router-dom";
+
 
 const SemesterReview = () => {
-  const navigate = useNavigate();
-  const authStore = useAuthStore();
-
-  useEffect(() => {
-    if(!authStore.isAuth) {
-      navigate("/login")
-    }
-  }, [navigate, authStore])
 
   return (
     <div>
