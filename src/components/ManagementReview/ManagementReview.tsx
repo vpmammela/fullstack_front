@@ -1,17 +1,17 @@
 import "../styles.css";
 import { useNavigate} from "react-router-dom";
 import { useEffect } from "react";
-import { useUser } from '../../UserContext';
+import useAuthStore from "../../stores/auth";
 
 const ManagementReview = () => {
   const navigate = useNavigate();
-  const { user } = useUser();
+  const authStore = useAuthStore();
 
   useEffect(() => {
-    if(user === null) {
-      navigate("/")
+    if(!authStore.isAuth) {
+      navigate("/login")
     }
-  }, [navigate, user])
+  }, [navigate, authStore])
 
   return (
     <div>

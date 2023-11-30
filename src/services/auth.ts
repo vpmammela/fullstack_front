@@ -6,7 +6,7 @@ interface LoginCredentials {
   password: string;
 }
 
-const loginService = async (data: LoginCredentials) => {
+export const loginService = async (data: LoginCredentials) => {
   const response = await axios.post("/auth/login", data, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -15,4 +15,20 @@ const loginService = async (data: LoginCredentials) => {
   return response.data
 }
 
-export default loginService
+export const getAccount = async () => {
+  const response = await axios.get("/auth/account", {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+  return response.data
+}
+
+export const logoutUser = async () => {
+  const response = await axios.post("/auth/logout", {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+  return response.data
+}
