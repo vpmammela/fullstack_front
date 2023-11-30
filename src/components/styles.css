@@ -86,7 +86,7 @@ li {
   background-color: #bbbbbb;
 }
 
-.logincontainer {
+/*.logincontainer {
   display: flex;
   opacity: 100%;
   width: 100%;  
@@ -96,7 +96,7 @@ li {
   margin-top: 20px;
   border-radius: 50px;
   border-radius: 20px 20px 20px 20px;
-}
+}*/
 
 .selection-background {
   display: flex;
