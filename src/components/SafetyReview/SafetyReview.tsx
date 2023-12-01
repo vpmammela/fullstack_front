@@ -1,8 +1,26 @@
+import styled from "styled-components";
 import "../styles.css";
 import { Form } from "react-router-dom";
+import { ChangeEvent, useState } from "react";
 
 
 const SafetyReview = () => {
+
+  const PhotoInput = styled.input`
+  margin-top: 5px;
+`;
+
+const SafetyReview = () => {
+  const [photo, setPhoto] = useState<File | null>(null);
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    setPhoto(file || null);
+  };
+};
+  function handleFileChange(event: ChangeEvent<HTMLInputElement>): void {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <div>
@@ -193,6 +211,12 @@ const SafetyReview = () => {
         </div>
         <div>
           <p>VALOKUVAUN LISÄYS TÄHÄN</p>
+          <PhotoInput
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={handleFileChange}
+          />
         </div>
 
         </div>
