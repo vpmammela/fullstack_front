@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../axios/instance";
 
 
 interface LoginCredentials {
@@ -7,7 +7,7 @@ interface LoginCredentials {
 }
 
 export const loginService = async (data: LoginCredentials) => {
-  const response = await axios.post("/auth/login", data, {
+  const response = await axiosInstance.post("/auth/login", data, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
@@ -16,7 +16,7 @@ export const loginService = async (data: LoginCredentials) => {
 }
 
 export const getAccount = async () => {
-  const response = await axios.get("/auth/account", {
+  const response = await axiosInstance.get("/auth/account", {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
@@ -25,7 +25,7 @@ export const getAccount = async () => {
 }
 
 export const logoutUser = async () => {
-  const response = await axios.post("/auth/logout", {
+  const response = await axiosInstance.post("/auth/logout", {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },

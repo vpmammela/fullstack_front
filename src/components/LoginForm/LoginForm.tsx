@@ -26,7 +26,7 @@ const LogoContainer = styled.div`
   position: absolute;
   top: 10%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%); 
   z-index: 2; /* Logo is on top of everything */
 `;
 
@@ -131,8 +131,8 @@ const LoginForm = () => {
 
   return (
     <AppContainer>
-      <Notification />
       <LogoContainer>
+        <Notification />
         <LogoImage src={logo} alt="Logo" />
       </LogoContainer>
       <GrayHalfBall />
