@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { getAccount, loginService, logoutUser } from "../services/auth"
+import { isAxiosError } from "axios";
 
 
 interface LoginCredentials {
@@ -47,9 +48,13 @@ const useAuthStore = create(persist<AuthStore>((set, get) => ({
         set({role: account.role, email: account.email, isAuth: true});
       } catch(e) {
         set({isAuth: false, role: null, email: null});
-        console.log(e);
-
         throw new Error("Unable to get userdata, logged out?");
+        /*
+        if(isAxiosError(e) && e.response?.status === 401) {
+          set({isAuth: false, role: null, email: null});
+          throw new Error("Unable to get userdata, logged out?");
+        }
+        */
       }
     }
 }), {

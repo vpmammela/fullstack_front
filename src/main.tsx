@@ -15,11 +15,12 @@ import axios from 'axios'
 import { NotificationProvider } from './NotificationContext.tsx'
 import LoginForm from './components/LoginForm/LoginForm.tsx'
 import ProtectedRoute from './components/ProtectedRoute.tsx'
+import Locations from './components/Locations.tsx'
 
-
+/*
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
 axios.defaults.withCredentials = true
-
+*/
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
+      },
+      {
+        path: "/locations",
+        element: <Locations></Locations>
       },
       {
         path: "/roomselection",

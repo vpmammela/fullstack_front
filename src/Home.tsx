@@ -40,7 +40,7 @@ const LogoImage = styled.img`
 `;
 
 const Home = () => {
-  const [isPanelOpen, setIsPanelOpen] = useState(false); // Instructions closed by default.
+  const [isPanelOpen, setIsPanelOpen] = useState(true); // Instructions closed by default.
 
   // Open isntructions.
   const togglePanel = () => {
