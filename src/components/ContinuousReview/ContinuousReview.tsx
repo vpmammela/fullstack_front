@@ -29,7 +29,6 @@ const ContinuousReview = () => {
 
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      console.log("image url:", imageUrl)
       setPhotoUrl(imageUrl);
     } else {
       setPhotoUrl(null);
@@ -83,7 +82,7 @@ const ContinuousReview = () => {
         </label>
         <p>
           Image preview:
-          {photoUrl && <img src={photoUrl} alt="Selected" style={{ maxWidth: '100%' }} />}
+          {photoUrl ? <img src={photoUrl} alt="Selected" style={{ maxWidth: '100%' }} /> : null}
         </p>
         <div>
       </div>
