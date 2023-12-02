@@ -5,33 +5,55 @@ import SlidingPanel from "./Instructions";
 import logo from './Images/logo.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons";
+import redSnow from './Images/redsnow.jpg';
 
 const HomeContainer = styled.div`
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+height: 100vh;
+background-image: url(${redSnow});
+background-size: cover;
+background-position: center;
+overflow: hidden; /* Scrolling disabled */
+`;
+
+// Background for form.
+const GrayBackground = styled.div`
+  position: absolute;
+  top: 66%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 70vh;
+  background-color: lightgray;
+  border-top-left-radius: 0% 50px;
+  border-top-right-radius: 0% 50px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: lightgray;
-  min-height: 100vh;
-`;
-
-const OpenInsctructions = styled.div`
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  cursor: pointer;
-  z-index: 2; 
+  box-sizing: border-box;
 `;
 
 const LinkButton = styled.div`
-  /* Add styles*/
+  padding-top: 20px;
+  margin-top: 2%;
 `;
 
 const ReviewLink = styled(Link)`
   /* Add styles*/
 `;
 
+// AMK logo.
 const LogoContainer = styled.div`
-  margin-top: 10%;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%); 
+  z-index: 2; /* Logo is on top of everything */
 `;
 
 const LogoImage = styled.img`
@@ -40,26 +62,13 @@ const LogoImage = styled.img`
 `;
 
 const Home = () => {
-  const [isPanelOpen, setIsPanelOpen] = useState(true); // Instructions closed by default.
-
-  // Open isntructions.
-  const togglePanel = () => {
-    setIsPanelOpen(!isPanelOpen);
-  };
-
+  
   return (
     <HomeContainer>
-      <OpenInsctructions>
-        <FontAwesomeIcon
-          icon={faArrowCircleLeft}
-          onClick={togglePanel}
-          className="arrow-icon"
-        />
-      </OpenInsctructions>
-      <SlidingPanel isOpen={isPanelOpen} togglePanel={togglePanel} />
       <LogoContainer>
         <LogoImage src={logo} alt="Logo" />
       </LogoContainer>
+      <GrayBackground>
       <LinkButton>
         <ReviewLink to="/roomselection" className="review-link">
           Tee katselmointi
@@ -75,6 +84,7 @@ const Home = () => {
           Raportit
         </ReviewLink>
       </LinkButton>
+      </GrayBackground>
     </HomeContainer>
   );
 };
