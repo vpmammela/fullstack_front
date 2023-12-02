@@ -1,47 +1,124 @@
 import { useState } from 'react';
-import './roomSelectionStyles.css'
-import QRreader from "../QRcomponent/QRreader";
+import './roomSelectionStyles.css';
+import QRreader from '../QRcomponent/QRreader';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import redSnow from '../../Images/redsnow.jpg';
+import logo from '../../Images/logo.png';
 
+const RoomSelectionContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-image: url(${redSnow});
+  background-size: cover;
+  background-position: center;
+  overflow: hidden; /* Scrolling disabled */
+`;
+
+const GrayBackground = styled.div`
+  position: fixed; /* Fixed position to keep it visible while scrolling */
+  top: 66%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 70vh;
+  background-color: lightgray;
+  border-top-left-radius: 0% 50px;
+  border-top-right-radius: 0% 50px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 1; /* Ensure it's above the photo container */
+`;
+
+const FormContainer = styled.div`
+  width: 80%; /* Adjust the width of the form container */
+`;
+
+const FormContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const RedButton = styled(Link)`
+  background-color: #c9431b;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-size: 18px;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: 20%;
+  box-sizing: border-box;
+`;
+
+// AMK logo.
+const LogoContainer = styled.div`
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2; /* Logo is on top of everything */
+`;
+
+const LogoImage = styled.img`
+  width: 200px;
+  height: auto;
+`;
 
 export default function Home() {
-    const [location, setLocation]=useState('')
-    //const [room, setroom]=useState('')
+  const [location, setLocation] = useState('');
 
-    //Locations are searched from the database
-  const locationsArray=["Rovaniemi", "Kemi", "Tornio"]
+  // Locations are searched from the database
+  const locationsArray = ['Rovaniemi', 'Kemi', 'Tornio'];
   // Rooms are searched from the database
-  const roomsArray =["1A","2A", "3A", "1B","2B","1C","2C", "3C", "4C"]
+  const roomsArray = ['1A', '2A', '3A', '1B', '2B', '1C', '2C', '3C', '4C'];
 
-  return(
-    <div>
-      <h2>Valitse huone tai skannaan huoneen QR-koodi</h2>
-        <div className='selectStyle'>
-          <label>Valitse toimipiste</label>
-          <select value={location}
-              onChange={(e) => setLocation(e.target.value)}>
-              <option value="" >Select Location</option>
-              {locationsArray.map((location, index) => (
-              <option key={index} value={location}>{location}</option>
-              ))}
-          </select>
-        </div>
-          
-        {location && (
-          <div className='selectStyle'>
-          <label>Valitse huone</label>
-            <select>
-            {roomsArray.map((room, index)=> (
-            <option key={index} value={room}>{room}</option>
-            ))}
-            </select>
+  return (
+    <RoomSelectionContainer>
+      <LogoContainer>
+        <LogoImage src={logo} alt="Logo" />
+      </LogoContainer>
+      <GrayBackground>
+        <FormContainer>
+          <FormContent>
+            <h2>Valitse huone tai skannaan huoneen QR-koodi</h2>
+            <div className="selectStyle">
+              <label>Valitse toimipiste</label>
+              <select value={location} onChange={(e) => setLocation(e.target.value)}>
+                <option value="">Select Location</option>
+                {locationsArray.map((location, index) => (
+                  <option key={index} value={location}>
+                    {location}
+                  </option>
+                ))}
+              </select>
             </div>
-        )}
-        <div className="linkbutton">
-          <Link className="review-link" to="/reviewSelection">Tee katselmointi</Link>
-        </div>
-        <QRreader/>
-    </div>
-  )
-}
 
+            {location && (
+              <div className="selectStyle">
+                <label>Valitse huone</label>
+                <select>
+                  {roomsArray.map((room, index) => (
+                    <option key={index} value={room}>
+                      {room}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            <RedButton to="/reviewSelection">Tee katselmointi</RedButton>
+          </FormContent>
+        </FormContainer>
+        <QRreader />
+      </GrayBackground>
+    </RoomSelectionContainer>
+  );
+}

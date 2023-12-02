@@ -7,9 +7,11 @@ import { useNavigate } from 'react-router-dom';
 import Notification from '../Notification/Notification';
 import redSnow from '../../Images/redsnow.jpg';
 import logo from '../../Images/logo.png';
+import Home from '../../Home';
 import ContinuousReview from '../ContinuousReview/ContinuousReview';
-import ManagementReview from '../ManagementReview/ManagementReview';
-import SafetyReview from '../SafetyReview/SafetyReview';
+import Root from '../../Root';
+import ReviewInfo from '../ReviewInfo/ReviewInfo';
+import RoomSelection from '../RoomSelection/RoomSelection';
 
 const AppContainer = styled.div`
   position: relative;
