@@ -16,11 +16,8 @@ import { NotificationProvider } from './NotificationContext.tsx'
 import LoginForm from './components/LoginForm/LoginForm.tsx'
 import ProtectedRoute from './components/ProtectedRoute.tsx'
 import Locations from './components/Locations.tsx'
+import CreateLocation from './components/CreateLocation.tsx'
 
-/*
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
-axios.defaults.withCredentials = true
-*/
 
 const router = createBrowserRouter([
   {
@@ -36,17 +33,20 @@ const router = createBrowserRouter([
         element: <Locations></Locations>
       },
       {
+        path: "/locations/create",
+        element: <CreateLocation></CreateLocation>
+      },
+      {
+        path: "/locations/:id",
+        element: <Location></Location>
+      },
+      {
         path: "/roomselection",
         element: <RoomSelection></RoomSelection>
       },
       {
         path: "/reviewselection",
         element: <ReviewSelection></ReviewSelection>
-      },
-      {
-        path: "/reviews/:id",
-        element: <ReviewInfo></ReviewInfo>
-        //loader: reviewLoader
       },
       {
         path: "/continuous",

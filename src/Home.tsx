@@ -70,6 +70,11 @@ const Home = () => {
       </LogoContainer>
       <GrayBackground>
       <LinkButton>
+        <ReviewLink to="/locations" className="review-link">
+          Toimipisteet
+        </ReviewLink>
+      </LinkButton>
+      <LinkButton>
         <ReviewLink to="/roomselection" className="review-link">
           Tee katselmointi
         </ReviewLink>

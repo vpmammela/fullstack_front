@@ -148,6 +148,20 @@ button:hover {
   font: #ffffff;
 }
 
+.button {
+  text-decoration: none;
+  color: #000;
+  margin-bottom: 10%;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: bold;
+  background-color: #e16969;
+  font: #ffffff;
+}
+
 .app-container {
   display: flex;
   flex-direction: column;
