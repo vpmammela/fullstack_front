@@ -117,17 +117,11 @@ const LoginForm = () => {
     try {
       await authStore.login({ username, password });
 
-      const user = {
-        username,
-        role: 'user role', // value can be student, staff, or admin
-      };
-      window.sessionStorage.setItem('loggedUser', JSON.stringify(user));
-
       setUsername('');
       setPassword('');
-      setUser(user.username);
+      setUser(username);
 
-      setNotification(`Logging in with ${user.username}`);
+      setNotification(`Logging in with ${username}`);
       navigate('/');
     } catch (exception) {
       setNotification('Tarkista kirjautumistiedot');

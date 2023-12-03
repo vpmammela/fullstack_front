@@ -1,5 +1,6 @@
 import { Form, Link, redirect, useLoaderData } from 'react-router-dom';
 import { getLocations } from '../services/locations';
+import { useEffect, useState } from 'react';
 
 
 interface Location {
@@ -21,6 +22,8 @@ export async function loader(): Promise<LocationsData> {
 
 export default function Locations() {
   //const { locations } = useLoaderData() as LocationsData;
+
+  /*
   const { locations } = useLoaderData() as LocationsData || { locations: [] } as LocationsData;
 
   if(locations.length === 0) {
@@ -35,5 +38,35 @@ export default function Locations() {
     {locationElements}
     <Link className="button" to={"/locations/create"}>New location</Link>
   </>
+  */
 
+  const [locations, setLocations] = useState<Location[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getLocations();
+        setLocations(data.locations);
+      } catch (error) {
+        console.error('Error fetching locations:', error);
+      } 
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      {locations.length > 0 ? (
+        locations.map((location) => (
+          <p key={location.id}>id: {location.id}<br></br> name: {location.name}</p>
+        ))
+      ) : (
+        <p>Toimipaikkoja ei saatavilla</p>
+      )}
+      <Link className="button" to="/locations/create">
+        New location
+      </Link>
+    </div>
+  );
 }
