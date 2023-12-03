@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './roomSelectionStyles.css';
 import QRreader from '../QRcomponent/QRreader';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import redSnow from '../../Images/redsnow.jpg';
 import logo from '../../Images/logo.png';
+import { getLocations } from '../../services/locations';
 
 const RoomSelectionContainer = styled.div`
   position: relative;
@@ -75,9 +76,28 @@ const LogoImage = styled.img`
 
 export default function Home() {
   const [location, setLocation] = useState('');
+  const [locationsArray, setLocationsArray] = useState<string[]>([]);
 
-  // Locations are searched from the database
-  const locationsArray = ['Rovaniemi', 'Kemi', 'Tornio'];
+  interface LocationData {
+    name: string;
+    address: string;
+    zipcode: string;
+    city: string;
+  }
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const locationsData: { locations: LocationData[] } = await getLocations();
+        const names = locationsData.locations.map(location => location.name);
+        setLocationsArray(names);
+      } catch (error) {
+        console.error('Error fetching locations:', error);
+      }
+    };
+
+    fetchLocations();
+  }, []);
   // Rooms are searched from the database
   const roomsArray = ['1A', '2A', '3A', '1B', '2B', '1C', '2C', '3C', '4C'];
 
@@ -89,7 +109,7 @@ export default function Home() {
       <GrayBackground>
         <FormContainer>
           <FormContent>
-            <h2>Valitse huone tai skannaan huoneen QR-koodi</h2>
+            <h2>Valitse huone tai skannaa huoneen QR-koodi</h2>
             <div className="selectStyle">
               <label>Valitse toimipiste</label>
               <select value={location} onChange={(e) => setLocation(e.target.value)}>
