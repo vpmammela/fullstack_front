@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import redSnow from '../../Images/redsnow.jpg';
 import logo from '../../Images/logo.png';
 import { getLocations } from '../../services/locations';
+import EnvironmentsSelection from '../LocationSelection';
+import LocationSelection from '../LocationSelection';
 
 const RoomSelectionContainer = styled.div`
   position: relative;
@@ -76,6 +78,7 @@ const LogoImage = styled.img`
 
 export default function Home() {
   const [location, setLocation] = useState('');
+  const [location_id, setLocation_id] = useState('')
   const [locationsArray, setLocationsArray] = useState<string[]>([]);
 
   interface LocationData {
@@ -110,19 +113,10 @@ export default function Home() {
         <FormContainer>
           <FormContent>
             <h2>Valitse huone tai skannaa huoneen QR-koodi</h2>
-            <div className="selectStyle">
-              <label>Valitse toimipiste</label>
-              <select value={location} onChange={(e) => setLocation(e.target.value)}>
-                <option value="">Select Location</option>
-                {locationsArray.map((location, index) => (
-                  <option key={index} value={location}>
-                    {location}
-                  </option>
-                ))}
-              </select>
-            </div>
+            
+            <LocationSelection setLocation_id={setLocation_id}></LocationSelection>
 
-            {location && (
+            {location_id && (
               <div className="selectStyle">
                 <label>Valitse huone</label>
                 <select>
