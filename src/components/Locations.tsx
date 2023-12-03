@@ -1,6 +1,10 @@
 import { Form, Link, redirect, useLoaderData } from 'react-router-dom';
 import { getLocations } from '../services/locations';
 import { useEffect, useState } from 'react';
+import CreateEnvironmentType from './CreateEnvironmentType';
+import CreateEnvironment from './CreateEnvironment';
+import EnvironmentTypeSelection from './EnvironmentTypeSelection';
+
 
 
 interface Location {
@@ -56,7 +60,12 @@ export default function Locations() {
   }, []);
 
   return (
+    
     <div>
+      <h2>YMPÄRISTÖN TYYPIN JA UUDEN YMPÄRISTÖN VOI TEHDÄ VAIN ADMIN</h2>
+      <h2>NÄMÄ EIVÄT OLE OIKEASSA PAIKASSA</h2>
+      <CreateEnvironmentType></CreateEnvironmentType>
+      <CreateEnvironment></CreateEnvironment>
       {locations.length > 0 ? (
         locations.map((location) => (
           <p key={location.id}>id: {location.id}<br></br> name: {location.name}</p>
