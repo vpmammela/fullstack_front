@@ -10,7 +10,7 @@ import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import SlidingPanel from "../Instructions";
 
 const HeaderContainer = styled.div`
-  position: fixed;
+  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,6 +19,7 @@ const HeaderContainer = styled.div`
   width: 100%;
   right: 0;
   top:0;
+  padding:5px;
   background-image: url(${redSnow});
   background-size: cover;
   background-position: center;
@@ -51,6 +52,12 @@ const OpenInsctructions = styled.div`
   TODO: Make sure it does ^ */
 `;
 
+const SlidingPanelContainer = styled.div`
+  position: absolute;
+  z-index: 2; /* Suurempi kuin muiden komponenttien z-index */
+  /* Muut tyylit */
+`;
+
 export default function Header() {
     const [isPanelOpen, setIsPanelOpen] = useState(true); // Instructions closed by default.
 
@@ -67,7 +74,10 @@ export default function Header() {
       <LogoutButton>
         <SignedInUser/>
       </LogoutButton>
+      <SlidingPanelContainer>
       <SlidingPanel isOpen={isPanelOpen} togglePanel={togglePanel} />
+      </SlidingPanelContainer>
+      
       {isPanelOpen && (<OpenInsctructions>
           {/* <FontAwesomeIcon
             icon={faArrowCircleLeft}
