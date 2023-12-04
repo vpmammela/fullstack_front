@@ -16,6 +16,16 @@
   
   .toggle-button {
     margin: 10px;
+    display: flex;
+  margin-bottom: 10%;
+  border-radius: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: bold;
+  background-color: #14827d;
+  color: #f9f9f9;
   }
   
   .content {

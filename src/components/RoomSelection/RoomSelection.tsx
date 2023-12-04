@@ -59,6 +59,7 @@ const RedButton = styled(Link)`
 `;
 
 
+
 export default function Home() {
   const [location, setLocation] = useState('');
   const [location_id, setLocation_id] = useState('')
