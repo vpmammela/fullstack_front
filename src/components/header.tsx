@@ -10,7 +10,7 @@ import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import SlidingPanel from "../Instructions";
 
 const HeaderContainer = styled.div`
-  position: absolute;
+  position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
