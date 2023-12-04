@@ -131,8 +131,8 @@ li {
 }
 
 button:hover {
-  color: #ffffff;
-  background-color: #000000;
+  color: #fdfdfd;
+  background-color: #78d8d2;
 }
 
 .logoutButton {
@@ -144,13 +144,14 @@ button:hover {
   padding-top: 5px;
   padding-bottom: 5px;
   font-weight: bold;
-  background-color: #e16969;
-  font: #ffffff;
+  background-color: #14827d;
+  color: #f9f9f9;
+  
 }
 
 .button {
   text-decoration: none;
-  color: #000;
+  color: #f9f9f9;
   margin-bottom: 10%;
   border-radius: 10px;
   padding-left: 10px;
@@ -159,7 +160,7 @@ button:hover {
   padding-bottom: 5px;
   font-weight: bold;
   background-color: #e16969;
-  font: #ffffff;
+  
 }
 
 .app-container {
