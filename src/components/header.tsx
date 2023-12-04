@@ -43,7 +43,7 @@ const LogoutButton = styled.div`
     display: flex;
 `
 const OpenInsctructions = styled.div`
-  position: fixed;
+  position: absolute;
   top: 20px;
   left: 20px;
  
@@ -75,7 +75,7 @@ export default function Header() {
         <SignedInUser/>
       </LogoutButton>
       <SlidingPanelContainer>
-      <SlidingPanel isOpen={isPanelOpen} togglePanel={togglePanel} />
+        <SlidingPanel isOpen={isPanelOpen} togglePanel={togglePanel} />
       </SlidingPanelContainer>
       
       {isPanelOpen && (<OpenInsctructions>
