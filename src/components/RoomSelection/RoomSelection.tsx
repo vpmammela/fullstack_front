@@ -3,8 +3,6 @@ import './roomSelectionStyles.css';
 import QRreader from '../QRcomponent/QRreader';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import redSnow from '../../Images/redsnow.jpg';
-import logo from '../../Images/logo.png';
 import { getLocations } from '../../services/locations';
 import EnvironmentsSelection from '../LocationSelection';
 import LocationSelection from '../LocationSelection';
@@ -16,9 +14,7 @@ const RoomSelectionContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-image: url(${redSnow});
-  background-size: cover;
-  background-position: center;
+
   overflow: hidden; /* Scrolling disabled */
 `;
 
@@ -62,19 +58,6 @@ const RedButton = styled(Link)`
   box-sizing: border-box;
 `;
 
-// AMK logo.
-const LogoContainer = styled.div`
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2; /* Logo is on top of everything */
-`;
-
-const LogoImage = styled.img`
-  width: 200px;
-  height: auto;
-`;
 
 export default function Home() {
   const [location, setLocation] = useState('');
@@ -106,9 +89,6 @@ export default function Home() {
 
   return (
     <RoomSelectionContainer>
-      <LogoContainer>
-        <LogoImage src={logo} alt="Logo" />
-      </LogoContainer>
       <GrayBackground>
         <FormContainer>
           <FormContent>
