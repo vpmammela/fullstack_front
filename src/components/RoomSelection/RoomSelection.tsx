@@ -4,8 +4,8 @@ import QRreader from '../QRcomponent/QRreader';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { getLocations } from '../../services/locations';
-import EnvironmentsSelection from '../LocationSelection';
 import LocationSelection from '../LocationSelection';
+import EnvironmentSelection from '../EnviromentSelection';
 
 const RoomSelectionContainer = styled.div`
   position: relative;
@@ -64,6 +64,7 @@ export default function Home() {
   const [location, setLocation] = useState('');
   const [location_id, setLocation_id] = useState('')
   const [locationsArray, setLocationsArray] = useState<string[]>([]);
+  const [environment_id, setEnvironment_id]= useState('')
 
   interface LocationData {
     name: string;
@@ -99,6 +100,7 @@ export default function Home() {
 
             {location_id && (
               <div className="selectStyle">
+                <EnvironmentSelection setEnvironment_id={setEnvironment_id} location_id={location_id}></EnvironmentSelection>
                 <label>Valitse huone</label>
                 <select>
                   {roomsArray.map((room, index) => (
