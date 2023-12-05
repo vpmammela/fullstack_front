@@ -40,7 +40,7 @@ const Home = () => {
       <GrayBackground>
       <LinkButton>
         <ReviewLink to="/locations" className="review-link">
-          Toimipisteet
+          Hallinnoi toimipisteitä ja ympäristöjä
         </ReviewLink>
       </LinkButton>
       <LinkButton>
