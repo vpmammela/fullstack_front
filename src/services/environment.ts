@@ -42,3 +42,13 @@ export const getEnvironmentType = async () => {
   })
   return response.data;
 }
+
+export const getEnvironment = async () => {
+  const response = await axiosInstance.get("/environments", {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  console.log(response.data)
+  return response.data;
+}
