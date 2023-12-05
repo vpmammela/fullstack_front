@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { getLocations } from '../../services/locations';
 import EnvironmentsSelection from '../LocationSelection';
 import LocationSelection from '../LocationSelection';
+import Header from '../header';
 
 const RoomSelectionContainer = styled.div`
   position: relative;
@@ -24,7 +25,7 @@ const GrayBackground = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  height: 70vh;
+  height: 100vh;
   background-color: lightgray;
   border-top-left-radius: 0% 50px;
   border-top-right-radius: 0% 50px;
@@ -38,6 +39,7 @@ const GrayBackground = styled.div`
 
 const FormContainer = styled.div`
   width: 80%; /* Adjust the width of the form container */
+  padding-top: 85px;
 `;
 
 const FormContent = styled.div`
@@ -56,6 +58,9 @@ const RedButton = styled(Link)`
   margin-top: 20px;
   width: 20%;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 
@@ -90,6 +95,7 @@ export default function Home() {
 
   return (
     <RoomSelectionContainer>
+      <Header></Header>
       <GrayBackground>
         <FormContainer>
           <FormContent>

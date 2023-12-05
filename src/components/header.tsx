@@ -15,7 +15,7 @@ const HeaderContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 20%;
+  height: 25%;
   width: 100%;
   right: 0;
   top:0;
@@ -24,6 +24,7 @@ const HeaderContainer = styled.div`
   background-size: cover;
   background-position: center;
   overflow: hidden; /* Scrolling disabled */
+  z-index: 1000;
 `;
 
 const LogoContainer = styled.div`

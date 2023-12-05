@@ -12,6 +12,9 @@ import ContinuousReview from '../ContinuousReview/ContinuousReview';
 import Root from '../../Root';
 import ReviewInfo from '../ReviewInfo/ReviewInfo';
 import RoomSelection from '../RoomSelection/RoomSelection';
+import ManagementReview from '../ManagementReview/ManagementReview';
+import ReviewSelection from '../ReviewSelection/ReviewSelection';
+import SafetyReview from '../SafetyReview/SafetyReview';
 
 const AppContainer = styled.div`
   position: relative;
@@ -56,22 +59,23 @@ const GrayHalfBall = styled.div`
 // Login form position.  
 const LoginFormContainer = styled.div`
   position: absolute;
-  top: 60%; /* Adjust the top position */
+  top: 65%; 
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 1; /* Login form is on top of the gray half ball */
+  z-index: 1;
 `;
 
-// Content of login form. 
+// Form content. 
 const LoginFormContent = styled.div`
   width: 100%;
   max-width: 400px;
   padding: 20px;
   box-sizing: border-box;
+  text-align: center; /* Center the content inside the form */
 `;
 
 // Input fields.
@@ -95,12 +99,14 @@ const StyledButton = styled.button`
   background-color: #C9431B; /* Custom color for the button */
   color: white; /* Text color for the button */
   cursor: pointer;
+  font-weight: bold;
 `;
 
 const SignInHeader = styled.h2`
   color: red;
   margin-top: 0;
-  margin-left: 38%
+  margin-bottom: 20px; /* Add margin-bottom for spacing */
+  text-align: center; /* Center the text */
 `;
 
 const LoginForm = () => {
@@ -115,7 +121,8 @@ const LoginForm = () => {
     event.preventDefault();
 
     try {
-      await authStore.login({ username, password });
+      //await authStore.login({ username, password });
+      authStore.isAuth = true;
 
       setUsername('');
       setPassword('');
@@ -129,7 +136,8 @@ const LoginForm = () => {
   };
 
   return (
-  <AppContainer>
+    <SafetyReview></SafetyReview>
+  /*<AppContainer>
       <LogoContainer>
         <Notification />
         <LogoImage src={logo} alt="Logo" />
@@ -137,7 +145,7 @@ const LoginForm = () => {
       <GrayHalfBall />
       <LoginFormContainer>
         <LoginFormContent>
-          <SignInHeader>Sign in</SignInHeader>
+          <SignInHeader>Kirjaudu sisään</SignInHeader>
           <form onSubmit={handleLogin}>
             <StyledInput
               id="username"
@@ -156,12 +164,12 @@ const LoginForm = () => {
               placeholder="Password"
             />
             <StyledButton id="login-button" type="submit">
-              Login
+              Kirjaudu
             </StyledButton>
           </form>
         </LoginFormContent>
       </LoginFormContainer>
-    </AppContainer>
+    </AppContainer>*/
   );
 };
 

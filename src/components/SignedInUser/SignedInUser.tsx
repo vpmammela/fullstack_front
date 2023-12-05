@@ -28,6 +28,7 @@ const SignedInUser = () => {
   }
  
   return (
+    // TODO: remove loggen in text, user know from button they're loggein in. 
     <div className="signedIn">
       <br></br>
       {user} logged in

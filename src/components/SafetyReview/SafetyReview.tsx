@@ -1,12 +1,37 @@
-import styled from "styled-components";
-import "../styles.css";
-import { Form } from "react-router-dom";
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from 'react';
+import styled from 'styled-components';
+import Header from '../header';
 
+const SafetyReviewContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden; /* Scrolling disabled */
+`;
 
-const SafetyReview = () => {
+const GrayBackground = styled.div`
+  position: fixed;
+  top: 66%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100vh;
+  background-color: lightgray;
+  border-top-left-radius: 0% 50px;
+  border-top-right-radius: 0% 50px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+`;
 
-  const PhotoInput = styled.input`
+const PhotoInput = styled.input`
   margin-top: 5px;
 `;
 
@@ -17,21 +42,17 @@ const SafetyReview = () => {
     const file = event.target.files?.[0];
     setPhoto(file || null);
   };
-};
-  function handleFileChange(event: ChangeEvent<HTMLInputElement>): void {
-    throw new Error("Function not implemented.");
-  }
+
 
   return (
-    <div>
-      <h2>
-        6S Turvallisuuskatselmointi
-      </h2>
-      <Form>
-        <div>
-          <div>
-            <label>Yleisilme</label>
+    <SafetyReviewContainer>
+      <Header></Header>
+      <GrayBackground>
+    <h2>6S Turvallisuuskatselmointi</h2>
+        <form>
             <div>
+              <label>Yleisilme</label>
+              <div>
               <label>Onko yleisilme siisi? Millä tasolla päivittäiskatselmointien tulokset ovat? Onko havaittuihin poikkeamiin reagoitu?</label>
               <div>
               <label>Puutteellinen</label>
@@ -218,10 +239,9 @@ const SafetyReview = () => {
             onChange={handleFileChange}
           />
         </div>
-
-        </div>
-      </Form>
-    </div>
+        </form>
+      </GrayBackground>
+    </SafetyReviewContainer>
   );
 };
   

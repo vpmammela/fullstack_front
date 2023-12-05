@@ -12,7 +12,7 @@ const GrayBackground = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  height: 70vh;
+  height: 100vh;
   background-color: lightgray;
   border-top-left-radius: 0% 50px;
   border-top-right-radius: 0% 50px;
