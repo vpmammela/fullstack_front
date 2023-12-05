@@ -6,8 +6,9 @@ import logo from '../../Images/logo.png';
 import styled from 'styled-components';
 import { faSmile, faMeh, faFrown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Header from '../header';
 
-const ContinuousReviewContainer = styled.div`
+/*const ContinuousReviewContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -17,8 +18,8 @@ const ContinuousReviewContainer = styled.div`
   background-image: url(${redSnow});
   background-size: cover;
   background-position: center;
-  overflow: hidden; /* Scrolling disabled */
-`;
+  overflow: hidden; /* Scrolling disabled 
+`;*/
 
 const GrayBackground = styled.div`
   position: fixed; /* Fixed position to keep it visible while scrolling */
@@ -26,7 +27,7 @@ const GrayBackground = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  height: 70vh;
+  height: 100vh;
   background-color: lightgray;
   border-top-left-radius: 0% 50px;
   border-top-right-radius: 0% 50px;
@@ -80,6 +81,7 @@ const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 70px;
 `;
 
 const FormLabel = styled.label`
@@ -142,7 +144,7 @@ const ContinuousReview = () => {
 
   return (
     <div>
-      <ContinuousReviewContainer>
+        <Header></Header>
       <LogoContainer>
           <LogoImage src={logo} alt="Logo" />
         </LogoContainer>
@@ -184,8 +186,8 @@ const ContinuousReview = () => {
                 <FormLabel>Valitse kuva</FormLabel>
                 <FileInput type="file" accept="image/*" capture="environment" onChange={handleFileChange} />
                 <p>
-                  Image preview:
-                  {photoUrl ? <img src={photoUrl} alt="Selected" style={{ maxWidth: '80%' }} /> : null}
+                  {/*Image preview:
+                  {photoUrl ? <img src={photoUrl} alt="Selected" style={{ maxWidth: '50%' }} /> : null}*/}
                 </p>
                 <div></div>
               </Form>
@@ -195,7 +197,6 @@ const ContinuousReview = () => {
             </FormContainer>
           </PhotoContainer>
         </GrayBackground>
-      </ContinuousReviewContainer>
     </div>
   );
 };

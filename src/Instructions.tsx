@@ -18,34 +18,34 @@ const Instructions: React.FC<InstructionsProps> = ({ isOpen, togglePanel }) => {
     // Close panel if open.
     <div className={`sliding-panel ${isOpen ? 'open' : ''}`}>
       <button onClick={togglePanel} className="toggle-button">
-        Close instructions
+        Sulje
       </button>
       <div className="content">
-        <h2>Review instructions</h2>
+        <h2>Katselmointien ohjeet</h2>
         <br />
         {/* External links with shortened text. */}
         <p>
           <BoldText>
             <a href="https://lucit.sharepoint.com/:w:/r/sites/pilvi/_layouts/15/Doc.aspx?sourcedoc=%7B25E73C81-28CC-4911-9843-024E9E039061%7D&file=6S%20jatkuvat%20katselmoinnit.docx&action=default&mobileredirect=true" target="_blank" rel="noopener noreferrer">
-              Continuous reviews
+              Jatkuva katselmointi
             </a>
           </BoldText>
           <br /><br />
           <BoldText>
             <a href="https://lucit.sharepoint.com/:w:/r/sites/pilvi/_layouts/15/Doc.aspx?sourcedoc=%7B891C1F7F-2E0F-425F-B759-AD175B340F3D%7D&file=6S%20lukukausi-%20ja%20vuosikatselmoinnit.docx&action=default&mobileredirect=true" target="_blank" rel="noopener noreferrer">
-              Semester reviews
+            Lukukausi- ja vuosikatselmoinni
             </a>
           </BoldText>
           <br /><br />
           <BoldText>
             <a href="https://lucit.sharepoint.com/:w:/r/sites/pilvi/_layouts/15/Doc.aspx?sourcedoc=%7B811C930B-AE8F-4F9B-9082-A0492F5C0894%7D&file=6S%20toimintamallin%20ja%20johtamisen%20katselmoinnit.docx&action=default&mobileredirect=true" target="_blank" rel="noopener noreferrer">
-              Management reviews
+            Toimintamallin ja johtamisen katselmoinnit
             </a>
           </BoldText>
           <br /><br />
           <BoldText>
             <a href="https://lucit.sharepoint.com/:w:/r/sites/pilvi/_layouts/15/Doc.aspx?sourcedoc=%7BC7667C66-7BC4-48DC-9F85-01C6F06065DA%7D&file=6S%20turvallisuuskatselmoinnit.docx&action=default&mobileredirect=true" target="_blank" rel="noopener noreferrer">
-              Safety reviews
+            Turvallisuuskatselmoinnit
             </a>
           </BoldText>
         </p>

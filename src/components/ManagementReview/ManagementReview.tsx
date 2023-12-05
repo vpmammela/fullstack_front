@@ -5,6 +5,7 @@ import { faSmile, faMeh, faFrown } from '@fortawesome/free-solid-svg-icons';
 import '../styles.css';
 import redSnow from '../../Images/redsnow.jpg';
 import logo from '../../Images/logo.png';
+import Header from '../header';
 
 const ManagementReviewContainer = styled.div`
   position: relative;
@@ -13,7 +14,6 @@ const ManagementReviewContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-image: url(${redSnow});
   background-size: cover;
   background-position: center;
   overflow: hidden; /* Scrolling disabled */
@@ -21,12 +21,12 @@ const ManagementReviewContainer = styled.div`
 
 // Background for form.
 const GrayBackground = styled.div`
-  position: absolute;
+  position: fixed;
   top: 66%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  height: 70vh;
+  height: 100vh;
   background-color: lightgray;
   border-top-left-radius: 0% 50px;
   border-top-right-radius: 0% 50px;
@@ -40,6 +40,7 @@ const GrayBackground = styled.div`
 const FormTable = styled.table`
   width: 100%;
   max-width: 400px;
+  padding-top: 80px;
 `;
 
 const FormRow = styled.tr`
@@ -108,6 +109,7 @@ const ManagementReview = () => {
 
   return (
     <ManagementReviewContainer>
+      <Header></Header>
       <LogoContainer>
         <LogoImage src={logo} alt="Logo" />
       </LogoContainer>
