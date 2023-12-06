@@ -163,6 +163,13 @@ button:hover {
   
 }
 
+.content-container {
+  padding-top: 25%;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;  
+}
+
 /*.app-container {
   display: flex;
   flex-direction: column;
