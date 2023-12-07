@@ -122,8 +122,8 @@ const LoginForm = () => {
     event.preventDefault();
 
     try {
-      //await authStore.login({ username, password });
-      authStore.isAuth = true;
+      await authStore.login({ username, password });
+      //authStore.isAuth = true;
 
       setUsername('');
       setPassword('');
@@ -137,8 +137,7 @@ const LoginForm = () => {
   };
 
   return (
-    <SemesterReview></SemesterReview>
-    /*<AppContainer>
+    <AppContainer>
       <LogoContainer>
         <Notification />
         <LogoImage src={logo} alt="Logo" />
@@ -170,7 +169,7 @@ const LoginForm = () => {
           </form>
         </LoginFormContent>
       </LoginFormContainer>
-    </AppContainer>*/
+    </AppContainer>
   );
 };
 
