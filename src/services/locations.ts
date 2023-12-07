@@ -30,3 +30,11 @@ export const createLocation = async (data: LocationData) => {
   return response.data;
 }
 
+export const getLocation = async () => {
+  const response = await axiosInstance.get("/locations", {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  return response.data;
+}
