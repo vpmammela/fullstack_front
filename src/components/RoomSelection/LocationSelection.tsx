@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getLocations } from '../services/locations';
+import { getLocations } from '../../services/locations';
 
 
 
@@ -18,6 +18,7 @@ const LocationSelection: React.FC<{ setLocation_id: React.Dispatch<React.SetStat
 
       useEffect(() => {
         const fetchLocations = async () => {
+          console.log("Locations Selection")
           try {
             const locationsData: { locations: LocationData[] } = await getLocations();
             const names = locationsData.locations

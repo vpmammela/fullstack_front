@@ -3,7 +3,7 @@ import { useNotification } from "../NotificationContext";
 import { AxiosError } from "axios";
 import { createEnvironment } from "../services/environment";
 import { getLocations } from '../services/locations';
-import LocationSelection from "./LocationSelection";
+import LocationSelection from "./RoomSelection/LocationSelection";
 import EnvironmentTypeSelection from "./EnvironmentTypeSelection";
 
 export default function CreateEnvironment() {

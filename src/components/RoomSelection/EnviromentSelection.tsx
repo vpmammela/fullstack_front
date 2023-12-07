@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getEnvironment } from "../services/environment";
+import { getEnvironmentByLocationId } from "../../services/environment";
 
 
 const EnvironmentSelection: React.FC<{ setEnvironment_id: React.Dispatch<React.SetStateAction<string>>, location_id: string }> = ({ setEnvironment_id, location_id }) => {
@@ -14,8 +14,9 @@ const EnvironmentSelection: React.FC<{ setEnvironment_id: React.Dispatch<React.S
 
       useEffect(() => {
         const fetchEnvironment = async () => {
+          console.log("Enviroment Selection")
           try {
-            const EnvironmentData: { environments: EnvironmentData[] } = await getEnvironment();
+            const EnvironmentData: { environments: EnvironmentData[] } = await getEnvironmentByLocationId(location_id);
             const names = EnvironmentData.environments
             console.log("#### names",EnvironmentData.environments)
             setEnvironmentArray(names);
@@ -24,7 +25,7 @@ const EnvironmentSelection: React.FC<{ setEnvironment_id: React.Dispatch<React.S
           }
         };
         fetchEnvironment();
-    }, []);
+    }, [location_id]);
     const handleEnvironmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = e.target.value;
         setSelectedEnvironment(selectedValue);

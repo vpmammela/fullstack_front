@@ -35,7 +35,7 @@ const ReviewLink = styled(Link)`
 
 
 const Home = () => {
-  
+ 
   return (
       <GrayBackground>
       <LinkButton>
