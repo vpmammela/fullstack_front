@@ -100,7 +100,7 @@ const SemesterReview = () => {
     const inspectiontarget = await createInspectionTarget(targetData)
 
     const formData = {
-      "environment_id": 4,
+      "environment_id": 1,  // NEED THIS VALUE FROM RoomSelection component "valitse oppimisympäristö"
       "inspectiontarget_id": inspectiontarget.id,
       "inspectiontype": "semester"
     }
