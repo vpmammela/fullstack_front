@@ -29,10 +29,11 @@ export const getInspectionTargets = async () => {
 }
 
 export const getInspectionTargetsByEnviromentsId = async (environment_id:string) => {
-  const response = await axiosInstance.get(`locations/${environment_id}/environments`, {
+  const response = await axiosInstance.get(`environment/${environment_id}/inspectiontargets`, {
     headers: {
       'Content-Type': 'application/json',
     },
   })
+  console.log("targets: ", response.data)
   return response.data;
 }
