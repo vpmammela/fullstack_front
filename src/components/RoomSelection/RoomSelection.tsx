@@ -4,9 +4,11 @@ import QRreader from '../QRcomponent/QRreader';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { getLocations } from '../../services/locations';
-import LocationSelection from '../LocationSelection';
-import EnvironmentSelection from '../EnviromentSelection';
+import LocationSelection from './LocationSelection';
+import EnvironmentSelection from './EnviromentSelection';
 import Header from '../header';
+import InspectionsTargetsSelectionByEnvironmentId from './InspectionsTargetsSelectioByEnviromentId'
+
 
 const RoomSelectionContainer = styled.div`
   position: relative;
@@ -70,6 +72,7 @@ export default function Home() {
   const [location_id, setLocation_id] = useState('')
   const [locationsArray, setLocationsArray] = useState<string[]>([]);
   const [environment_id, setEnvironment_id]= useState('')
+  const [inspectiontarget_id, setInspectiontarget_id]=useState('')
 
   interface LocationData {
     name: string;
@@ -80,6 +83,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchLocations = async () => {
+      console.log("gheok")
       try {
         const locationsData: { locations: LocationData[] } = await getLocations();
         const names = locationsData.locations.map(location => location.name);
@@ -107,6 +111,7 @@ export default function Home() {
             {location_id && (
               <div className="selectStyle">
                 <EnvironmentSelection setEnvironment_id={setEnvironment_id} location_id={location_id}></EnvironmentSelection>
+                <InspectionsTargetsSelectionByEnvironmentId setInspectiontarget_id={setInspectiontarget_id} environment_id={environment_id}></InspectionsTargetsSelectionByEnvironmentId>
                 <label>Valitse huone</label>
                 <select>
                   {roomsArray.map((room, index) => (
