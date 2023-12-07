@@ -17,6 +17,8 @@ import LoginForm from './components/LoginForm/LoginForm.tsx'
 import ProtectedRoute from './components/ProtectedRoute.tsx'
 import Locations from './components/Locations.tsx'
 import CreateLocation from './components/CreateLocation.tsx'
+import Raports from './components/raports.tsx'
+import UserControl from './components/UserControl.tsx'
 
 
 const router = createBrowserRouter([
@@ -67,6 +69,14 @@ const router = createBrowserRouter([
         path: "/management",
         element: <ManagementReview></ManagementReview>
         //action: createManagementReview
+      },
+      {
+        path: "/raports",
+        element: <Raports></Raports>
+      },
+      {
+        path: "/usercontrol",
+        element: <UserControl isAdmin={false}></UserControl>
       }
     ]
   },

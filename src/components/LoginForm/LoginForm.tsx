@@ -15,6 +15,7 @@ import RoomSelection from '../RoomSelection/RoomSelection';
 import ManagementReview from '../ManagementReview/ManagementReview';
 import ReviewSelection from '../ReviewSelection/ReviewSelection';
 import SafetyReview from '../SafetyReview/SafetyReview';
+import SemesterReview from '../SemesterReview/SemesterReview';
 
 const AppContainer = styled.div`
   position: relative;
@@ -121,8 +122,8 @@ const LoginForm = () => {
     event.preventDefault();
 
     try {
-      await authStore.login({ username, password });
-      //authStore.isAuth = true;
+      //await authStore.login({ username, password });
+      authStore.isAuth = true;
 
       setUsername('');
       setPassword('');
@@ -136,8 +137,8 @@ const LoginForm = () => {
   };
 
   return (
-    //<SafetyReview></SafetyReview>
-    <AppContainer>
+    <SemesterReview></SemesterReview>
+    /*<AppContainer>
       <LogoContainer>
         <Notification />
         <LogoImage src={logo} alt="Logo" />
@@ -169,7 +170,7 @@ const LoginForm = () => {
           </form>
         </LoginFormContent>
       </LoginFormContainer>
-    </AppContainer>
+    </AppContainer>*/
   );
 };
 

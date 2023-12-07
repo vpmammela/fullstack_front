@@ -5,7 +5,7 @@ import redSnow from '../Images/redsnow.jpg';
 import { useState } from "react";
 import SignedInUser from "./SignedInUser/SignedInUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import SlidingPanel from "../Instructions";
 
@@ -40,6 +40,8 @@ const LogoImage = styled.img`
   height: auto;
   margin-top: 2px;
 `;
+
+// TODO: remove from css and add here.
 const LogoutButton = styled.div`
     display: flex;
 `
@@ -55,14 +57,58 @@ const OpenInsctructions = styled.div`
 
 const SlidingPanelContainer = styled.div`
   position: absolute;
-  z-index: 2; /* Suurempi kuin muiden komponenttien z-index */
-  /* Muut tyylit */
+  z-index: 2; /*render on top of everything */
 `;
 
-export default function Header() {
-    const [isPanelOpen, setIsPanelOpen] = useState(true); // Instructions closed by default.
+const UserControlButton = styled(Link)`
+  position: absolute;
+  top: 10px; 
+  right: 10px; 
+  display: flex;
+  border-radius: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: bold;
+  background-color: #14827d;
+  color: #f9f9f9;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s; /* Add smooth transition */
 
-    // Open isntructions.
+  &:hover {
+    color: #fdfdfd;
+    background-color: #78d8d2;
+}
+`;
+
+const HomeButton = styled(Link)`
+  position: absolute;
+  top: 10px;
+  right: 180px; /* Updated to position it at the top right */
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  padding-left: 5px;
+  padding-right: 3px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: bold;
+  background-color: #14827d;
+  color: #f9f9f9;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s; /* Add smooth transition */
+
+  &:hover {
+    color: #fdfdfd;
+    background-color: #78d8d2;
+  }
+`;
+
+
+export default function Header() {
+  const [isPanelOpen, setIsPanelOpen] = useState(true);
+
   const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
   };
@@ -73,30 +119,32 @@ export default function Header() {
         <LogoImage src={logo} alt="Logo" />
       </LogoContainer>
       <LogoutButton>
-        <SignedInUser/>
+        <SignedInUser />
+        {/* Add the home button */}
+        <HomeButton to="/">
+          <FontAwesomeIcon icon={faHouse} style={{ marginRight: '5px' }} />
+        </HomeButton>
+        {/* Add the button to navigate to the UserControl page */}
+        <UserControlButton to="/usercontrol">Hallitse käyttäjiä</UserControlButton>
       </LogoutButton>
       <SlidingPanelContainer>
         <SlidingPanel isOpen={isPanelOpen} togglePanel={togglePanel} />
       </SlidingPanelContainer>
-      
-      {isPanelOpen && (<OpenInsctructions>
-          {/* <FontAwesomeIcon
-            icon={faArrowCircleLeft}
-            onClick={togglePanel}
-            className="arrow-icon"
-          /> */}
-          <FontAwesomeIcon 
-            icon={faCircleInfo}  
+      {isPanelOpen && (
+        <OpenInsctructions>
+          <FontAwesomeIcon
+            icon={faCircleInfo}
             onClick={togglePanel}
             style={{
-                fontSize:"2em",
-                color: "#1e8278", // primary color
-                backgroundColor: "#e0e9e8",
-                borderRadius:30,
-                "--fa-secondary-opacity": 1, // secondary opacity (if applicable)
-            }as React.CSSProperties}/>
+              fontSize: "2em",
+              color: "#1e8278", // primary color
+              backgroundColor: "#e0e9e8",
+              borderRadius: 30,
+              ["--fa-secondary-opacity" as any]: 1, // Type cast to any
+            }}
+          />
         </OpenInsctructions>
-        )}
+      )}
     </HeaderContainer>
   );
 }

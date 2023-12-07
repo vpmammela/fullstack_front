@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import SlidingPanel from "./Instructions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons";
 
 // Background for form.
 const GrayBackground = styled.div`
@@ -29,10 +26,10 @@ const LinkButton = styled.div`
 `;
 
 const ReviewLink = styled(Link)`
-  /* Add styles*/
+  color: black
+  &:hover {
+    color: white;
 `;
-
-
 
 const Home = () => {
  
@@ -54,7 +51,7 @@ const Home = () => {
         </ReviewLink>
       </LinkButton>
       <LinkButton>
-        <ReviewLink to="/roomselection" className="review-link">
+        <ReviewLink to="/raports" className="review-link">
           Raportit
         </ReviewLink>
       </LinkButton>

@@ -14,16 +14,15 @@ const SafetyReviewContainer = styled.div`
 `;
 
 const GrayBackground = styled.div`
-  position: absolute;
-  top: 66%;
+  position: fixed;
+  top: 75%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100%;
+  width: 100vh;
   height: 100vh;
   background-color: lightgray;
   border-top-left-radius: 0% 50px;
   border-top-right-radius: 0% 50px;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,11 +31,11 @@ const GrayBackground = styled.div`
 
 const FormContainer = styled.div`
   position: absolute;
-  top: 100px; /* Adjust this value based on your Header height */
+  top: 100px; /* Adjust alue based on header height */
   left: 50%;
   transform: translate(-50%, 0);
   width: 100%;
-  min-height: calc(100vh - 100px); /* Adjust this value based on your Header height */
+  min-height: calc(100vh - 100px); /* Adjust value based on header height */
   background-color: lightgray;
   border-top-left-radius: 0% 50px;
   border-top-right-radius: 0% 50px;
@@ -47,9 +46,23 @@ const FormContainer = styled.div`
   box-sizing: border-box;
 `;
 
+const TextInput = styled.input`
+  width: 80%; 
+  padding: 35px; 
+`;
 
 const PhotoInput = styled.input`
   margin-top: 5px;
+`;
+
+const SaveButton = styled.button`
+  background-color: #C9431B;
+  border-radius: 5px;
+  color: white;
+  font-size: 20px;
+  padding: 10px 20px;
+  margin-top: auto; // Show button at the bottom of the container.
+  margin-left: 38%;
 `;
 
 const SafetyReview = () => {
@@ -75,6 +88,7 @@ const SafetyReview = () => {
                 <br></br>
               <label>Onko yleisilme siisi? Millä tasolla päivittäiskatselmointien tulokset ovat? Onko havaittuihin poikkeamiin reagoitu?</label>
               <div>
+                <br></br>
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="condition"/>
                 <label>Sitoutunut</label>
@@ -83,8 +97,11 @@ const SafetyReview = () => {
                 <input type="radio" value="precursor" name="condition"/>
                 <label>Ei sovellettavissa</label>
                 <input type="radio" value="notaApplicable" name="condition"/>
+                <br></br>
+                <br></br>
                 <label>Huomiot</label>
-                <input type="text" name="attentions"/>
+                <br></br>
+                <TextInput type="text" name="attentions" />
               </div>
             </div>
           </div>
@@ -94,6 +111,7 @@ const SafetyReview = () => {
             <div>
               <label>Onko ohjeistukset saatavilla ja ajantasaiset? Noudatetaanko annettuja ohjeita?</label>
               <div>
+                <br></br>
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="condition"/>
                 <label>Sitoutunut</label>
@@ -102,8 +120,11 @@ const SafetyReview = () => {
                 <input type="radio" value="precursor" name="condition"/>
                 <label>Ei sovellettavissa</label>
                 <input type="radio" value="notaApplicable" name="condition"/>
+                <br></br>
+                <br></br>
                 <label>Huomiot</label>
-                <input type="text" name="attentions"/>
+                <br></br>
+                <TextInput type="text" name="attentions" />
               </div>
             </div>
           </div>
@@ -113,6 +134,7 @@ const SafetyReview = () => {
             <div>
               <label>Onko riskiarviointi ajantasalla ja onko toiminnan riskiä mahdollisuus pienentää?</label>
               <div>
+                <br></br>
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="condition"/>
                 <label>Sitoutunut</label>
@@ -121,8 +143,11 @@ const SafetyReview = () => {
                 <input type="radio" value="precursor" name="condition"/>
                 <label>Ei sovellettavissa</label>
                 <input type="radio" value="notaApplicable" name="condition"/>
+                <br></br>
+                <br></br>
                 <label>Huomiot</label>
-                <input type="text" name="attentions"/>
+                <br></br>
+                <TextInput type="text" name="attentions" />
               </div>
             </div>
           </div>
@@ -132,6 +157,7 @@ const SafetyReview = () => {
             <div>
               <label>Onko henkilökohtaiset suojavarusteet tunnistettu ja saatavilla? Käytetäänkö niitä?</label>
               <div>
+                <br></br>
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="condition"/>
                 <label>Sitoutunut</label>
@@ -140,8 +166,11 @@ const SafetyReview = () => {
                 <input type="radio" value="precursor" name="condition"/>
                 <label>Ei sovellettavissa</label>
                 <input type="radio" value="notaApplicable" name="condition"/>
+                <br></br>
+                <br></br>
                 <label>Huomiot</label>
-                <input type="text" name="attentions"/>
+                <br></br>
+                <TextInput type="text" name="attentions" />
              </div>
             </div>
           </div>
@@ -151,6 +180,7 @@ const SafetyReview = () => {
             <div>
               <label>Onko ensiaputarvikkeet ja palosammuttimet käytettävissä ja ajan tasalla?</label>
               <div>
+                <br></br>
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="condition"/>
                 <label>Sitoutunut</label>
@@ -159,8 +189,11 @@ const SafetyReview = () => {
                 <input type="radio" value="precursor" name="condition"/>
                 <label>Ei sovellettavissa</label>
                 <input type="radio" value="notaApplicable" name="condition"/>
+                <br></br>
+                <br></br>
                 <label>Huomiot</label>
-                <input type="text" name="attentions"/>
+                <br></br>
+                <TextInput type="text" name="attentions" />
               </div>
             </div>
           </div>
@@ -170,6 +203,7 @@ const SafetyReview = () => {
             <div>
               <label>Onko kemikaaliluettelot ajan tasalla? Säilytetäänkö kemikaalit asianmukaisesti? Onko varoitusmerkit ja käyttöturvatiedotteet saatavilla?</label>
               <div>
+                <br></br>
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="condition"/>
                 <label>Sitoutunut</label>
@@ -178,8 +212,11 @@ const SafetyReview = () => {
                 <input type="radio" value="precursor" name="condition"/>
                 <label>Ei sovellettavissa</label>
                 <input type="radio" value="notaApplicable" name="condition"/>
+                <br></br>
+                <br></br>
                 <label>Huomiot</label>
-                <input type="text" name="attentions"/>
+                <br></br>
+                <TextInput type="text" name="attentions" />
               </div>
             </div>
           </div>
@@ -189,6 +226,7 @@ const SafetyReview = () => {
             <div>
               <label>Käsitelläänkö tilassa kemikaaleja tai pölyjä? Onko räjähdyssuoja-arviointi ajantasalla?</label>
               <div>
+                <br></br>
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="condition"/>
                 <label>Sitoutunut</label>
@@ -197,8 +235,11 @@ const SafetyReview = () => {
                 <input type="radio" value="precursor" name="condition"/>
                 <label>Ei sovellettavissa</label>
                 <input type="radio" value="notaApplicable" name="condition"/>
+                <br></br>
+                <br></br>
                 <label>Huomiot</label>
-                <input type="text" name="attentions"/>
+                <br></br>
+                <TextInput type="text" name="attentions" />
               </div>
             </div>
           </div>
@@ -208,6 +249,7 @@ const SafetyReview = () => {
             <div>
               <label>Onko säteilyturvallisuusohjeet ja luvat ajantasalla?</label>
               <div>
+                <br></br>
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="condition"/>
                 <label>Sitoutunut</label>
@@ -216,8 +258,11 @@ const SafetyReview = () => {
                 <input type="radio" value="precursor" name="condition"/>
                 <label>Ei sovellettavissa</label>
                 <input type="radio" value="notaApplicable" name="condition"/>
+                <br></br>
+                <br></br>
                 <label>Huomiot</label>
-                <input type="text" name="attentions"/>
+                <br></br>
+                <TextInput type="text" name="attentions" />
               </div>
             </div>
           </div>
@@ -227,6 +272,7 @@ const SafetyReview = () => {
             <div>
               <label>Onko tilasta tullut turvallisuushavaintoja? Onko korjaavat toimenpiteet tehty?</label>
               <div>
+                <br></br>
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="condition"/>
                 <label>Sitoutunut</label>
@@ -235,22 +281,28 @@ const SafetyReview = () => {
                 <input type="radio" value="precursor" name="condition"/>
                 <label>Ei sovellettavissa</label>
                 <input type="radio" value="notaApplicable" name="condition"/>
+                <br></br>
+                <br></br>
                 <label>Huomiot</label>
-                <input type="text" name="attentions"/>
+                <br></br>
+                <TextInput type="text" name="attentions" />
               </div>
+              <br></br>
             </div>
           </div>
 
           <div>
             <label>Muita huomioita/ kehitysideat</label>
-            <input type="text" name="othetAttentions"/>
+            <TextInput type="text" name="attentions" />
           </div>
-
+          <br></br>
           <div>
           <label>Mitä positiivista olet huomannut tarkastusjasolla?</label>
-          <input type="text" name="positiveThings"></input>
+          <TextInput type="text" name="attentions" />
         </div>
         <div>
+          <br></br>
+          <p>Lisää kuva</p>
           <PhotoInput
             type="file"
             accept="image/*"
@@ -258,6 +310,13 @@ const SafetyReview = () => {
             onChange={handleFileChange}
           />
         </div>
+        <br></br>
+        <br></br>
+        <div>
+          <SaveButton type="submit">Tallenna</SaveButton>
+        </div>
+        <br></br>
+        <br></br>
         </form>
       </GrayBackground>
       </FormContainer>

@@ -4,6 +4,26 @@ import { Form } from "react-router-dom";
 import { createInspectionResult } from "../../services/inspectionresult";
 import { createInspectionForm } from "../../services/inspectionform";
 import { createInspectionTarget } from "../../services/inspectiontarget";
+import styled from "styled-components";
+
+// TODO: this page in order? What's going on here???
+const GrayBackground = styled.div`
+  position: fixed; /* Fixed position to keep it visible while scrolling */
+  top: 66%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100vh;
+  background-color: lightgray;
+  border-top-left-radius: 0% 50px;
+  border-top-right-radius: 0% 50px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 1; /* Ensure it's above the photo container */
+`;
 
 
 interface FormData {
@@ -50,7 +70,7 @@ const SemesterReview = () => {
   });
 
   // Event handler for the "description" input field
-  const handleDescriptionChange = (e) => {
+  const handleDescriptionChange = (e: { target: { value: any; }; }) => {
     const newDescription = e.target.value;
     setDescription(newDescription);
   };
