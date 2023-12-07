@@ -136,7 +136,7 @@ const LoginForm = () => {
   };
 
   return (
-    /*<SafetyReview></SafetyReview>*/
+    //<SafetyReview></SafetyReview>
     <AppContainer>
       <LogoContainer>
         <Notification />
