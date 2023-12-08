@@ -8,6 +8,7 @@ import LocationSelection from './LocationSelection';
 import EnvironmentSelection from './EnviromentSelection';
 import Header from '../header';
 import InspectionsTargetsSelectionByEnvironmentId from './InspectionsTargetsSelectioByEnviromentId'
+import { useReviewContext } from '../../ReviewContext';
 
 
 const RoomSelectionContainer = styled.div`
@@ -71,8 +72,11 @@ export default function Home() {
   const [location, setLocation] = useState('');
   const [location_id, setLocation_id] = useState('')
   const [locationsArray, setLocationsArray] = useState<string[]>([]);
-  const [environment_id, setEnvironment_id]= useState('')
-  const [inspectiontarget_id, setInspectiontarget_id]=useState('')
+  //const [environment_id, setEnvironment_id]= useState('')
+  //const [inspectiontarget_id, setInspectiontarget_id]=useState('')
+
+  const { environment_id, setEnvironment_id } = useReviewContext();
+  const { inspectiontarget_id, setInspectiontarget_id } = useReviewContext();
 
   interface LocationData {
     name: string;

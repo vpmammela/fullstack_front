@@ -48,6 +48,6 @@ export const getEnvironmentByLocationId = async (location_id:string) => {
       'Content-Type': 'application/json',
     },
   })
-  console.log(response.data)
+  console.log("environments: ", response.data)
   return response.data;
 }

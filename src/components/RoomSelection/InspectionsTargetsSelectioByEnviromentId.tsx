@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import {getInspectionTargetsByEnviromentsId} from'../../services/inspectiontarget'
 
 
-const InspectionsTargetsSelectionByEnvironmentId: React.FC<{ setInspectiontarget_id: React.Dispatch<React.SetStateAction<string>>, environment_id: string }> = ({ setInspectiontarget_id, environment_id}) => {
+const InspectionsTargetsSelectionByEnvironmentId: React.FC<{ setInspectiontarget_id: React.Dispatch<React.SetStateAction<string | null>>, environment_id: string | null }> = ({ setInspectiontarget_id, environment_id}) => {
     const [selectedInspectionTarget, setSelectedInspectionTarget] = useState('');
     const [inspectionTargetArray, setInspectionTargetArray] = useState<InspectionTargetData[]>([]);
 
@@ -16,9 +16,9 @@ const InspectionsTargetsSelectionByEnvironmentId: React.FC<{ setInspectiontarget
         const fetchEnvironment = async () => {
           console.log("InspectionsTargwr Selection")
           try {
-            const InspectionTargetData: { inspectionTarget: InspectionTargetData[] } = await getInspectionTargetsByEnviromentsId(environment_id);
-            const names = InspectionTargetData.inspectionTarget
-            console.log("#### names",InspectionTargetData.inspectionTarget)
+            const InspectionTargetData: { inspectiontargets: InspectionTargetData[] } = await getInspectionTargetsByEnviromentsId(environment_id!);
+            const names = InspectionTargetData.inspectiontargets
+            console.log("#### names",InspectionTargetData.inspectiontargets)
             setInspectionTargetArray(names);
           } catch (error) {
             console.error('Error fetching locations:', error);
