@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Root from './Root.jsx'
-import ReviewInfo from './components/ReviewInfo/ReviewInfo.tsx'
 import SemesterReview from './components/SemesterReview/SemesterReview.tsx'
 import ContinuousReview, {action as continuosReviewAction} from './components/ContinuousReview/ContinuousReview.tsx'
 import SafetyReview from './components/SafetyReview/SafetyReview.tsx'
@@ -11,7 +10,6 @@ import { UserProvider } from './UserContext';
 import RoomSelection from './components/RoomSelection/RoomSelection.tsx'
 import Home from './Home.tsx'
 import ReviewSelection from './components/ReviewSelection/ReviewSelection.tsx'
-import axios from 'axios'
 import { NotificationProvider } from './NotificationContext.tsx'
 import LoginForm from './components/LoginForm/LoginForm.tsx'
 import ProtectedRoute from './components/ProtectedRoute.tsx'
@@ -19,6 +17,7 @@ import Locations from './components/Locations.tsx'
 import CreateLocation from './components/CreateLocation.tsx'
 import Raports from './components/raports.tsx'
 import UserControl from './components/UserControl.tsx'
+import { ReviewProvider } from './ReviewContext.tsx'
 
 
 const router = createBrowserRouter([
@@ -90,7 +89,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <NotificationProvider>
       <UserProvider>
-        <RouterProvider router={router}></RouterProvider>
+        <ReviewProvider>
+          <RouterProvider router={router}></RouterProvider>
+        </ReviewProvider>
       </UserProvider>
     </NotificationProvider>
   </React.StrictMode>

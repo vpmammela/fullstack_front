@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { getEnvironmentByLocationId } from "../../services/environment";
 
 
-const EnvironmentSelection: React.FC<{ setEnvironment_id: React.Dispatch<React.SetStateAction<string>>, location_id: string }> = ({ setEnvironment_id, location_id }) => {
+const EnvironmentSelection: React.FC<{ setEnvironment_id: React.Dispatch<React.SetStateAction<string | null>>, location_id: string }> = ({ setEnvironment_id, location_id }) => {
     const [selectedEnvironment, setSelectedEnvironment] = useState('');
     const [EnvironmentArray, setEnvironmentArray] = useState<EnvironmentData[]>([]);
 

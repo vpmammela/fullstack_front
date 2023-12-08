@@ -3,8 +3,9 @@ import "../styles.css";
 import { Form } from "react-router-dom";
 import { createInspectionResult } from "../../services/inspectionresult";
 import { createInspectionForm } from "../../services/inspectionform";
-import { createInspectionTarget } from "../../services/inspectiontarget";
+import { createInspectionTarget, getInspectionTargetById, getInspectionTargetsByEnviromentsId } from "../../services/inspectiontarget";
 import styled from "styled-components";
+import { useReviewContext } from "../../ReviewContext";
 
 // TODO: this page in order? What's going on here???
 const GrayBackground = styled.div`
@@ -59,6 +60,9 @@ const evaluationMap: { [key: string]: number } = {
 const SemesterReview = () => {
   const [description, setDescription] = useState('');
 
+  const { environment_id } = useReviewContext();
+  const { inspectiontarget_id } = useReviewContext();
+
   // Initialize state to store selected values and notes
   const [formData, setFormData] = useState<FormData>({
     general: { condition: '', note: '' },
@@ -109,20 +113,14 @@ const SemesterReview = () => {
   const sendResultData = async () => {
     console.log(description)
 
-    const targetData = {
-      name: "room name",  // VALUE FROM RoomSelection component "valitse huone"
-      description,
-      environment_id: 1, // NEED THIS VALUE FROM RoomSelection component "valitse  oppimisympäristö"
-      inspectiontargettype_id: 1 // Default value
-    }
-
-    // creates target from values in RoomSelection component
-    const inspectiontarget = await createInspectionTarget(targetData)
+    const room = await getInspectionTargetById(inspectiontarget_id!);
+    const targets = await getInspectionTargetsByEnviromentsId(environment_id!);
+    const target = targets.inspectiontargets.filter((target: { name: string; }) => target.name === room.name);
 
     const formData = {
-      "environment_id": 1,  // NEED THIS VALUE FROM RoomSelection component "valitse oppimisympäristö"
-      "inspectiontarget_id": inspectiontarget.id,
-      "inspectiontype": "semester"
+      environment_id,
+      inspectiontarget_id: target[0].id,
+      inspectiontype: "semester"
     }
     
     // creates form
