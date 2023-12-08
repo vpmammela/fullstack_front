@@ -6,11 +6,13 @@ import { createInspectionForm } from "../../services/inspectionform";
 import { createInspectionTarget, getInspectionTargetById, getInspectionTargetsByEnviromentsId } from "../../services/inspectiontarget";
 import styled from "styled-components";
 import { useReviewContext } from "../../ReviewContext";
+import Header from "../header";
+import axios from "axios";
 
-// TODO: this page in order? What's going on here???
+
 const GrayBackground = styled.div`
   position: fixed; /* Fixed position to keep it visible while scrolling */
-  top: 66%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
@@ -26,6 +28,19 @@ const GrayBackground = styled.div`
   z-index: 1; /* Ensure it's above the photo container */
 `;
 
+const FormContainer = styled.div`
+  padding-top: 185px;
+  height: 100%;
+  align-items: center;
+  overflow-y: auto;
+  width: 100vh;
+`
+const FormInput = styled.input`
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+`;
 
 interface FormData {
   [key: string]: {
@@ -62,6 +77,16 @@ const SemesterReview = () => {
 
   const { environment_id } = useReviewContext();
   const { inspectiontarget_id } = useReviewContext();
+
+  // Store the selected photo file.
+  const [photo, setPhoto] = useState<File | null>(null);
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      setPhoto(file);
+    }
+  };
 
   // Initialize state to store selected values and notes
   const [formData, setFormData] = useState<FormData>({
@@ -123,6 +148,14 @@ const SemesterReview = () => {
       inspectiontype: "semester"
     }
     
+     // Upload photo if available
+     if (photo) {
+      const formData = new FormData();
+      formData.append('photo', photo);
+
+      // TODO: Replace with the actual API endpoint.
+      //await axios.post('your-upload-api', formData);
+    }
     // creates form
     const inspectionform = await createInspectionForm(formData);
 
@@ -135,165 +168,191 @@ const SemesterReview = () => {
 
 
   return (
-    <div>
-      <h2>
-        6S Lukukausi / vuosikatselmointi
-      </h2>
-      <div>
-        <label>Huoneen kuvaus: </label>
-        <input
-          type="text"
-          name="description"
-          value={description}
-          onChange={handleDescriptionChange}
-        />
-      </div>
-      <br/>
-      <Form>
+    <GrayBackground>
+      <Header />
+      <FormContainer>
         <div>
+          <h2>
+            6S Lukukausi / vuosikatselmointi
+          </h2>
           <div>
-            <label>Yleisilme</label>
+            <label>Huoneen kuvaus: </label>
+            <input
+              type="text"
+              name="description"
+              value={description}
+              onChange={handleDescriptionChange}
+            />
+          </div>
+          <br />
+          <Form>
             <div>
-              <label>{questionsMap['general']}</label>
               <div>
-              <label>Puutteellinen</label>
-                <input type="radio" value="inadequate" name="general" onChange={() => handleRadioChange('general', 'condition', 'inadequate')}/>
-                <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="general" onChange={() => handleRadioChange('general', 'condition', 'involved')}/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="general" onChange={() => handleRadioChange('general', 'condition', 'precursor')}/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="general" onChange={() => handleRadioChange('general', 'condition', 'notaApplicable')}/>
-                <br/>
-                <label>Huomiot: </label>
-                <input type="text" name="generalComment" onChange={(e) => handleTextChange('general', e.target.value)}/>
-                <br/>
-                <br/>
+                <h4>Yleisilme</h4>
+                <div>
+                  <label>{questionsMap['general']}</label>
+                  <div>
+                    <br/>
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="inadequate" name="general" onChange={() => handleRadioChange('general', 'condition', 'inadequate')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="involved" name="general" onChange={() => handleRadioChange('general', 'condition', 'involved')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="precursor" name="general" onChange={() => handleRadioChange('general', 'condition', 'precursor')} />
+                    <label>Ei sovellettavissa</label>
+                    <input type="radio" value="notaApplicable" name="general" onChange={() => handleRadioChange('general', 'condition', 'notaApplicable')} />
+                    <br />
+                    <br/>
+                    <label>Huomiot: </label>
+                    <br/>
+                    <input type="text" name="generalComment" onChange={(e) => handleTextChange('general', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4>Ohjeistukset</h4>
+                <div>
+                  <label>{questionsMap['instructions']}</label>
+                  <div>
+                    <br/>
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="inadequate" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'inadequate')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="involved" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'involved')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="precursor" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'precursor')} />
+                    <label>Ei sovellettavissa</label>
+                    <input type="radio" value="notaApplicable" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'notaApplicable')} />
+                    <br />
+                    <br/>
+                    <label>Huomiot: </label>
+                    <br/>
+                    <input type="text" name="instuctionsComment" onChange={(e) => handleTextChange('instructions', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4>Turvallisuus</h4>
+                <div>
+                  <label>{questionsMap['safety']}</label>
+                  <div>
+                  <br/>
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="inadequate" name="safety" onChange={() => handleRadioChange('safety', 'condition', 'inadequate')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="involved" name="safety" onChange={() => handleRadioChange('safety', 'condition', 'involved')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="precursor" name="safety" onChange={() => handleRadioChange('safety', 'condition', 'precursor')} />
+                    <label>Ei sovellettavissa</label>
+                    <input type="radio" value="notaApplicable" name="safety" onChange={() => handleRadioChange('safety', 'condition', 'notaApplicable')} />
+                    <br />
+                    <br/>
+                    <label>Huomiot: </label>
+                    <br/>
+                    <input type="text" name="safetyComment" onChange={(e) => handleTextChange('safety', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4>Kiertotalous</h4>
+                <div>
+                  <label>{questionsMap['waste']}</label>
+                  <div>
+                    <br/>
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="inadequate" name="waste" onChange={() => handleRadioChange('waste', 'condition', 'inadequate')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="involved" name="waste" onChange={() => handleRadioChange('waste', 'condition', 'involved')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="precursor" name="waste" onChange={() => handleRadioChange('waste', 'condition', 'precursor')} />
+                    <label>Ei sovellettavissa</label>
+                    <input type="radio" value="notaApplicable" name="waste" onChange={() => handleRadioChange('waste', 'condition', 'notaApplicable')} />
+                    <br />
+                    <br/>
+                    <label>Huomiot: </label>
+                    <br/>
+                    <input type="text" name="wasteComment" onChange={(e) => handleTextChange('waste', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4>Kemikaalien hallinta</h4>
+                <div>
+                  <label>{questionsMap['chemicals']}</label>
+                  <div>
+                    <br/>
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="inadequate" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'inadequate')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="involved" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'involved')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="precursor" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'precursor')} />
+                    <label>Ei sovellettavissa</label>
+                    <input type="radio" value="notaApplicable" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'notaApplicable')} />
+                    <br />
+                    <br/>
+                    <label>Huomiot: </label>
+                    <br/>
+                    <input type="text" name="chemicalsComment" onChange={(e) => handleTextChange('chemicals', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4>Trail - kalustonhallinta</h4>
+                <div>
+                  <label>{questionsMap['equipment']}</label>
+                  <div>
+                    <br/>
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="inadequate" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', 'inadequate')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="involved" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', 'involved')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="precursor" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', 'precursor')} />
+                    <label>Ei sovellettavissa</label>
+                    <input type="radio" value="notaApplicable" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', 'notaApplicable')} />
+                    <br/>
+                    <br/>
+                    <label>Huomiot</label>
+                    <br/>
+                    <input type="text" name="equipmentComment" onChange={(e) => handleTextChange('equipment', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label>Lataa kuva: </label>
+                <input type="file" accept="image/*" onChange={handlePhotoChange} />
               </div>
             </div>
-          </div>
-
-          <div>
-            <label>Ohjeistukset</label>
             <div>
-              <label>{questionsMap['instructions']}</label>
-              <div>
-              <label>Puutteellinen</label>
-                <input type="radio" value="inadequate" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'inadequate')}/>
-                <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'involved')}/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'precursor')}/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'notaApplicable')}/>
-                <br/>
-                <label>Huomiot: </label>
-                <input type="text" name="instuctionsComment" onChange={(e) => handleTextChange('instructions', e.target.value)}/>
-                <br/>
-                <br/>
-              </div>
+              <br/>
+              <button type="button" onClick={sendResultData}>
+                Send Data
+              </button>
+              <br/>
+              <br/>
             </div>
-          </div>
-
-          <div>
-            <label>Turvallisuus</label>
-            <div>
-              <label>{questionsMap['safety']}</label>
-              <div>
-              <label>Puutteellinen</label>
-                <input type="radio" value="inadequate" name="safety" onChange={() => handleRadioChange('safety', 'condition', 'inadequate')}/>
-                <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="safety" onChange={() => handleRadioChange('safety', 'condition', 'involved')}/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="safety" onChange={() => handleRadioChange('safety', 'condition', 'precursor')}/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="safety" onChange={() => handleRadioChange('safety', 'condition', 'notaApplicable')}/>
-                <br/>
-                <label>Huomiot: </label>
-                <input type="text" name="safetyComment" onChange={(e) => handleTextChange('safety', e.target.value)}/>
-                <br/>
-                <br/>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label>Kiertotalous</label>
-            <div>
-              <label>{questionsMap['waste']}</label>
-              <div>
-              <label>Puutteellinen</label>
-                <input type="radio" value="inadequate" name="waste" onChange={() => handleRadioChange('waste', 'condition', 'inadequate')}/>
-                <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="waste" onChange={() => handleRadioChange('waste', 'condition', 'involved')}/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="waste" onChange={() => handleRadioChange('waste', 'condition', 'precursor')}/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="waste" onChange={() => handleRadioChange('waste', 'condition', 'notaApplicable')}/>
-                <br/>
-                <label>Huomiot: </label>
-                <input type="text" name="wasteComment" onChange={(e) => handleTextChange('waste', e.target.value)}/>
-                <br/>
-                <br/>
-             </div>
-            </div>
-          </div>
-
-          <div>
-            <label>Kemikaalien hallinta</label>
-            <div>
-              <label>{questionsMap['chemicals']}</label>
-              <div>
-              <label>Puutteellinen</label>
-                <input type="radio" value="inadequate" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'inadequate')}/>
-                <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'involved')}/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'precursor')}/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'notaApplicable')}/>
-                <br/>
-                <label>Huomiot: </label>
-                <input type="text" name="chemicalsComment" onChange={(e) => handleTextChange('chemicals', e.target.value)}/>
-                <br/>
-                <br/>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label>Trail - kalustonhallinta</label>
-            <div>
-              <label>{questionsMap['equipment']}</label>
-              <div>
-              <label>Puutteellinen</label>
-                <input type="radio" value="inadequate" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', 'inadequate')}/>
-                <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', 'involved')}/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', 'precursor')}/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', 'notaApplicable')}/>
-                <label>Huomiot</label>
-                <input type="text" name="equipmentComment" onChange={(e) => handleTextChange('equipment', e.target.value)}/>
-                <br/>
-                <br/>
-              </div>
-            </div>
-          </div>
-
-        <div>
-          <p>VALOKUVAUN LISÄYS TÄHÄN</p>
+          </Form>
         </div>
-
-        </div>
-        <div>
-          <button type="button" onClick={sendResultData}>
-            Send Data
-          </button>
-        </div>
-      </Form>
-    </div>
+      </FormContainer>
+    </GrayBackground>
   );
 /*
   return (
