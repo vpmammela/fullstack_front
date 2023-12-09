@@ -137,7 +137,6 @@ const LoginForm = () => {
   };
 
   return (
-    
     <AppContainer>
       <LogoContainer>
         <Notification />

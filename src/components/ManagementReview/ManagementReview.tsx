@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSmile, faMeh, faFrown } from '@fortawesome/free-solid-svg-icons';
 import '../styles.css';
-import redSnow from '../../Images/redsnow.jpg';
-import logo from '../../Images/logo.png';
 import Header from '../header';
 import { getInspectionTargetById, getInspectionTargetsByEnviromentsId } from '../../services/inspectiontarget';
 
