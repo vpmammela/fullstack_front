@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import {getInspectionTargetsByEnviromentsId} from'../../services/inspectiontarget'
 
 
-const InspectionsTargetsSelectionByEnvironmentId: React.FC<{ setInspectiontarget_id: React.Dispatch<React.SetStateAction<string | null>>, environment_id: string | null }> = ({ setInspectiontarget_id, environment_id}) => {
+const InspectionsTargetsSelectionByEnvironmentId: React.FC<{ setInspectiontarget_id: React.Dispatch<React.SetStateAction<number | null>>, environment_id: number | null }> = ({ setInspectiontarget_id, environment_id}) => {
     const [selectedInspectionTarget, setSelectedInspectionTarget] = useState('');
     const [inspectionTargetArray, setInspectionTargetArray] = useState<InspectionTargetData[]>([]);
 
@@ -28,8 +28,9 @@ const InspectionsTargetsSelectionByEnvironmentId: React.FC<{ setInspectiontarget
     }, [environment_id]);
     const handleEnvironmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = e.target.value;
+        const numericValue = parseInt(selectedValue, 10);
         setSelectedInspectionTarget(selectedValue);
-        setInspectiontarget_id(selectedValue);
+        setInspectiontarget_id(numericValue);
       };
   
       return(

@@ -146,16 +146,17 @@ const SemesterReview = () => {
       setNotification(`Virhe huoneen haussa: ${e}`)
     }
     let targets = null;
+    let target = null;
     try {
       targets = await getInspectionTargetsByEnviromentsId(environment_id!);
+      target = targets.inspectiontargets.filter((target: { name: string; }) => target.name === room!.name);
     } catch (e) {
       setNotification(`Virhe huoneen haussa: ${e}`)
     }
-    const target = targets.inspectiontargets.filter((target: { name: string; }) => target.name === room.name);
 
-    const formData = {
+    const formSend = {
       environment_id,
-      inspectiontarget_id: target[0].id,
+      inspectiontarget_id: parseInt(target[0].id, 10),
       inspectiontype
     }
     
@@ -171,14 +172,14 @@ const SemesterReview = () => {
     // creates form
     let inspectionform: { id: number; } | null = null;
     try{
-      inspectionform = await createInspectionForm(formData);
+      inspectionform = await createInspectionForm(formSend);
     } catch (e) {
       setNotification(`Virhe katselmoinnin tallentamisessa: ${e}`)
     }
 
     // creates all results
     Object.keys(questionsMap).forEach(async (category) => {
-      const resultData = handleDataForResult(category, inspectionform.id);
+      const resultData = handleDataForResult(category, inspectionform!.id);
       try {
         await createInspectionResult(resultData)
       } catch (e) {

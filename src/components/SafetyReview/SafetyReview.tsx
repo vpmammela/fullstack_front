@@ -168,16 +168,17 @@ const SafetyReview = () => {
       setNotification(`Virhe huoneen haussa: ${e}`)
     }
     let targets = null;
+    let target = null;
     try {
       targets = await getInspectionTargetsByEnviromentsId(environment_id!);
+      target = targets.inspectiontargets.filter((target: { name: string; }) => target.name === room!.name);
     } catch (e) {
       setNotification(`Virhe huoneen haussa: ${e}`)
     }
-    const target = targets.inspectiontargets.filter((target: { name: string; }) => target.name === room.name);
 
-    const formData = {
+    const formSend = {
       environment_id,
-      inspectiontarget_id: target[0].id,
+      inspectiontarget_id: parseInt(target[0].id, 10),
       inspectiontype
     }
     
@@ -193,14 +194,14 @@ const SafetyReview = () => {
     // creates form
     let inspectionform: { id: number; } | null = null;
     try{
-      inspectionform = await createInspectionForm(formData);
+      inspectionform = await createInspectionForm(formSend);
     } catch (e) {
       setNotification(`Virhe katselmoinnin tallentamisessa: ${e}`)
     }
 
     // creates all results
     Object.keys(questionsMap).forEach(async (category) => {
-      const resultData = handleDataForResult(category, inspectionform.id);
+      const resultData = handleDataForResult(category, inspectionform!.id);
       try {
         await createInspectionResult(resultData)
       } catch (e) {
@@ -227,11 +228,11 @@ const SafetyReview = () => {
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="general" onChange={() => handleRadioChange('general', 'condition', 'inadequate')} />
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="general" onChange={() => handleRadioChange('general', 'condition', 'inadequate')} />
+                <input type="radio" value="involved" name="general" onChange={() => handleRadioChange('general', 'condition', 'involved')} />
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="general" onChange={() => handleRadioChange('general', 'condition', 'inadequate')} />
+                <input type="radio" value="precursor" name="general" onChange={() => handleRadioChange('general', 'condition', 'precursor')} />
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="general" onChange={() => handleRadioChange('general', 'condition', 'inadequate')} />
+                <input type="radio" value="notaApplicable" name="general" onChange={() => handleRadioChange('general', 'condition', 'notaApplicable')} />
                 <br></br>
                 <br></br>
                 <label>Huomiot</label>
@@ -250,11 +251,11 @@ const SafetyReview = () => {
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'inadequate')} />
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'inadequate')} />
+                <input type="radio" value="involved" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'involved')} />
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'inadequate')} />
+                <input type="radio" value="precursor" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'precursor')} />
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'inadequate')} />
+                <input type="radio" value="notaApplicable" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'notaApplicable')} />
                 <br></br>
                 <br></br>
                 <label>Huomiot</label>
@@ -273,11 +274,11 @@ const SafetyReview = () => {
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="risk" onChange={() => handleRadioChange('risk', 'condition', 'inadequate')} />
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="risk" onChange={() => handleRadioChange('risk', 'condition', 'inadequate')} />
+                <input type="radio" value="involved" name="risk" onChange={() => handleRadioChange('risk', 'condition', 'involved')} />
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="risk" onChange={() => handleRadioChange('risk', 'condition', 'inadequate')} />
+                <input type="radio" value="precursor" name="risk" onChange={() => handleRadioChange('risk', 'condition', 'precursor')} />
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="risk" onChange={() => handleRadioChange('risk', 'condition', 'inadequate')} />
+                <input type="radio" value="notaApplicable" name="risk" onChange={() => handleRadioChange('risk', 'condition', 'notaApplicable')} />
                 <br></br>
                 <br></br>
                 <label>Huomiot</label>
@@ -296,11 +297,11 @@ const SafetyReview = () => {
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="protection" onChange={() => handleRadioChange('protection', 'condition', 'inadequate')} />
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="protection" onChange={() => handleRadioChange('protection', 'condition', 'inadequate')} />
+                <input type="radio" value="involved" name="protection" onChange={() => handleRadioChange('protection', 'condition', 'involved')} />
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="protection" onChange={() => handleRadioChange('protection', 'condition', 'inadequate')} />
+                <input type="radio" value="precursor" name="protection" onChange={() => handleRadioChange('protection', 'condition', 'precursor')} />
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="protection" onChange={() => handleRadioChange('protection', 'condition', 'inadequate')} />
+                <input type="radio" value="notaApplicable" name="protection" onChange={() => handleRadioChange('protection', 'condition', 'notaApplicable')} />
                 <br></br>
                 <br></br>
                 <label>Huomiot</label>
@@ -319,11 +320,11 @@ const SafetyReview = () => {
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="firstAid" onChange={() => handleRadioChange('firstAid', 'condition', 'inadequate')} />
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="firstAid" onChange={() => handleRadioChange('firstAid', 'condition', 'inadequate')} />
+                <input type="radio" value="involved" name="firstAid" onChange={() => handleRadioChange('firstAid', 'condition', 'involved')} />
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="firstAid" onChange={() => handleRadioChange('firstAid', 'condition', 'inadequate')} />
+                <input type="radio" value="precursor" name="firstAid" onChange={() => handleRadioChange('firstAid', 'condition', 'precursor')} />
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="firstAid" onChange={() => handleRadioChange('firstAid', 'condition', 'inadequate')} />
+                <input type="radio" value="notaApplicable" name="firstAid" onChange={() => handleRadioChange('firstAid', 'condition', 'notaApplicable')} />
                 <br></br>
                 <br></br>
                 <label>Huomiot</label>
@@ -342,11 +343,11 @@ const SafetyReview = () => {
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'inadequate')} />
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'inadequate')} />
+                <input type="radio" value="involved" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'involved')} />
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'inadequate')} />
+                <input type="radio" value="precursor" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'precursor')} />
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'inadequate')} />
+                <input type="radio" value="notaApplicable" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'notaApplicable')} />
                 <br></br>
                 <br></br>
                 <label>Huomiot</label>
@@ -365,11 +366,11 @@ const SafetyReview = () => {
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="explosion" onChange={() => handleRadioChange('explosion', 'condition', 'inadequate')} />
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="explosion" onChange={() => handleRadioChange('explosion', 'condition', 'inadequate')} />
+                <input type="radio" value="involved" name="explosion" onChange={() => handleRadioChange('explosion', 'condition', 'involved')} />
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="explosion" onChange={() => handleRadioChange('explosion', 'condition', 'inadequate')} />
+                <input type="radio" value="precursor" name="explosion" onChange={() => handleRadioChange('explosion', 'condition', 'precursor')} />
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="explosion" onChange={() => handleRadioChange('explosion', 'condition', 'inadequate')} />
+                <input type="radio" value="notaApplicable" name="explosion" onChange={() => handleRadioChange('explosion', 'condition', 'notaApplicable')} />
                 <br></br>
                 <br></br>
                 <label>Huomiot</label>
@@ -388,11 +389,11 @@ const SafetyReview = () => {
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="radiation" onChange={() => handleRadioChange('radiation', 'condition', 'inadequate')} />
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="radiation" onChange={() => handleRadioChange('radiation', 'condition', 'inadequate')} />
+                <input type="radio" value="involved" name="radiation" onChange={() => handleRadioChange('radiation', 'condition', 'involved')} />
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="radiation" onChange={() => handleRadioChange('radiation', 'condition', 'inadequate')} />
+                <input type="radio" value="precursor" name="radiation" onChange={() => handleRadioChange('radiation', 'condition', 'precursor')} />
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="radiation" onChange={() => handleRadioChange('radiation', 'condition', 'inadequate')} />
+                <input type="radio" value="notaApplicable" name="radiation" onChange={() => handleRadioChange('radiation', 'condition', 'notaApplicable')} />
                 <br></br>
                 <br></br>
                 <label>Huomiot</label>
@@ -411,11 +412,11 @@ const SafetyReview = () => {
               <label>Puutteellinen</label>
                 <input type="radio" value="inadequate" name="observations" onChange={() => handleRadioChange('observations', 'condition', 'inadequate')} />
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="observations" onChange={() => handleRadioChange('observations', 'condition', 'inadequate')} />
+                <input type="radio" value="involved" name="observations" onChange={() => handleRadioChange('observations', 'condition', 'involved')} />
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="observations" onChange={() => handleRadioChange('observations', 'condition', 'inadequate')} />
+                <input type="radio" value="precursor" name="observations" onChange={() => handleRadioChange('observations', 'condition', 'precursor')} />
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="observations" onChange={() => handleRadioChange('observations', 'condition', 'inadequate')} />
+                <input type="radio" value="notaApplicable" name="observations" onChange={() => handleRadioChange('observations', 'condition', 'notaApplicable')} />
                 <br></br>
                 <br></br>
                 <label>Huomiot</label>
