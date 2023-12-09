@@ -6,6 +6,7 @@ import '../styles.css';
 import redSnow from '../../Images/redsnow.jpg';
 import logo from '../../Images/logo.png';
 import Header from '../header';
+import { getInspectionTargetById, getInspectionTargetsByEnviromentsId } from '../../services/inspectiontarget';
 
 const ManagementReviewContainer = styled.div`
   position: relative;
@@ -21,15 +22,15 @@ const ManagementReviewContainer = styled.div`
 
 // Background for form.
 const GrayBackground = styled.div`
-  position: fixed;
-  top: 66%;
+  position: absolute;
+  top: 65%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  height: 100%;
+  max-height: 80vh; 
   background-color: #e7e7e7;
- 
-  overflow: hidden;
+
+  overflow: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,7 +38,6 @@ const GrayBackground = styled.div`
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  overflow: hidden;
 `;
 
 const FormTable = styled.table`
@@ -88,19 +88,6 @@ const FileInput = styled.input`
 
 const IconSize = '3x';
 
-// AMK logo.
-const LogoContainer = styled.div`
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%); 
-  z-index: 2; /* Logo is on top of everything */
-`;
-
-const LogoImage = styled.img`
-  width: 200px;
-  height: auto;
-`;
 const FromThead = styled.thead`
 `
 const FromTd = styled.td`
@@ -127,6 +114,16 @@ display: grid;
 const FromTr = styled.tr`
 
 `
+const SaveButton = styled.button`
+  background-color: #C9431B;
+  border-radius: 5px;
+  color: white;
+  font-size: 20px;
+  padding: 10px 20px;
+  margin-top: auto; // Show button at the bottom of the container.
+  margin-left: 38%;
+`;
+
 
 const ManagementReview = () => {
   const [photo, setPhoto] = useState<File | null>(null);
@@ -160,9 +157,10 @@ const ManagementReview = () => {
     }));
   };
  */
+    
   return (
     <ManagementReviewContainer>
-      
+      <Header/>
       <GrayBackground>
         <h2>Toimintamallin ja johtamisen katselmointi</h2>
         <FormTable className="table">
@@ -218,6 +216,15 @@ const ManagementReview = () => {
               </td>
             </FormRow>
           </tbody>
+          <br/>
+        <br/>
+        <div>
+        <SaveButton type="button" onClick={() => sendResultData("management")}>
+          Tallenna
+        </SaveButton>
+        </div>
+        <br/>
+        <br/>
         </FormTable>
       </GrayBackground>
     </ManagementReviewContainer>
