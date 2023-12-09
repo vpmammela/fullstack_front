@@ -364,7 +364,7 @@ const SemesterReview = () => {
             </div>
             <div>
               <br/>
-              <button type="button" onClick={() => sendResultData("safety")}>
+              <button type="button" onClick={() => sendResultData("semester")}>
                 Send Data
               </button>
               <br/>
