@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import styled from 'styled-components';
 
 const GrayBackground = styled.div`
@@ -11,6 +11,21 @@ const GrayBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const FormContainer = styled.div`
+  width: 100%;
+  max-width: 400px;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
 `;
 
 const UserContainer = styled.div`
@@ -68,8 +83,11 @@ const GrayButton = styled(Button)`
 `;
 
 interface User {
+  name: ReactNode;
   id: number;
-  name: string;
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 
 interface UserControlProps {
@@ -78,7 +96,11 @@ interface UserControlProps {
 
 const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
   const [users, setUsers] = useState<User[]>([]);
-  const [newUserName, setNewUserName] = useState<string>('');
+  const [newUser, setNewUser] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+  });
 
   useEffect(() => {
     // Fetch users when the component mounts.
@@ -87,22 +109,24 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('/api/users');
+      const response = await fetch('http://localhost:5180/api/users');
       const data = await response.json();
+      console.log('Fetched Users:', data); // Log the fetched data.
       setUsers(data);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
   };
 
+  // Delete single user.
   const handleDeleteUser = async (userId: number) => {
     try {
-      const response = await fetch(`/api/users/${userId}`, {
+      const response = await fetch(`http://localhost:5180/api/users/${userId}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
-        // If deletion is successful update user list.
+        // If deletion is successful, update user list.
         fetchUsers();
       } else {
         console.error('Error deleting user:', response.statusText);
@@ -112,17 +136,18 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
     }
   };
 
+  // Add single user.
   const handleAddUser = async () => {
     try {
-      const response = await fetch('/api/users', {
+      const response = await fetch('http://localhost:5180/api/users/${userId}', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          firstName: 'John', // Placeholder values.
-          lastName: 'Doe',
-          email: 'john.doe@example.com',
+          firstName: newUser.firstName,
+          lastName: newUser.lastName,
+          email: newUser.email,
           role: 'user',
           password: 'password123',
           access_token_identifier: 'access_token',
@@ -131,9 +156,14 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
       });
 
       if (response.ok) {
-        // If addition is successful --> update user list.
+        // If addition is successful, update user list.
         fetchUsers();
-        setNewUserName(''); // Clear input field.
+        // Clear input fields.
+        setNewUser({
+          firstName: '',
+          lastName: '',
+          email: '',
+        });
       } else {
         console.error('Error adding user:', response.statusText);
       }
@@ -145,26 +175,41 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
   return (
     <GrayBackground>
       <UserContainer>
-        <Heading>User Control</Heading>
-        {isAdmin && (
-          <div>
-            <SubHeading>Add User</SubHeading>
+        <Heading>Käyttäjien hallinta</Heading>
+
+        {!isAdmin && (
+          <FormContainer>
+            <SubHeading>Lisää uusi käyttäjä</SubHeading>
             <Input
               type="text"
-              value={newUserName}
-              onChange={(e) => setNewUserName(e.target.value)}
-              placeholder="Enter user name"
+              value={newUser.firstName}
+              onChange={(e) => setNewUser({ ...newUser, firstName: e.target.value })}
+              placeholder="Etunimi"
             />
-            <Button onClick={handleAddUser}>Add User</Button>
-          </div>
+            <Input
+              type="text"
+              value={newUser.lastName}
+              onChange={(e) => setNewUser({ ...newUser, lastName: e.target.value })}
+              placeholder="Sukunimi"
+            />
+            <Input
+              type="text"
+              value={newUser.email}
+              onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+              placeholder="Sähköposti"
+            />
+            <br />
+            <button onClick={handleAddUser}>Lisää</button>
+          </FormContainer>
         )}
-        <SubHeading>User List</SubHeading>
+
+        <SubHeading>Käyttäjälista</SubHeading>
         <UserList>
           {users.map((user) => (
             <UserListItem key={user.id}>
               {user.name}{' '}
               {isAdmin && (
-                <GrayButton onClick={() => handleDeleteUser(user.id)}>Delete</GrayButton>
+                <GrayButton onClick={() => handleDeleteUser(user.id)}>Poista</GrayButton>
               )}
             </UserListItem>
           ))}
