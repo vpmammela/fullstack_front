@@ -85,7 +85,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchLocations = async () => {
-      console.log("gheok")
+      
       try {
         const locationsData: { locations: LocationData[] } = await getLocations();
         const names = locationsData.locations.map(location => location.name);

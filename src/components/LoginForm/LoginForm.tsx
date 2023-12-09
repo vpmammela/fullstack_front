@@ -137,8 +137,8 @@ const LoginForm = () => {
   };
 
   return (
-    <ManagementReview></ManagementReview>
-    /*<AppContainer>
+    
+    <AppContainer>
       <LogoContainer>
         <Notification />
         <LogoImage src={logo} alt="Logo" />
@@ -170,7 +170,7 @@ const LoginForm = () => {
           </form>
         </LoginFormContent>
       </LoginFormContainer>
-    </AppContainer>*/
+    </AppContainer>
   );
 };
 
