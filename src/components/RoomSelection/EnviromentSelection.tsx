@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { getEnvironmentByLocationId } from "../../services/environment";
 
 
-const EnvironmentSelection: React.FC<{ setEnvironment_id: React.Dispatch<React.SetStateAction<string | null>>, location_id: string }> = ({ setEnvironment_id, location_id }) => {
+const EnvironmentSelection: React.FC<{ setEnvironment_id: React.Dispatch<React.SetStateAction<number | null>>, location_id: number }> = ({ setEnvironment_id, location_id }) => {
     const [selectedEnvironment, setSelectedEnvironment] = useState('');
     const [EnvironmentArray, setEnvironmentArray] = useState<EnvironmentData[]>([]);
 
@@ -28,8 +28,9 @@ const EnvironmentSelection: React.FC<{ setEnvironment_id: React.Dispatch<React.S
     }, [location_id]);
     const handleEnvironmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = e.target.value;
+        const numericValue = parseInt(selectedValue, 10); 
         setSelectedEnvironment(selectedValue);
-        setEnvironment_id(selectedValue);
+        setEnvironment_id(numericValue);
       };
   
       return(

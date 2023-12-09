@@ -1,7 +1,7 @@
 import { axiosInstance } from "../axios/instance";
 
 interface InspectionFormData {
-  environment_id: number,
+  environment_id: number | null,
   inspectiontarget_id: number,
   inspectiontype: string
 }

@@ -69,12 +69,11 @@ const RedButton = styled(Link)`
 
 
 export default function Home() {
-  const [location, setLocation] = useState('');
   const [location_id, setLocation_id] = useState('')
   const [locationsArray, setLocationsArray] = useState<string[]>([]);
 
   const { environment_id, setEnvironment_id } = useReviewContext();
-  const { inspectiontarget_id, setInspectiontarget_id } = useReviewContext();
+  const { setInspectiontarget_id } = useReviewContext();
 
   interface LocationData {
     name: string;
@@ -112,7 +111,7 @@ export default function Home() {
 
             {location_id && (
               <div className="selectStyle">
-                <EnvironmentSelection setEnvironment_id={setEnvironment_id} location_id={location_id}></EnvironmentSelection>
+                <EnvironmentSelection setEnvironment_id={setEnvironment_id} location_id={parseInt(location_id, 10)}></EnvironmentSelection>
                 <InspectionsTargetsSelectionByEnvironmentId setInspectiontarget_id={setInspectiontarget_id} environment_id={environment_id}></InspectionsTargetsSelectionByEnvironmentId>
                 <label>Valitse huone</label>
                 <select>
