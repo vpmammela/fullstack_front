@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import SlidingPanel from "../Instructions";
+import Notification from "./Notification/Notification";
 
 const HeaderContainer = styled.div`
   position: fixed;
@@ -115,6 +116,7 @@ export default function Header() {
 
   return (
     <HeaderContainer>
+      <Notification/>
       <LogoContainer>
         <LogoImage src={logo} alt="Logo" />
       </LogoContainer>

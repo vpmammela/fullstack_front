@@ -3,11 +3,11 @@ import "../styles.css";
 import { Form } from "react-router-dom";
 import { createInspectionResult } from "../../services/inspectionresult";
 import { createInspectionForm } from "../../services/inspectionform";
-import { createInspectionTarget, getInspectionTargetById, getInspectionTargetsByEnviromentsId } from "../../services/inspectiontarget";
+import { getInspectionTargetById, getInspectionTargetsByEnviromentsId } from "../../services/inspectiontarget";
 import styled from "styled-components";
 import { useReviewContext } from "../../ReviewContext";
 import Header from "../header";
-import axios from "axios";
+import { useNotification } from "../../NotificationContext";
 
 
 const GrayBackground = styled.div`
@@ -73,6 +73,7 @@ const evaluationMap: { [key: string]: number } = {
 };
 
 const SemesterReview = () => {
+  const { setNotification } = useNotification();
   const [description, setDescription] = useState('');
 
   const { environment_id } = useReviewContext();
@@ -135,34 +136,54 @@ const SemesterReview = () => {
   };
 
   // Sends form data and result data to backend
-  const sendResultData = async () => {
+  const sendResultData = async (inspectiontype: string) => {
     console.log(description)
 
-    const room = await getInspectionTargetById(inspectiontarget_id!);
-    const targets = await getInspectionTargetsByEnviromentsId(environment_id!);
+    let room: { name: string; } | null = null;
+    try {
+      room = await getInspectionTargetById(inspectiontarget_id!);
+    } catch (e) {
+      setNotification(`Virhe huoneen haussa: ${e}`)
+    }
+    let targets = null;
+    try {
+      targets = await getInspectionTargetsByEnviromentsId(environment_id!);
+    } catch (e) {
+      setNotification(`Virhe huoneen haussa: ${e}`)
+    }
     const target = targets.inspectiontargets.filter((target: { name: string; }) => target.name === room.name);
 
     const formData = {
       environment_id,
       inspectiontarget_id: target[0].id,
-      inspectiontype: "semester"
+      inspectiontype
     }
     
-     // Upload photo if available
-     if (photo) {
+    // Upload photo if available
+    if (photo) {
       const formData = new FormData();
       formData.append('photo', photo);
 
       // TODO: Replace with the actual API endpoint.
       //await axios.post('your-upload-api', formData);
     }
+
     // creates form
-    const inspectionform = await createInspectionForm(formData);
+    let inspectionform: { id: number; } | null = null;
+    try{
+      inspectionform = await createInspectionForm(formData);
+    } catch (e) {
+      setNotification(`Virhe katselmoinnin tallentamisessa: ${e}`)
+    }
 
     // creates all results
     Object.keys(questionsMap).forEach(async (category) => {
       const resultData = handleDataForResult(category, inspectionform.id);
-      await createInspectionResult(resultData)
+      try {
+        await createInspectionResult(resultData)
+      } catch (e) {
+        setNotification(`Virhe vastauksen tallentamisessa. Valitse jokaisesta kysymyksestä vaihtoehto: ${e}`)
+      }
     });
   };
 
@@ -211,7 +232,7 @@ const SemesterReview = () => {
                   </div>
                 </div>
               </div>
-
+              
               <div>
                 <h4>Ohjeistukset</h4>
                 <div>
@@ -230,7 +251,7 @@ const SemesterReview = () => {
                     <br/>
                     <label>Huomiot: </label>
                     <br/>
-                    <input type="text" name="instuctionsComment" onChange={(e) => handleTextChange('instructions', e.target.value)} />
+                    <input type="text" name="instructionsComment" onChange={(e) => handleTextChange('instructions', e.target.value)} />
                     <br />
                     <br />
                   </div>
@@ -343,7 +364,7 @@ const SemesterReview = () => {
             </div>
             <div>
               <br/>
-              <button type="button" onClick={sendResultData}>
+              <button type="button" onClick={() => sendResultData("safety")}>
                 Send Data
               </button>
               <br/>
