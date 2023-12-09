@@ -122,7 +122,7 @@ const LoginForm = () => {
     event.preventDefault();
 
     try {
-      //await authStore.login({ username, password });
+      await authStore.login({ username, password });
       authStore.isAuth = true;
 
       setUsername('');
