@@ -1,12 +1,12 @@
 import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSmile, faMeh, faFrown } from '@fortawesome/free-solid-svg-icons';
 import '../styles.css';
-import redSnow from '../../Images/redsnow.jpg';
-import logo from '../../Images/logo.png';
+import { useReviewContext } from "../../ReviewContext";
+import { useNotification } from "../../NotificationContext";
 import Header from '../header';
 import { getInspectionTargetById, getInspectionTargetsByEnviromentsId } from '../../services/inspectiontarget';
+import { createInspectionResult } from "../../services/inspectionresult";
+import { createInspectionForm } from "../../services/inspectionform";
 
 const ManagementReviewContainer = styled.div`
   position: relative;
@@ -56,6 +56,7 @@ const FormRow = styled.tr`
   flex-direction: column;
   align-items: stretch;
   margin-bottom: 10px;
+  margin-top:10px
 `;
 
 const FormLabel = styled.label`
@@ -89,6 +90,7 @@ const FileInput = styled.input`
 const IconSize = '3x';
 
 const FromThead = styled.thead`
+
 `
 const FromTd = styled.td`
   background-color: white;
@@ -125,39 +127,157 @@ const SaveButton = styled.button`
 `;
 
 
+interface FormData {
+  [key: string]: {
+    condition: string;
+    note: string;
+  };
+}
+interface ResultData {
+  value: number;
+  note: string;
+  title: string;
+  inspectionform_id: number;
+}
+
+const evaluationMap: { [key: string]: number } = {
+  heikko: 0,
+  puutteelinen: 1,
+  perustaso: 2,
+  sitoutunut: 3,
+  edelläkävijä: 4
+};
+
 const ManagementReview = () => {
+
+  // Initialize state to store selected values and notes
+  const [formData, setFormData] = useState<FormData>({
+    question1: { condition: '', note: '' },
+    question2: { condition: '', note: '' },
+    question3: { condition: '', note: '' },
+    question4: { condition: '', note: '' },
+    question5: { condition: '', note: '' },
+    question6: { condition: '', note: '' },
+    question7: { condition: '', note: '' },
+  });
+
+  const { environment_id } = useReviewContext();
+  const { inspectiontarget_id } = useReviewContext();
   const [photo, setPhoto] = useState<File | null>(null);
-  const [selectedMood, setSelectedMood] = useState<string>(''); // 'happy', 'neutral', 'sad'
   const [answers, setAnswers] = useState({});
+  const [description, setDescription] = useState('');
+  const { setNotification } = useNotification();
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     setPhoto(file || null);
   };
 
-  const handleMoodSelection = (mood: string) => {
-    setSelectedMood(mood);
+   // Event handler for the "description" input field
+   const handleDescriptionChange = (e: { target: { value: any; }; }) => {
+    const newDescription = e.target.value;
+    setDescription(newDescription);
+  };
+// Function to handle radio button changes
+  const handleRadioChange = (category: string, property: 'condition', value: string) => {
+    setFormData((prevData) => ( console.log("p",prevData),{
+      ...prevData,
+      [category]: { ...prevData[category], [property]: value },
+    }));
+    console.log("######",JSON.stringify(FormData, null, 2))
   };
 
-  const questions = [
+    // Function to handle text input changes
+    const handleTextChange = (category: string, note: string) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [category]: { ...prevData[category], note },
+    }));
+  };
+
+   // Function to handle data for result
+   const handleDataForResult = (category: string, inspectionform_id: number): ResultData => {
+    console.log("FORMDATA", formData)
+
+    const { condition, note } = formData[category];
+    const value = evaluationMap[condition];
+    console.log("value", value)
+    return {
+      value,
+      note,
+      title: questions[category] || 'Unknown Question',
+      inspectionform_id
+    };
+  };
+
+  // Sends form data and result data to backend
+  const sendResultData = async (inspectiontype: string) => {
+    console.log(description)
+
+    let room: { name: string; } | null = null;
+    try {
+      room = await getInspectionTargetById(inspectiontarget_id!);
+    } catch (e) {
+      setNotification(`Virhe huoneen haussa: ${e}`)
+    }
+    let targets = null;
+    try {
+      targets = await getInspectionTargetsByEnviromentsId(environment_id!);
+    } catch (e) {
+      setNotification(`Virhe huoneen haussa: ${e}`)
+    }
+    const target = targets.inspectiontargets.filter((target: { name: string; }) => target.name === room.name);
+
+    const formData = {
+      environment_id,
+      inspectiontarget_id: target[0].id,
+      inspectiontype
+    }
+    
+    // Upload photo if available
+    if (photo) {
+      const formData = new FormData();
+      formData.append('photo', photo);
+
+      // TODO: Replace with the actual API endpoint.
+      //await axios.post('your-upload-api', formData);
+    }
+
+    // creates form
+    let inspectionform: { id: number; } | null = null;
+    try{
+      inspectionform = await createInspectionForm(formData);
+    } catch (e) {
+      setNotification(`Virhe katselmoinnin tallentamisessa: ${e}`)
+    }
+
+    // creates all results
+    Object.keys(questions).forEach(async (category) => {
+      const resultData = handleDataForResult(category, inspectionform.id);
+      try {
+        await createInspectionResult(resultData)
+      } catch (e) {
+        setNotification(`Virhe vastauksen tallentamisessa. Valitse jokaisesta kysymyksestä vaihtoehto: ${e}`)
+      }
+    });
+  };
+
+
+
+  const questions =[
     'Yleinen vuosi- ja turvallisuuskatselmointien tilanne',
     '6S-toiminnan tavoitteet',
     '6S-vuosikello ja päivitystarpeet',
     '6S-dokumentaatio ja dokumenttien säilytyspaikka',
-    '6S-toiminnassa havaitutu kehitysehdotukset ja niiden edistyminen - kehitysideapankki',
+   '6S-toiminnassa havaitutu kehitysehdotukset ja niiden edistyminen - kehitysideapankki',
     '6s-resurssoinnin toimivuus ja roolit',
     '6S-viestintä ja brändi'
-  ];
-  
-  const ratingOptions = ['HEIKKO', 'PUUTTEELLINEN', 'PERUSTASO', 'SITOUTUNUT', 'EDELLÄKÄVIÄ'];
+];
+  const questionsManagement =['Johtamisen portaikko - tason arviointi']
 
- /*  const handleRadioChange = (questionIndex, rating) => {
-    setAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [questionIndex]: rating,
-    }));
-  };
- */
+  const ratingOptions = ['HEIKKO', 'PUUTTEELLINEN', 'PERUSTASO', 'SITOUTUNUT', 'EDELLÄKÄVIÄ', 'HUOMIOT'];
+
+
     
   return (
     <ManagementReviewContainer>
@@ -167,12 +287,12 @@ const ManagementReview = () => {
         <FormTable className="table">
         <FromThead>
         <FormTitle>Toimintamallin katselmointi</FormTitle>
-        <tr>
-          <th>AIHE</th>
-          {ratingOptions.map((option, index) => (
-            <th key={index}>{option}</th>
-          ))}
-        </tr>
+          <tr>
+            <th>AIHE</th>
+            {ratingOptions.map((option, index) => (
+              <th key={index}>{option}</th>
+            ))}
+          </tr>
         </FromThead>
           <tbody>
             {questions.map((question, questionIndex) => (
@@ -180,31 +300,73 @@ const ManagementReview = () => {
               <FromTd>{question}</FromTd>
               {ratingOptions.map((option, optionIndex) => (
                 <FromTd key={optionIndex}>
+                {option !== 'HUOMIOT' ? (
                   <RadioInput
                     type="radio"
                     name={`question${questionIndex}`}
                     value={option}
                     //checked={answers[questionIndex] === option}
-                    onChange={() => handleRadioChange(questionIndex, option)}
+                    onChange={() => handleRadioChange('general', 'condition', option)}
                   />
+                ) : (
+                  <input
+                    type="text"
+                    name="generalComment"
+                    onChange={(e) => handleTextChange('general', e.target.value)}
+                  />
+                )}
+                </FromTd>
+             
+              ))}
+            </tr>
+            ))}
+            </tbody>
+            <FromThead>
+              <FormTitle>Johtamisen katselmointi</FormTitle>
+                <tr>
+                  <th>AIHE</th>
+                  {ratingOptions.map((option, index) => (
+                    <th key={index}>{option}</th>
+                  ))}
+                </tr>
+            </FromThead>
+            <tbody>
+              {questionsManagement.map((question, questionIndex) => (
+            <tr key={questionIndex}>
+              <FromTd>{question}</FromTd>
+              {ratingOptions.map((option, optionIndex) => (
+                <FromTd key={optionIndex}>
+                {option !== 'HUOMIOT' ? (
+                  <RadioInput
+                    type="radio"
+                    name={`question${questionIndex}`}
+                    value={option}
+                    //checked={answers[questionIndex] === option}
+                    onChange={() => handleRadioChange('general', 'condition', option)}
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    name="generalComment"
+                    onChange={(e) => handleTextChange('general', e.target.value)}
+                  />
+                )}
                 </FromTd>
               ))}
             </tr>
             ))}
-            <FormRow>
-              <FormTitle>Johtamisen katselmointi</FormTitle>
-
-            </FormRow>
+            </tbody>
+            <tbody>
             <FormRow>
               <td>
                 <FormLabel>Muita Huomiota</FormLabel>
-                <FormInput type="text" id="comments1" />
+                <FormInput type="text" id="comments1" onChange={handleDescriptionChange}/>
               </td>
             </FormRow>
             <FormRow>
               <td>
                 <FormLabel htmlFor="comments1">Mitä positiivista olet huomannut tarkastusjaksolla? Palkitsemusehdotus</FormLabel>
-                <FormInput type="text" id="comments2" />
+                <FormInput type="text" id="comments2" onChange={handleDescriptionChange}/>
               </td>
             </FormRow>
             <FormRow>
@@ -213,14 +375,14 @@ const ManagementReview = () => {
                   Valitse kuva
                   <FileInput
                     type="file"
-                    accept="image/*"
+                    accept="image"
                     capture="environment"
                     onChange={handleFileChange}
                   />
                 </FormLabel>
               </td>
             </FormRow>
-          </tbody>
+            </tbody>
           <br/>
         <br/>
         <div>
