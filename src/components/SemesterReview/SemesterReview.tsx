@@ -44,7 +44,7 @@ const FormInput = styled.input`
 
 interface FormData {
   [key: string]: {
-    condition: string;
+    condition: number | null;
     note: string;
   };
 }
@@ -65,12 +65,6 @@ const questionsMap: Record<string, string> = {
   equipment: "Onko laitteet ajantasalla kalustonhallintajärjestelmässä?",
 };
 
-const evaluationMap: { [key: string]: number } = {
-  inadequate: 1,
-  involved: 2,
-  precursor: 3,
-  notaApplicable: 0,
-};
 
 const SemesterReview = () => {
   const { setNotification } = useNotification();
@@ -91,12 +85,12 @@ const SemesterReview = () => {
 
   // Initialize state to store selected values and notes
   const [formData, setFormData] = useState<FormData>({
-    general: { condition: '', note: '' },
-    instructions: { condition: '', note: '' },
-    safety: { condition: '', note: '' },
-    waste: { condition: '', note: '' },
-    chemicals: { condition: '', note: '' },
-    equipment: { condition: '', note: '' },
+    general: { condition: null, note: '' },
+    instructions: { condition: null, note: '' },
+    safety: { condition: null, note: '' },
+    waste: { condition: null, note: '' },
+    chemicals: { condition: null, note: '' },
+    equipment: { condition: null, note: '' },
   });
 
   // Event handler for the "description" input field
@@ -109,7 +103,7 @@ const SemesterReview = () => {
   const handleRadioChange = (category: string, property: 'condition', value: string) => {
     setFormData((prevData) => ({
       ...prevData,
-      [category]: { ...prevData[category], [property]: value },
+      [category]: { ...prevData[category], [property]: parseInt(value, 10) },
     }));
   };
 
@@ -125,7 +119,7 @@ const SemesterReview = () => {
   // Function to handle data for result
   const handleDataForResult = (category: string, inspectionform_id: number): ResultData => {
     const { condition, note } = formData[category];
-    const value = evaluationMap[condition];
+    const value = condition!;
 
     return {
       value,
@@ -216,13 +210,13 @@ const SemesterReview = () => {
                   <div>
                     <br/>
                     <label>Puutteellinen</label>
-                    <input type="radio" value="inadequate" name="general" onChange={() => handleRadioChange('general', 'condition', 'inadequate')} />
+                    <input type="radio" value="1" name="general" onChange={() => handleRadioChange('general', 'condition', '1')} />
                     <label>Sitoutunut</label>
-                    <input type="radio" value="involved" name="general" onChange={() => handleRadioChange('general', 'condition', 'involved')} />
+                    <input type="radio" value="2" name="general" onChange={() => handleRadioChange('general', 'condition', '2')} />
                     <label>Edelläkävijä</label>
-                    <input type="radio" value="precursor" name="general" onChange={() => handleRadioChange('general', 'condition', 'precursor')} />
+                    <input type="radio" value="3" name="general" onChange={() => handleRadioChange('general', 'condition', '3')} />
                     <label>Ei sovellettavissa</label>
-                    <input type="radio" value="notaApplicable" name="general" onChange={() => handleRadioChange('general', 'condition', 'notaApplicable')} />
+                    <input type="radio" value="0" name="general" onChange={() => handleRadioChange('general', 'condition', '0')} />
                     <br />
                     <br/>
                     <label>Huomiot: </label>
@@ -241,13 +235,13 @@ const SemesterReview = () => {
                   <div>
                     <br/>
                     <label>Puutteellinen</label>
-                    <input type="radio" value="inadequate" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'inadequate')} />
+                    <input type="radio" value="1" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', '1')} />
                     <label>Sitoutunut</label>
-                    <input type="radio" value="involved" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'involved')} />
+                    <input type="radio" value="2" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', '2')} />
                     <label>Edelläkävijä</label>
-                    <input type="radio" value="precursor" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'precursor')} />
+                    <input type="radio" value="3" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', '3')} />
                     <label>Ei sovellettavissa</label>
-                    <input type="radio" value="notaApplicable" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', 'notaApplicable')} />
+                    <input type="radio" value="0" name="instructions" onChange={() => handleRadioChange('instructions', 'condition', '0')} />
                     <br />
                     <br/>
                     <label>Huomiot: </label>
@@ -266,13 +260,13 @@ const SemesterReview = () => {
                   <div>
                   <br/>
                     <label>Puutteellinen</label>
-                    <input type="radio" value="inadequate" name="safety" onChange={() => handleRadioChange('safety', 'condition', 'inadequate')} />
+                    <input type="radio" value="1" name="safety" onChange={() => handleRadioChange('safety', 'condition', '1')} />
                     <label>Sitoutunut</label>
-                    <input type="radio" value="involved" name="safety" onChange={() => handleRadioChange('safety', 'condition', 'involved')} />
+                    <input type="radio" value="2" name="safety" onChange={() => handleRadioChange('safety', 'condition', '2')} />
                     <label>Edelläkävijä</label>
-                    <input type="radio" value="precursor" name="safety" onChange={() => handleRadioChange('safety', 'condition', 'precursor')} />
+                    <input type="radio" value="3" name="safety" onChange={() => handleRadioChange('safety', 'condition', '3')} />
                     <label>Ei sovellettavissa</label>
-                    <input type="radio" value="notaApplicable" name="safety" onChange={() => handleRadioChange('safety', 'condition', 'notaApplicable')} />
+                    <input type="radio" value="0" name="safety" onChange={() => handleRadioChange('safety', 'condition', '0')} />
                     <br />
                     <br/>
                     <label>Huomiot: </label>
@@ -291,13 +285,13 @@ const SemesterReview = () => {
                   <div>
                     <br/>
                     <label>Puutteellinen</label>
-                    <input type="radio" value="inadequate" name="waste" onChange={() => handleRadioChange('waste', 'condition', 'inadequate')} />
+                    <input type="radio" value="1" name="waste" onChange={() => handleRadioChange('waste', 'condition', '1')} />
                     <label>Sitoutunut</label>
-                    <input type="radio" value="involved" name="waste" onChange={() => handleRadioChange('waste', 'condition', 'involved')} />
+                    <input type="radio" value="2" name="waste" onChange={() => handleRadioChange('waste', 'condition', '2')} />
                     <label>Edelläkävijä</label>
-                    <input type="radio" value="precursor" name="waste" onChange={() => handleRadioChange('waste', 'condition', 'precursor')} />
+                    <input type="radio" value="3" name="waste" onChange={() => handleRadioChange('waste', 'condition', '3')} />
                     <label>Ei sovellettavissa</label>
-                    <input type="radio" value="notaApplicable" name="waste" onChange={() => handleRadioChange('waste', 'condition', 'notaApplicable')} />
+                    <input type="radio" value="0" name="waste" onChange={() => handleRadioChange('waste', 'condition', '0')} />
                     <br />
                     <br/>
                     <label>Huomiot: </label>
@@ -316,13 +310,13 @@ const SemesterReview = () => {
                   <div>
                     <br/>
                     <label>Puutteellinen</label>
-                    <input type="radio" value="inadequate" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'inadequate')} />
+                    <input type="radio" value="1" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', '1')} />
                     <label>Sitoutunut</label>
-                    <input type="radio" value="involved" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'involved')} />
+                    <input type="radio" value="2" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', '2')} />
                     <label>Edelläkävijä</label>
-                    <input type="radio" value="precursor" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'precursor')} />
+                    <input type="radio" value="3" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', '3')} />
                     <label>Ei sovellettavissa</label>
-                    <input type="radio" value="notaApplicable" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', 'notaApplicable')} />
+                    <input type="radio" value="0" name="chemicals" onChange={() => handleRadioChange('chemicals', 'condition', '0')} />
                     <br />
                     <br/>
                     <label>Huomiot: </label>
@@ -341,13 +335,13 @@ const SemesterReview = () => {
                   <div>
                     <br/>
                     <label>Puutteellinen</label>
-                    <input type="radio" value="inadequate" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', 'inadequate')} />
+                    <input type="radio" value="1" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', '1')} />
                     <label>Sitoutunut</label>
-                    <input type="radio" value="involved" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', 'involved')} />
+                    <input type="radio" value="2" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', '2')} />
                     <label>Edelläkävijä</label>
-                    <input type="radio" value="precursor" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', 'precursor')} />
+                    <input type="radio" value="3" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', '3')} />
                     <label>Ei sovellettavissa</label>
-                    <input type="radio" value="notaApplicable" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', 'notaApplicable')} />
+                    <input type="radio" value="0" name="equipment" onChange={() => handleRadioChange('equipment', 'condition', '0')} />
                     <br/>
                     <br/>
                     <label>Huomiot</label>
@@ -390,13 +384,13 @@ const SemesterReview = () => {
               <label>Onko yleisilme siisi? Millä tasolla päivittäiskatselmointien tulokset ovat? Onko havaittuihin poikkeamiin reagoitu?</label>
               <div>
               <label>Puutteellinen</label>
-                <input type="radio" value="inadequate" name="condition"/>
+                <input type="radio" value="1" name="condition"/>
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="condition"/>
+                <input type="radio" value="2" name="condition"/>
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="condition"/>
+                <input type="radio" value="3" name="condition"/>
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="condition"/>
+                <input type="radio" value="4" name="condition"/>
                 <label>Huomiot</label>
                 <input type="text" name="attentions"/>
               </div>
@@ -409,13 +403,13 @@ const SemesterReview = () => {
               <label>Onko ohjeistukset saatavilla ja ajantasaiset? Noudatetaanko annettuja ohjeita?</label>
               <div>
               <label>Puutteellinen</label>
-                <input type="radio" value="inadequate" name="condition"/>
+                <input type="radio" value="1" name="condition"/>
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="condition"/>
+                <input type="radio" value="2" name="condition"/>
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="condition"/>
+                <input type="radio" value="3" name="condition"/>
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="condition"/>
+                <input type="radio" value="4" name="condition"/>
                 <label>Huomiot</label>
                 <input type="text" name="attentions"/>
               </div>
@@ -428,13 +422,13 @@ const SemesterReview = () => {
               <label>Turvallisuushavaitojen läpikäynti, koneiden ja laitteiden kunto ja turvallisuus, henkilösuojaimet</label>
               <div>
               <label>Puutteellinen</label>
-                <input type="radio" value="inadequate" name="condition"/>
+                <input type="radio" value="1" name="condition"/>
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="condition"/>
+                <input type="radio" value="2" name="condition"/>
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="condition"/>
+                <input type="radio" value="3" name="condition"/>
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="condition"/>
+                <input type="radio" value="4" name="condition"/>
                 <label>Huomiot</label>
                 <input type="text" name="attentions"/>
               </div>
@@ -447,13 +441,13 @@ const SemesterReview = () => {
               <label>Onko syntyvät erityisjätteet tunnistettu? Onko tarpeelliset kierrätysastiat saatavilla? Huolehditaanko tarvittavat tyhjennykset?</label>
               <div>
               <label>Puutteellinen</label>
-                <input type="radio" value="inadequate" name="condition"/>
+                <input type="radio" value="1" name="condition"/>
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="condition"/>
+                <input type="radio" value="2" name="condition"/>
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="condition"/>
+                <input type="radio" value="3" name="condition"/>
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="condition"/>
+                <input type="radio" value="4" name="condition"/>
                 <label>Huomiot</label>
                 <input type="text" name="attentions"/>
              </div>
@@ -466,13 +460,13 @@ const SemesterReview = () => {
               <label>Onko kemikaaliluettelot ajantasalla? Säilytetäänkö kemikaalit asianmukaisesti? Onko varoitusmerkit ja käyttöturvatiedotteet saatavilla?</label>
               <div>
               <label>Puutteellinen</label>
-                <input type="radio" value="inadequate" name="condition"/>
+                <input type="radio" value="1" name="condition"/>
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="condition"/>
+                <input type="radio" value="2" name="condition"/>
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="condition"/>
+                <input type="radio" value="3" name="condition"/>
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="condition"/>
+                <input type="radio" value="4" name="condition"/>
                 <label>Huomiot</label>
                 <input type="text" name="attentions"/>
               </div>
@@ -485,13 +479,13 @@ const SemesterReview = () => {
               <label>Onko laitteet ajantasalla kalustonhallintajärjestelmässä? </label>
               <div>
               <label>Puutteellinen</label>
-                <input type="radio" value="inadequate" name="condition"/>
+                <input type="radio" value="1" name="condition"/>
                 <label>Sitoutunut</label>
-                <input type="radio" value="involved" name="condition"/>
+                <input type="radio" value="2" name="condition"/>
                 <label>Edelläkävijä</label>
-                <input type="radio" value="precursor" name="condition"/>
+                <input type="radio" value="3" name="condition"/>
                 <label>Ei sovellettavissa</label>
-                <input type="radio" value="notaApplicable" name="condition"/>
+                <input type="radio" value="4" name="condition"/>
                 <label>Huomiot</label>
                 <input type="text" name="attentions"/>
               </div>
