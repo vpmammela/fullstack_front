@@ -148,6 +148,7 @@ const ManagementReview = () => {
     '6s-resurssoinnin toimivuus ja roolit',
     '6S-viestintä ja brändi'
   ];
+  
   const ratingOptions = ['HEIKKO', 'PUUTTEELLINEN', 'PERUSTASO', 'SITOUTUNUT', 'EDELLÄKÄVIÄ'];
 
  /*  const handleRadioChange = (questionIndex, rating) => {
@@ -174,22 +175,26 @@ const ManagementReview = () => {
         </tr>
         </FromThead>
           <tbody>
-          {questions.map((question, questionIndex) => (
-          <tr key={questionIndex}>
-            <FromTd>{question}</FromTd>
-            {ratingOptions.map((option, optionIndex) => (
-              <FromTd key={optionIndex}>
-                <RadioInput
-                  type="radio"
-                  name={`question${questionIndex}`}
-                  value={option}
-                  //checked={answers[questionIndex] === option}
-                  onChange={() => handleRadioChange(questionIndex, option)}
-                />
-              </FromTd>
+            {questions.map((question, questionIndex) => (
+            <tr key={questionIndex}>
+              <FromTd>{question}</FromTd>
+              {ratingOptions.map((option, optionIndex) => (
+                <FromTd key={optionIndex}>
+                  <RadioInput
+                    type="radio"
+                    name={`question${questionIndex}`}
+                    value={option}
+                    //checked={answers[questionIndex] === option}
+                    onChange={() => handleRadioChange(questionIndex, option)}
+                  />
+                </FromTd>
+              ))}
+            </tr>
             ))}
-          </tr>
-          ))}
+            <FormRow>
+              <FormTitle>Johtamisen katselmointi</FormTitle>
+
+            </FormRow>
             <FormRow>
               <td>
                 <FormLabel>Muita Huomiota</FormLabel>
