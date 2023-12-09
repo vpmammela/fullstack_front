@@ -73,7 +73,7 @@ const SaveButton = styled.button`
 
 interface FormData {
   [key: string]: {
-    condition: number | null;
+    condition: string;
     note: string;
   };
 }
@@ -117,24 +117,24 @@ const SafetyReview = () => {
   };
 
   const [formData, setFormData] = useState<FormData>({
-    general: { condition: null, note: '' },
-    instructions: { condition: null, note: '' },
-    risk: { condition: null, note: '' },
-    protection: { condition: null, note: '' },
-    firstAid: { condition: null, note: '' },
-    chemicals: { condition: null, note: '' },
-    explosion: { condition: null, note: '' },
-    radiation: { condition: null, note: '' },
-    observations: { condition: null, note: '' },
-    otherComments: { condition: null, note: '' },
-    positiveObservations: { condition: null, note: '' },
+    general: { condition: '0', note: '' },
+    instructions: { condition: '0', note: '' },
+    risk: { condition: '0', note: '' },
+    protection: { condition: '0', note: '' },
+    firstAid: { condition: '0', note: '' },
+    chemicals: { condition: '0', note: '' },
+    explosion: { condition: '0', note: '' },
+    radiation: { condition: '0', note: '' },
+    observations: { condition: '0', note: '' },
+    otherComments: { condition: '0', note: '' },
+    positiveObservations: { condition: '0', note: '' },
   });
 
   // Function to handle radio button changes
   const handleRadioChange = (category: string, property: 'condition', value: string) => {
     setFormData((prevData) => ({
       ...prevData,
-      [category]: { ...prevData[category], [property]: parseInt(value, 10) },
+      [category]: { ...prevData[category], [property]: value},
     }));
   };
 
@@ -149,7 +149,7 @@ const SafetyReview = () => {
   // Function to handle data for result
   const handleDataForResult = (category: string, inspectionform_id: number): ResultData => {
     const { condition, note } = formData[category];
-    const value = condition!;
+    const value = parseInt(condition, 10);
 
     return {
       value,
@@ -205,7 +205,7 @@ const SafetyReview = () => {
       try {
         await createInspectionResult(resultData)
       } catch (e) {
-        setNotification(`Virhe vastauksen tallentamisessa. Valitse jokaisesta kysymyksestä vaihtoehto: ${e}`)
+        setNotification(`Virhe vastauksen tallentamisessa: ${e}`)
       }
     });
   };

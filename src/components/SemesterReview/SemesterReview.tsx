@@ -44,7 +44,7 @@ const FormInput = styled.input`
 
 interface FormData {
   [key: string]: {
-    condition: number | null;
+    condition: string;
     note: string;
   };
 }
@@ -85,12 +85,12 @@ const SemesterReview = () => {
 
   // Initialize state to store selected values and notes
   const [formData, setFormData] = useState<FormData>({
-    general: { condition: null, note: '' },
-    instructions: { condition: null, note: '' },
-    safety: { condition: null, note: '' },
-    waste: { condition: null, note: '' },
-    chemicals: { condition: null, note: '' },
-    equipment: { condition: null, note: '' },
+    general: { condition: '0', note: '' },
+    instructions: { condition: '0', note: '' },
+    safety: { condition: '0', note: '' },
+    waste: { condition: '0', note: '' },
+    chemicals: { condition: '0', note: '' },
+    equipment: { condition: '0', note: '' },
   });
 
   // Event handler for the "description" input field
@@ -103,7 +103,7 @@ const SemesterReview = () => {
   const handleRadioChange = (category: string, property: 'condition', value: string) => {
     setFormData((prevData) => ({
       ...prevData,
-      [category]: { ...prevData[category], [property]: parseInt(value, 10) },
+      [category]: { ...prevData[category], [property]: value },
     }));
   };
 
@@ -119,7 +119,7 @@ const SemesterReview = () => {
   // Function to handle data for result
   const handleDataForResult = (category: string, inspectionform_id: number): ResultData => {
     const { condition, note } = formData[category];
-    const value = condition!;
+    const value = parseInt(condition, 10);
 
     return {
       value,
@@ -177,7 +177,7 @@ const SemesterReview = () => {
       try {
         await createInspectionResult(resultData)
       } catch (e) {
-        setNotification(`Virhe vastauksen tallentamisessa. Valitse jokaisesta kysymyksestä vaihtoehto: ${e}`)
+        setNotification(`Virhe vastauksen tallentamisessa: ${e}`)
       }
     });
   };
