@@ -3,7 +3,23 @@ import { redirect, useNavigate } from "react-router-dom";
 import { createLocation } from "../services/locations";
 import { AxiosError } from "axios";
 import { useNotification } from "../NotificationContext";
+import styled from "styled-components";
 
+const GrayBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const FormContainer = styled.div`
+  width: 50%;
+`;
 
 const CreateLocation = () => {
   const [name, setName] = useState("");
@@ -19,7 +35,7 @@ const CreateLocation = () => {
     function isAxiosError(error: unknown): error is AxiosError {
       return (error as AxiosError).isAxiosError !== undefined;
     }
-    
+
     try {
       const location = await createLocation({ name, address, zipcode, city });
       setNotification(`Created Location: ${name}, ${address}, ${zipcode} ${city}`);
@@ -33,59 +49,63 @@ const CreateLocation = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Toimipaikan nimi</label>
-          <input
-            id="name"
-            type="text"
-            value={name}
-            name="name"
-            onChange={({ target }) => setName(target.value)}
-            placeholder="Name"
-          />
-        </div>
+      <GrayBackground>
+        <FormContainer>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label>Toimipaikan nimi</label>
+              <input
+                id="name"
+                type="text"
+                value={name}
+                name="name"
+                onChange={({ target }) => setName(target.value)}
+                placeholder="Name"
+              />
+            </div>
 
-        <div>
-          <label>Osoite</label>
-          <input
-            id="address"
-            type="text"
-            value={address}
-            name="address"
-            onChange={({ target }) => setAddress(target.value)}
-            placeholder="Address"
-          />
-        </div>
+            <div>
+              <label>Osoite</label>
+              <input
+                id="address"
+                type="text"
+                value={address}
+                name="address"
+                onChange={({ target }) => setAddress(target.value)}
+                placeholder="Address"
+              />
+            </div>
 
-        <div>
-          <label>Postinumero</label>
-          <input
-            id="zipcode"
-            type="text"
-            value={zipcode}
-            name="zipcode"
-            onChange={({ target }) => setZipcode(target.value)}
-            placeholder="Zipcode"
-          />
-        </div>
+            <div>
+              <label>Postinumero</label>
+              <input
+                id="zipcode"
+                type="text"
+                value={zipcode}
+                name="zipcode"
+                onChange={({ target }) => setZipcode(target.value)}
+                placeholder="Zipcode"
+              />
+            </div>
 
-        <div>
-          <label>Kaupunki</label>
-          <input
-            id="city"
-            type="text"
-            value={city}
-            name="city"
-            onChange={({ target }) => setCity(target.value)}
-            placeholder="City"
-          />
-        </div>
+            <div>
+              <label>Kaupunki</label>
+              <input
+                id="city"
+                type="text"
+                value={city}
+                name="city"
+                onChange={({ target }) => setCity(target.value)}
+                placeholder="City"
+              />
+            </div>
 
-        <div>
-          <button type="submit">Tallenna</button>
-        </div>
-      </form>
+            <div>
+              <button type="submit">Tallenna</button>
+            </div>
+          </form>
+        </FormContainer>
+      </GrayBackground>
     </div>
   );
 }
