@@ -87,7 +87,8 @@ interface User {
   id: number;
   firstName: string;
   lastName: string;
-  email: string;
+  username: string;
+  role: string;
 }
 
 interface UserControlProps {
@@ -100,6 +101,8 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
     firstName: '',
     lastName: '',
     email: '',
+    role: '',
+    password: ''
   });
 
   useEffect(() => {
@@ -109,10 +112,10 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:5180/api/users');
+      const response = await fetch('https://localhost:5180/api/v1/users');
       const data = await response.json();
       console.log('Fetched Users:', data); // Log the fetched data.
-      setUsers(data);
+      setUsers(data.users);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -121,7 +124,7 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
   // Delete single user.
   const handleDeleteUser = async (userId: number) => {
     try {
-      const response = await fetch(`http://localhost:5180/api/users/${userId}`, {
+      const response = await fetch(`https://localhost:5180/api/v1/users/${userId}`, {
         method: 'DELETE',
       });
 
@@ -139,7 +142,7 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
   // Add single user.
   const handleAddUser = async () => {
     try {
-      const response = await fetch('http://localhost:5180/api/users/${userId}', {
+      const response = await fetch('https://localhost:5180/api/v1/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -147,11 +150,9 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
         body: JSON.stringify({
           firstName: newUser.firstName,
           lastName: newUser.lastName,
-          email: newUser.email,
-          role: 'user',
-          password: 'password123',
-          access_token_identifier: 'access_token',
-          refresh_token_identifier: 'refresh_token',
+          username: newUser.email,
+          role: newUser.role,
+          password: newUser.password,
         }),
       });
 
@@ -163,6 +164,8 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
           firstName: '',
           lastName: '',
           email: '',
+          role: '',
+          password: ''
         });
       } else {
         console.error('Error adding user:', response.statusText);
@@ -198,6 +201,18 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
               onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
               placeholder="Sähköposti"
             />
+            <Input
+              type="text"
+              value={newUser.role}
+              onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+              placeholder="Rooli"
+            />
+            <Input
+              type="text"
+              value={newUser.password}
+              onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+              placeholder="Salasana"
+            />
             <br />
             <button onClick={handleAddUser}>Lisää</button>
           </FormContainer>
@@ -207,7 +222,7 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
         <UserList>
           {users.map((user) => (
             <UserListItem key={user.id}>
-              {user.name}{' '}
+              {user.firstName} {user.lastName}{' '}
               {isAdmin && (
                 <GrayButton onClick={() => handleDeleteUser(user.id)}>Poista</GrayButton>
               )}
