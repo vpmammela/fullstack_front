@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
+import { Form } from "react-router-dom";
 import '../styles.css';
 import { useReviewContext } from "../../ReviewContext";
 import { useNotification } from "../../NotificationContext";
@@ -8,122 +9,36 @@ import { getInspectionTargetById, getInspectionTargetsByEnviromentsId } from '..
 import { createInspectionResult } from "../../services/inspectionresult";
 import { createInspectionForm } from "../../services/inspectionform";
 
-const ManagementReviewContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-size: cover;
-  background-position: center;
-  overflow: hidden; /* Scrolling disabled */
-`;
-
-// Background for form.
 const GrayBackground = styled.div`
-  position: absolute;
-  top: 65%;
+  position: fixed; /* Fixed position to keep it visible while scrolling */
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  max-height: 80vh; 
-  background-color: #e7e7e7;
-
-  overflow: auto;
+  height: 100vh;
+  background-color: lightgray;
+  border-top-left-radius: 0% 50px;
+  border-top-right-radius: 0% 50px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  z-index: 1; /* Ensure it's above the photo container */
 `;
 
-const FormTable = styled.table`
-  width: 100%;
-  max-width: 400px;
-  background-color: white;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  
-`;
-
-const FormRow = styled.tr`
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  margin-bottom: 10px;
-  margin-top:10px
-`;
-
-const FormLabel = styled.label`
-  margin-bottom: 5px;
-`;
-
+const FormContainer = styled.div`
+  padding-top: 185px;
+  height: 100%;
+  align-items: center;
+  overflow-y: auto;
+  width: 100vh;
+`
 const FormInput = styled.input`
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
   margin-bottom: 10px;
-`;
-
-const IconButtonContainer = styled.div`
-  display: flex;
-  margin-bottom: 10px;
-`;
-
-const IconButton = styled.button`
-  background-color: ${(props) => props.color || 'transparent'};
-  border: none;
-  margin-right: 5px;
-  padding: 0;
-  cursor: pointer;
-`;
-
-const FileInput = styled.input`
-  margin-top: 5px;
-`;
-
-const IconSize = '3x';
-
-const FromThead = styled.thead`
-
-`
-const FromTd = styled.td`
-  background-color: white;
-  color: #333;
-  border-bottom: 1px solid #e9e9e9;
-  text-align: left;
-  padding: 15px;
-  position: relative;`
-
-  const RadioInput = styled.input`
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-`
-const FormTitle =styled.h3`
-display: grid;
-  place-items: center;
-
-`
-const FromTr = styled.tr`
-
-`
-const SaveButton = styled.button`
-  background-color: #C9431B;
-  border-radius: 5px;
-  color: white;
-  font-size: 20px;
-  padding: 10px 20px;
-  margin-top: auto; // Show button at the bottom of the container.
-  margin-left: 38%;
 `;
 
 
@@ -133,12 +48,24 @@ interface FormData {
     note: string;
   };
 }
+
 interface ResultData {
   value: number;
   note: string;
   title: string;
   inspectionform_id: number;
 }
+
+const questionsMap: Record<string, string> = {
+  general: 'Yleinen vuosi- ja turvallisuuskatselmointien tilanne',
+  goals: '6S-toiminnan tavoitteet',
+  updates: '6S-vuosikello ja päivitystarpeet',
+  documentation: '6S-dokumentaatio ja dokumenttien säilytyspaikka',
+  development: '6S-toiminnassa havaitutu kehitysehdotukset ja niiden edistyminen - kehitysideapankki',
+  resources: '6s-resurssoinnin toimivuus ja roolit',
+  communication:'6S-viestintä ja brändi',
+  leadership:'6S-johtamisen portaikko - tason arviointi',
+};
 
 const evaluationMap: { [key: string]: number } = {
   heikko: 0,
@@ -149,63 +76,66 @@ const evaluationMap: { [key: string]: number } = {
 };
 
 const ManagementReview = () => {
-
-  // Initialize state to store selected values and notes
-  const [formData, setFormData] = useState<FormData>({
-    question1: { condition: '', note: '' },
-    question2: { condition: '', note: '' },
-    question3: { condition: '', note: '' },
-    question4: { condition: '', note: '' },
-    question5: { condition: '', note: '' },
-    question6: { condition: '', note: '' },
-    question7: { condition: '', note: '' },
-  });
+  const { setNotification } = useNotification();
+  const [description, setDescription] = useState('');
 
   const { environment_id } = useReviewContext();
   const { inspectiontarget_id } = useReviewContext();
-  const [photo, setPhoto] = useState<File | null>(null);
-  const [answers, setAnswers] = useState({});
-  const [description, setDescription] = useState('');
-  const { setNotification } = useNotification();
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    setPhoto(file || null);
+  // Store the selected photo file.
+  const [photo, setPhoto] = useState<File | null>(null);
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      setPhoto(file);
+    }
   };
 
-   // Event handler for the "description" input field
-   const handleDescriptionChange = (e: { target: { value: any; }; }) => {
+  // Initialize state to store selected values and notes
+  const [formData, setFormData] = useState<FormData>({
+    general: { condition: '0', note: '' },
+    goals: { condition: '0', note: '' },
+    updates: { condition: '0', note: '' },
+    documentation: { condition: '0', note: '' },
+    development: { condition: '0', note: '' },
+    resources: { condition: '0', note: '' },
+    communication: { condition: '0', note: '' },
+    leadership: { condition: '0', note: '' },
+  });
+
+  // Event handler for the "description" input field
+  const handleDescriptionChange = (e: { target: { value: any; }; }) => {
     const newDescription = e.target.value;
     setDescription(newDescription);
   };
-// Function to handle radio button changes
+
+  // Function to handle radio button changes
   const handleRadioChange = (category: string, property: 'condition', value: string) => {
-    setFormData((prevData) => ( console.log("p",prevData),{
+    setFormData((prevData) => ({
       ...prevData,
       [category]: { ...prevData[category], [property]: value },
     }));
-    console.log("######",JSON.stringify(FormData, null, 2))
   };
 
-    // Function to handle text input changes
-    const handleTextChange = (category: string, note: string) => {
+  // Function to handle text input changes
+  const handleTextChange = (category: string, note: string) => {
     setFormData((prevData) => ({
       ...prevData,
       [category]: { ...prevData[category], note },
     }));
   };
 
-   // Function to handle data for result
-   const handleDataForResult = (category: string, inspectionform_id: number): ResultData => {
-    console.log("FORMDATA", formData)
 
+  // Function to handle data for result
+  const handleDataForResult = (category: string, inspectionform_id: number): ResultData => {
     const { condition, note } = formData[category];
-    const value = evaluationMap[condition];
-    console.log("value", value)
+    const value = parseInt(condition, 10);
+
     return {
       value,
       note,
-      title: questions[category] || 'Unknown Question',
+      title: questionsMap[category] || 'Unknown Question',
       inspectionform_id
     };
   };
@@ -221,16 +151,17 @@ const ManagementReview = () => {
       setNotification(`Virhe huoneen haussa: ${e}`)
     }
     let targets = null;
+    let target = null;
     try {
       targets = await getInspectionTargetsByEnviromentsId(environment_id!);
+      target = targets.inspectiontargets.filter((target: { name: string; }) => target.name === room!.name);
     } catch (e) {
       setNotification(`Virhe huoneen haussa: ${e}`)
     }
-    const target = targets.inspectiontargets.filter((target: { name: string; }) => target.name === room.name);
 
-    const formData = {
+    const formSend = {
       environment_id,
-      inspectiontarget_id: target[0].id,
+      inspectiontarget_id: parseInt(target[0].id, 10),
       inspectiontype
     }
     
@@ -246,39 +177,273 @@ const ManagementReview = () => {
     // creates form
     let inspectionform: { id: number; } | null = null;
     try{
-      inspectionform = await createInspectionForm(formData);
+      inspectionform = await createInspectionForm(formSend);
     } catch (e) {
       setNotification(`Virhe katselmoinnin tallentamisessa: ${e}`)
     }
 
     // creates all results
-    Object.keys(questions).forEach(async (category) => {
-      const resultData = handleDataForResult(category, inspectionform.id);
+    Object.keys(questionsMap).forEach(async (category) => {
+      const resultData = handleDataForResult(category, inspectionform!.id);
       try {
         await createInspectionResult(resultData)
       } catch (e) {
-        setNotification(`Virhe vastauksen tallentamisessa. Valitse jokaisesta kysymyksestä vaihtoehto: ${e}`)
+        setNotification(`Virhe vastauksen tallentamisessa: ${e}`)
       }
     });
   };
 
 
+  return (
+    <GrayBackground>
+      <Header />
+      <FormContainer>
+        <div>
+          <h2>
+            6S Toimintamallin ja johtamisen katselmointi
+          </h2>
+          <div>
+            <label>Huoneen kuvaus: </label>
+            <input
+              type="text"
+              name="description"
+              value={description}
+              onChange={handleDescriptionChange}
+            />
+          </div>
+          <br />
+          <Form>
+            <div>
+              <div>
+                <h2>Toimintamallin katselmointi</h2>
+                <div>
+                  <label>{questionsMap['general']}</label>
+                  <div>
+                    <br/>
+                    <label>Heikko</label>
+                    <input type="radio" value="1" name="general" onChange={() => handleRadioChange('general', 'condition', '1')} />
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="2" name="general" onChange={() => handleRadioChange('general', 'condition', '2')} />
+                    <label>Perustaso</label>
+                    <input type="radio" value="3" name="general" onChange={() => handleRadioChange('general', 'condition', '3')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="4" name="general" onChange={() => handleRadioChange('general', 'condition', '4')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="5" name="general" onChange={() => handleRadioChange('general', 'condition', '5')} />
+                    <br />
+                    <br/>
+                    <label>Huomiot: </label>
+                    <br/>
+                    <input type="text" name="generalComment" onChange={(e) => handleTextChange('general', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <div>
+                  <label>{questionsMap['goals']}</label>
+                  <div>
+                    <br/>
+                    <label>Heikko</label>
+                    <input type="radio" value="1" name="goals" onChange={() => handleRadioChange('goals', 'condition', '1')} />
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="2" name="goals" onChange={() => handleRadioChange('goals', 'condition', '2')} />
+                    <label>Perustaso</label>
+                    <input type="radio" value="3" name="goals" onChange={() => handleRadioChange('goals', 'condition', '3')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="4" name="goals" onChange={() => handleRadioChange('goals', 'condition', '4')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="5" name="goals" onChange={() => handleRadioChange('goals', 'condition', '5')} />
+                    <br />
+                    <br/>
+                    <label>Huomiot: </label>
+                    <br/>
+                    <input type="text" name="goalsComment" onChange={(e) => handleTextChange('goals', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
 
-  const questions =[
-    'Yleinen vuosi- ja turvallisuuskatselmointien tilanne',
-    '6S-toiminnan tavoitteet',
-    '6S-vuosikello ja päivitystarpeet',
-    '6S-dokumentaatio ja dokumenttien säilytyspaikka',
-   '6S-toiminnassa havaitutu kehitysehdotukset ja niiden edistyminen - kehitysideapankki',
-    '6s-resurssoinnin toimivuus ja roolit',
-    '6S-viestintä ja brändi'
-];
-  const questionsManagement =['Johtamisen portaikko - tason arviointi']
+              <div>
+                <div>
+                  <label>{questionsMap['updates']}</label>
+                  <div>
+                    <br/>
+                    <label>Heikko</label>
+                    <input type="radio" value="1" name="updates" onChange={() => handleRadioChange('updates', 'condition', '1')} />
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="2" name="updates" onChange={() => handleRadioChange('updates', 'condition', '2')} />
+                    <label>Perustaso</label>
+                    <input type="radio" value="3" name="updates" onChange={() => handleRadioChange('updates', 'condition', '3')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="4" name="updates" onChange={() => handleRadioChange('updates', 'condition', '4')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="5" name="updates" onChange={() => handleRadioChange('updates', 'condition', '5')} />
+                    <br />
+                    <br/>
+                    <label>Huomiot: </label>
+                    <br/>
+                    <input type="text" name="updatesComment" onChange={(e) => handleTextChange('updates', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
 
-  const ratingOptions = ['HEIKKO', 'PUUTTEELLINEN', 'PERUSTASO', 'SITOUTUNUT', 'EDELLÄKÄVIÄ', 'HUOMIOT'];
+              <div>
+                <div>
+                  <label>{questionsMap['documentation']}</label>
+                  <div>
+                    <br/>
+                    <label>Heikko</label>
+                    <input type="radio" value="1" name="documentation" onChange={() => handleRadioChange('documentation', 'condition', '1')} />
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="2" name="documentation" onChange={() => handleRadioChange('documentation', 'condition', '2')} />
+                    <label>Perustaso</label>
+                    <input type="radio" value="3" name="documentation" onChange={() => handleRadioChange('documentation', 'condition', '3')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="4" name="documentation" onChange={() => handleRadioChange('documentation', 'condition', '4')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="5" name="documentation" onChange={() => handleRadioChange('documentation', 'condition', '5')} />
+                    <br />
+                    <br/>
+                    <label>Huomiot: </label>
+                    <br/>
+                    <input type="text" name="documentationComment" onChange={(e) => handleTextChange('documentation', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div>
+                  <label>{questionsMap['development']}</label>
+                  <div>
+                    <br/>
+                    <label>Heikko</label>
+                    <input type="radio" value="1" name="development" onChange={() => handleRadioChange('development', 'condition', '1')} />
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="2" name="development" onChange={() => handleRadioChange('development', 'condition', '2')} />
+                    <label>Perustaso</label>
+                    <input type="radio" value="3" name="development" onChange={() => handleRadioChange('development', 'condition', '3')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="4" name="development" onChange={() => handleRadioChange('development', 'condition', '4')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="5" name="development" onChange={() => handleRadioChange('development', 'condition', '5')} />
+                    <br />
+                    <br/>
+                    <label>Huomiot: </label>
+                    <br/>
+                    <input type="text" name="developmentComment" onChange={(e) => handleTextChange('development', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div>
+                  <label>{questionsMap['resources']}</label>
+                  <div>
+                    <br/>
+                    <label>Heikko</label>
+                    <input type="radio" value="1" name="resources" onChange={() => handleRadioChange('resources', 'condition', '1')} />
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="2" name="resources" onChange={() => handleRadioChange('resources', 'condition', '2')} />
+                    <label>Perustaso</label>
+                    <input type="radio" value="3" name="resources" onChange={() => handleRadioChange('resources', 'condition', '3')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="4" name="resources" onChange={() => handleRadioChange('resources', 'condition', '4')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="5" name="resources" onChange={() => handleRadioChange('resources', 'condition', '5')} />
+                    <br/>
+                    <br/>
+                    <label>Huomiot</label>
+                    <br/>
+                    <input type="text" name="resourcesComment" onChange={(e) => handleTextChange('resources', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div>
+                  <label>{questionsMap['communication']}</label>
+                  <div>
+                    <br/>
+                    <label>Heikko</label>
+                    <input type="radio" value="1" name="communication" onChange={() => handleRadioChange('communication', 'condition', '1')} />
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="2" name="communication" onChange={() => handleRadioChange('communication', 'condition', '2')} />
+                    <label>Perustaso</label>
+                    <input type="radio" value="3" name="communication" onChange={() => handleRadioChange('communication', 'condition', '3')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="4" name="communication" onChange={() => handleRadioChange('communication', 'condition', '4')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="5" name="communication" onChange={() => handleRadioChange('communication', 'condition', '5')} />
+                    <br/>
+                    <br/>
+                    <label>Huomiot</label>
+                    <br/>
+                    <input type="text" name="communicationComment" onChange={(e) => handleTextChange('communication', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h2>Johtamisen katselmointi</h2>
+                <div>
+                  <label>{questionsMap['leadership']}</label>
+                  <div>
+                    <br/>
+                    <label>Heikko</label>
+                    <input type="radio" value="1" name="leadership" onChange={() => handleRadioChange('leadership', 'condition', '1')} />
+                    <label>Puutteellinen</label>
+                    <input type="radio" value="2" name="leadership" onChange={() => handleRadioChange('leadership', 'condition', '2')} />
+                    <label>Perustaso</label>
+                    <input type="radio" value="3" name="leadership" onChange={() => handleRadioChange('leadership', 'condition', '3')} />
+                    <label>Sitoutunut</label>
+                    <input type="radio" value="4" name="leadership" onChange={() => handleRadioChange('leadership', 'condition', '4')} />
+                    <label>Edelläkävijä</label>
+                    <input type="radio" value="5" name="leadership" onChange={() => handleRadioChange('leadership', 'condition', '5')} />
+                    <br />
+                    <br/>
+                    <label>Huomiot: </label>
+                    <br/>
+                    <input type="text" name="leadershipComment" onChange={(e) => handleTextChange('leadership', e.target.value)} />
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label>Lataa kuva: </label>
+                <input type="file" accept="image/*" onChange={handlePhotoChange} />
+              </div>
+            </div>
+            <div>
+              <br/>
+              <button type="button" onClick={() => sendResultData("management")}>
+                Send Data
+              </button>
+              <br/>
+              <br/>
+            </div>
+          </Form>
+        </div>
+      </FormContainer>
+    </GrayBackground>
+  );
 
 
-    
+/*
   return (
     <ManagementReviewContainer>
       <Header/>
@@ -396,6 +561,7 @@ const ManagementReview = () => {
       </GrayBackground>
     </ManagementReviewContainer>
   );
+*/
 };
 
 export default ManagementReview;
