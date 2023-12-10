@@ -18,6 +18,7 @@ import CreateLocation from './components/CreateLocation.tsx'
 import Raports from './components/raports.tsx'
 import UserControl from './components/UserControl.tsx'
 import { ReviewProvider } from './ReviewContext.tsx'
+import ForgotPassword from './components/ForgotPassword.tsx'
 
 
 const router = createBrowserRouter([
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
       {
         path: "/usercontrol",
         element: <UserControl isAdmin={false}></UserControl>
+      },
+      {
+        path: "/forgotPassword",
+        element: <ForgotPassword></ForgotPassword>
       }
     ]
   },

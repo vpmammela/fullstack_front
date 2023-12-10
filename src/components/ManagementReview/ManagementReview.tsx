@@ -142,53 +142,59 @@ const ManagementReview = () => {
 
   // Sends form data and result data to backend
   const sendResultData = async (inspectiontype: string) => {
-    console.log(description)
-
-    let room: { name: string; } | null = null;
+    console.log(description);
+  
+    let room: { name: string } | null = null;
     try {
       room = await getInspectionTargetById(inspectiontarget_id!);
     } catch (e) {
-      setNotification(`Virhe huoneen haussa: ${e}`)
+      setNotification(`Virhe huoneen haussa: ${e}`);
     }
     let targets = null;
     let target = null;
     try {
       targets = await getInspectionTargetsByEnviromentsId(environment_id!);
-      target = targets.inspectiontargets.filter((target: { name: string; }) => target.name === room!.name);
+      target = targets.inspectiontargets.filter((target: { name: string }) => target.name === room!.name);
     } catch (e) {
-      setNotification(`Virhe huoneen haussa: ${e}`)
+      setNotification(`Virhe huoneen haussa: ${e}`);
     }
-
+  
     const formSend = {
       environment_id,
       inspectiontarget_id: parseInt(target[0].id, 10),
-      inspectiontype
-    }
-    
+      inspectiontype,
+    };
+  
     // Upload photo if available
     if (photo) {
       const formData = new FormData();
       formData.append('photo', photo);
-
-      // TODO: Replace with the actual API endpoint.
-      //await axios.post('your-upload-api', formData);
+  
+      try {
+        await fetch('https://localhost:5180/api/v1/images', {
+          method: 'POST',
+          body: formData,
+        });
+      } catch (e) {
+        setNotification(`Virhe kuvan lähettämisessä: ${e}`);
+      }
     }
-
+  
     // creates form
-    let inspectionform: { id: number; } | null = null;
-    try{
+    let inspectionform: { id: number } | null = null;
+    try {
       inspectionform = await createInspectionForm(formSend);
     } catch (e) {
-      setNotification(`Virhe katselmoinnin tallentamisessa: ${e}`)
+      setNotification(`Virhe katselmoinnin tallentamisessa: ${e}`);
     }
-
+  
     // creates all results
     Object.keys(questionsMap).forEach(async (category) => {
       const resultData = handleDataForResult(category, inspectionform!.id);
       try {
-        await createInspectionResult(resultData)
+        await createInspectionResult(resultData);
       } catch (e) {
-        setNotification(`Virhe vastauksen tallentamisessa: ${e}`)
+        setNotification(`Virhe vastauksen tallentamisessa: ${e}`);
       }
     });
   };
