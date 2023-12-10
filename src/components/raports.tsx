@@ -5,10 +5,7 @@ import styled from 'styled-components';
 // TODO: render dropdonw and text so it can be seen --> move lower.
 
 const GrayBackground = styled.div`
-  position: absolute;
-  top: 50%; /* Center the gray background vertically */
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: 50px; /* Adjust the margin based on your header height */
   width: 100%;
   height: 100vh;
   background-color: lightgray;
@@ -19,6 +16,7 @@ const GrayBackground = styled.div`
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+  z-index: 1;
 `;
 
 const ReportListContainer = styled.div`
