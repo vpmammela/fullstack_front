@@ -31,7 +31,7 @@ const SignedInUser = () => {
     // TODO: remove loggen in text, user know from button they're loggein in. 
     <div className="signedIn">
       <br></br>
-      {user} logged in
+      {user} {/*logged in*/}
         <button className="logoutButton" onClick={handleLogout}>Logout</button>
     </div>
   );
