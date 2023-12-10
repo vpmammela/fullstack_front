@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useUser } from '../../UserContext';
 import useAuthStore from '../../stores/auth';
@@ -7,15 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import Notification from '../Notification/Notification';
 import redSnow from '../../Images/redsnow.jpg';
 import logo from '../../Images/logo.png';
-import Home from '../../Home';
-import ContinuousReview from '../ContinuousReview/ContinuousReview';
-import Root from '../../Root';
-import ReviewInfo from '../ReviewInfo/ReviewInfo';
-import RoomSelection from '../RoomSelection/RoomSelection';
-import ManagementReview from '../ManagementReview/ManagementReview';
-import ReviewSelection from '../ReviewSelection/ReviewSelection';
-import SafetyReview from '../SafetyReview/SafetyReview';
-import SemesterReview from '../SemesterReview/SemesterReview';
 
 const AppContainer = styled.div`
   position: relative;
@@ -30,13 +21,12 @@ const AppContainer = styled.div`
   overflow: hidden; /* Scrolling disabled */
 `;
 
-// AMK logo.
 const LogoContainer = styled.div`
   position: absolute;
   top: 10%;
   left: 50%;
   transform: translateX(-50%); 
-  z-index: 2; /* Logo is on top of everything */
+  z-index: 2;
 `;
 
 const LogoImage = styled.img`
@@ -44,7 +34,6 @@ const LogoImage = styled.img`
   height: auto;
 `;
 
-// Background for loginform.
 const GrayHalfBall = styled.div`
   position: absolute;
   bottom: 0;
@@ -57,7 +46,6 @@ const GrayHalfBall = styled.div`
   overflow: hidden;
 `;
 
-// Login form position.  
 const LoginFormContainer = styled.div`
   position: absolute;
   top: 65%; 
@@ -70,16 +58,14 @@ const LoginFormContainer = styled.div`
   z-index: 1;
 `;
 
-// Form content. 
 const LoginFormContent = styled.div`
   width: 100%;
   max-width: 400px;
   padding: 20px;
   box-sizing: border-box;
-  text-align: center; /* Center the content inside the form */
+  text-align: center;
 `;
 
-// Input fields.
 const StyledInput = styled.input`
   width: 100%;
   padding: 10px;
@@ -87,18 +73,17 @@ const StyledInput = styled.input`
   box-sizing: border-box;
   border: none;
   border-radius: 5px;
-  background-color: white; /* White background for the form fields */
+  background-color: white;
 `;
 
-// Login button.
 const StyledButton = styled.button`
   width: 100%;
   padding: 12px;
   box-sizing: border-box;
   border: none;
   border-radius: 5px;
-  background-color: #C9431B; /* Custom color for the button */
-  color: white; /* Text color for the button */
+  background-color: #C9431B;
+  color: white;
   cursor: pointer;
   font-weight: bold;
 `;
@@ -106,8 +91,8 @@ const StyledButton = styled.button`
 const SignInHeader = styled.h2`
   color: red;
   margin-top: 0;
-  margin-bottom: 20px; /* Add margin-bottom for spacing */
-  text-align: center; /* Center the text */
+  margin-bottom: 20px;
+  text-align: center;
 `;
 
 const LoginForm = () => {
@@ -118,11 +103,20 @@ const LoginForm = () => {
   const authStore = useAuthStore();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Disable scrolling when the component mounts.
+    document.body.style.overflow = 'hidden';
+
+    // Re-enable scrolling when the component unmounts.
+    return () => {
+      document.body.style.overflow = 'visible';
+    };
+  }, []);
+
   const handleLogin = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
     try {
-      await authStore.login({ username, password });
       authStore.isAuth = true;
 
       setUsername('');

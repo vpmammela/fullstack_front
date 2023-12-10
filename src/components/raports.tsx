@@ -2,30 +2,29 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
-// TODO: render dropdonw and text so it can be seen --> move lower.
-
 const GrayBackground = styled.div`
-  margin-top: 50px; /* Adjust the margin based on your header height */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
   height: 100vh;
   background-color: lightgray;
   border-top-left-radius: 0% 50px;
   border-top-right-radius: 0% 50px;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; /* Center vertically */
   box-sizing: border-box;
-  z-index: 1;
 `;
 
 const ReportListContainer = styled.div`
   margin-top: 20px;
-  width: 80%;
+  width: 50%; /* Set the width to 50% of the page */
   overflow-y: auto;
 `;
 
-// Enum for inspection types
 enum InspectionType {
   CONTINUOUS = 'Jatkuva katselmointi',
   SEMESTER_AND_YEAR = 'Lukukausi- ja vuosikatselmoinni',
@@ -83,9 +82,13 @@ const ReportsPage: React.FC = () => {
 
   return (
     <GrayBackground>
-      <label>Valitse tarkasteltavat raportit:</label>
-      <select onChange={(e) => handleInspectionTypeSelection(e.target.value as InspectionType)}>
-        <option value="">Select an inspection type</option>
+      <h4>Valitse tarkasteltavat raportit:</h4>
+      <br/>
+      <select
+        style={{ width: '50%' }}  /* Set the width of the select element */
+        onChange={(e) => handleInspectionTypeSelection(e.target.value as InspectionType)}
+      >
+        <option value="">Valitse raportit</option>
         {Object.values(InspectionType).map((type) => (
           <option key={type} value={type}>
             {type}
