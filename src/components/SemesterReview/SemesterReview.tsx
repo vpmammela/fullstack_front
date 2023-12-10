@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { useReviewContext } from "../../ReviewContext";
 import Header from "../header";
 import { useNotification } from "../../NotificationContext";
+import axios from "axios";
 
 
 const GrayBackground = styled.div`
@@ -159,8 +160,7 @@ const SemesterReview = () => {
       const formData = new FormData();
       formData.append('photo', photo);
 
-      // TODO: Replace with the actual API endpoint.
-      //await axios.post('your-upload-api', formData);
+      await axios.post('https://localhost:5180/api/v1/images', formData);
     }
 
     // creates form

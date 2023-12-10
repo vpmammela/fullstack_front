@@ -1,13 +1,14 @@
 import { useUser } from '../../UserContext';
 import useAuthStore from "../../stores/auth";
 import { useNotification } from "../../NotificationContext";
+import { useNavigate } from 'react-router-dom';
 
 
 const SignedInUser = () => {
   const { user, setUser } = useUser();
   const authStore = useAuthStore();
   const { setNotification } = useNotification();
-  
+  const navigate = useNavigate();
 
   const handleLogout = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -18,6 +19,8 @@ const SignedInUser = () => {
       window.sessionStorage.removeItem("loggedUser");
       setNotification(`logged out ${user}`);
       setUser(null);
+      // Navigate to the login view after logout.
+      navigate('/login');
     } catch (exception: any) {
       setNotification(`Logout failed: ${exception.message}`);
     }

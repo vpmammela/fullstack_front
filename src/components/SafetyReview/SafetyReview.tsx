@@ -6,6 +6,7 @@ import { getInspectionTargetById, getInspectionTargetsByEnviromentsId } from '..
 import { createInspectionForm } from '../../services/inspectionform';
 import { createInspectionResult } from '../../services/inspectionresult';
 import { useNotification } from '../../NotificationContext';
+import axios from 'axios';
 
 const SafetyReviewContainer = styled.div`
   position: relative;
@@ -188,7 +189,7 @@ const SafetyReview = () => {
       formData.append('photo', photo);
 
       // TODO: Replace with the actual API endpoint.
-      //await axios.post('your-upload-api', formData);
+      await axios.post('https://localhost:5180/api/v1/images', formData);
     }
 
     // creates form

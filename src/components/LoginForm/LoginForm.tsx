@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { useUser } from '../../UserContext';
 import useAuthStore from '../../stores/auth';
 import { useNotification } from '../../NotificationContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Notification from '../Notification/Notification';
 import redSnow from '../../Images/redsnow.jpg';
 import logo from '../../Images/logo.png';
+import ForgotPassword from '../ForgotPassword';
 
 const AppContainer = styled.div`
   position: relative;
@@ -161,6 +162,8 @@ const LoginForm = () => {
               Kirjaudu
             </StyledButton>
           </form>
+          <br/>
+          <Link to="/forgotPassword">Unohtuiko salasana?</Link>
         </LoginFormContent>
       </LoginFormContainer>
     </AppContainer>
