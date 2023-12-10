@@ -18,14 +18,14 @@ const FormContainer = styled.div`
   max-width: 400px;
   background-color: white;
   border-radius: 10px;
-  overflow: hidden;
+  overflow-y: auto; /* Add this to enable vertical scrolling */
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center items horizontally */
-  justify-content: center; /* Center items vertically */
+  align-items: center;
+  justify-content: center;
 `;
 
 const UserContainer = styled.div`
@@ -69,6 +69,8 @@ const UserList = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
+  overflow-y: auto; /* vertical scrolling */
+  max-height: 300px; /* max height to make list scrollable */
 `;
 
 const UserListItem = styled.li`
@@ -102,76 +104,74 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
     lastName: '',
     email: '',
     role: '',
-    password: ''
+    password: '',
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch users when the component mounts.
     fetchUsers();
   }, []);
 
   const fetchUsers = async () => {
     try {
+      setLoading(true);
       const response = await fetch('https://localhost:5180/api/v1/users');
       const data = await response.json();
-      console.log('Fetched Users:', data); // Log the fetched data.
       setUsers(data.users);
     } catch (error) {
-      console.error('Error fetching users:', error);
+      setError('Error fetching users');
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Delete single user.
   const handleDeleteUser = async (userId: number) => {
     try {
+      setLoading(true);
       const response = await fetch(`https://localhost:5180/api/v1/users/${userId}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
-        // If deletion is successful, update user list.
         fetchUsers();
       } else {
-        console.error('Error deleting user:', response.statusText);
+        setError(`Error deleting user: ${response.statusText}`);
       }
     } catch (error) {
-      console.error('Error deleting user:', error);
+      setError('Error deleting user');
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Add single user.
   const handleAddUser = async () => {
     try {
+      setLoading(true);
       const response = await fetch('https://localhost:5180/api/v1/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          firstName: newUser.firstName,
-          lastName: newUser.lastName,
-          username: newUser.email,
-          role: newUser.role,
-          password: newUser.password,
-        }),
+        body: JSON.stringify(newUser),
       });
 
       if (response.ok) {
-        // If addition is successful, update user list.
         fetchUsers();
-        // Clear input fields.
         setNewUser({
           firstName: '',
           lastName: '',
           email: '',
           role: '',
-          password: ''
+          password: '',
         });
       } else {
-        console.error('Error adding user:', response.statusText);
+        setError(`Error adding user: ${response.statusText}`);
       }
     } catch (error) {
-      console.error('Error adding user:', error);
+      setError('Error adding user');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -179,7 +179,7 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
     <GrayBackground>
       <UserContainer>
         <Heading>Käyttäjien hallinta</Heading>
-
+        {/*TODO: make user control admin right only --> remove ! below*/}
         {!isAdmin && (
           <FormContainer>
             <SubHeading>Lisää uusi käyttäjä</SubHeading>
@@ -219,6 +219,8 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
         )}
 
         <SubHeading>Käyttäjälista</SubHeading>
+        {loading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
         <UserList>
           {users.map((user) => (
             <UserListItem key={user.id}>
