@@ -9,19 +9,19 @@ import {getInspectionTargetReportsData} from '../services/report'
 // TODO: render dropdonw and text so it can be seen --> move lower.
 
 const GrayBackground = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: 50px; /* Adjust the margin based on your header height */
   width: 100%;
   background-color: lightgray;
   border-top-left-radius: 0% 50px;
   border-top-right-radius: 0% 50px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center vertically */
   box-sizing: border-box;
+  z-index: 1;
+  position: relative;
+  top: 70px;
 `;
 const SelectContainer=styled.div`
   display: flex;
