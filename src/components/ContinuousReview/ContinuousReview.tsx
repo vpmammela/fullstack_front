@@ -12,6 +12,7 @@ import { useReviewContext } from '../../ReviewContext';
 import { createInspectionResult } from '../../services/inspectionresult';
 import { getInspectionTargetById, getInspectionTargetsByEnviromentsId } from '../../services/inspectiontarget';
 import { createInspectionForm } from '../../services/inspectionform';
+import PreviousReviews from '../PreviousReviews/PreviousReviews';
 
 /*const ContinuousReviewContainer = styled.div`
   position: relative;
@@ -260,6 +261,8 @@ const ContinuousReview = () => {
             <br/>
         </div>
       </div>
+      <h3>Aiemmat jatkuvat katselmoinnit</h3>
+        <PreviousReviews type={"continuous"}></PreviousReviews>
     </div>
   )
 

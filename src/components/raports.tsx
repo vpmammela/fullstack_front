@@ -46,20 +46,6 @@ interface InspectionResult {
   title: string;
 }
 
-const getType = (name: string) => {
-  switch(name) {
-    case 'Jatkuva katselmointi':
-      return 'continuous'
-    case 'Lukukausi- ja vuosikatselmoinni':
-      return 'semester'
-    case 'Toimintamallin ja johtamisen katselmoinnit':
-      return 'management'
-    case 'Turvallisuuskatselmoinnit':
-      return 'safety'
-    default:
-      return ''
-  }
-}
 
 const ReportsPage: React.FC = () => {
   const [reports, setReports] = useState<Report[]>([]);
@@ -133,7 +119,6 @@ const ReportsPage: React.FC = () => {
         ) : (
           <div>
             <p>RAPORTS RENDER HERE</p>
-            <PreviousReviews type={getType(selectedInspectionType!)}></PreviousReviews>
           </div>
         )}
       </ReportListContainer>
