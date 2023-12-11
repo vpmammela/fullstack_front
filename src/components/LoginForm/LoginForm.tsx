@@ -126,11 +126,7 @@ const LoginForm = () => {
 
     try {
       await authStore.login({ username, password });
-<<<<<<< Updated upstream
-      authStore.isAuth = true;
-=======
       //authStore.isAuth = true;
->>>>>>> Stashed changes
 
       setUsername('');
       setPassword('');
