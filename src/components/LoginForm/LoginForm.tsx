@@ -164,7 +164,7 @@ const LoginForm = () => {
             </StyledButton>
           </form>
           <br/>
-          <Link to="/forgotPassword">Unohtuiko salasana?</Link>
+          {/*<Link to="/forgotPassword">Unohtuiko salasana?</Link>*/}
         </LoginFormContent>
       </LoginFormContainer>
     </AppContainer>

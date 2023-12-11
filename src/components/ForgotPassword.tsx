@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import axios from 'axios';
 
 const GrayBackground = styled.div`
   position: fixed;
-  top: 66%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
@@ -17,23 +17,19 @@ const GrayBackground = styled.div`
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  z-index: 1;
+  z-index: -1; 
 `;
 
-const FormContainer = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 `;
 
-const FormWrapper = styled.form`
+const Form = styled.form`
   width: 300px;
   text-align: center;
-`;
-
-const InputWrapper = styled.div`
-  position: relative;
 `;
 
 const Input = styled.input`
@@ -46,50 +42,59 @@ const Input = styled.input`
   background-color: white;
 `;
 
-const ForgotPassword: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
+const Button = styled.button`
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 5px;
+  background-color: #C9431B;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+`;
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+const ForgotPassword = () => {
+  const [email, setEmail] = useState('');
+
+  const handleInputChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setEmail(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
     const data = {
-        email: email // Correct way to access the email state
+      email: email,
     };
 
-    axios.post('forgot', data).then(
-        res => {
-            console.log(res)
-        }
-    ).catch(
-        err => {
-            console.log(err);
-        }
-    )
+    try {
+      // API request to send a reset link to provided email.
+      const response = await axios.post('/api/reset-password', data);
+      console.log(response);
+
+      // Display a message to user that the reset link has been sent.
+      alert('Password reset link sent to your email.');
+    } catch (error) {
+      console.error('Error sending reset link:', error);
+      alert('Failed to send reset link. Please try again.');
+    }
   };
 
   return (
-    <GrayBackground>
-      <FormContainer>
-        <FormWrapper onSubmit={handleSubmit}>
-          <h4>Unohtuiko salasana?</h4>
-          <InputWrapper>
-            <Input
-              type="email"
-              placeholder="email"
-              value={email}
-              onChange={handleInputChange}
-            />
-          </InputWrapper>
-          <button className="forgot-button" type="submit">
-            Submit
-          </button>
-        </FormWrapper>
-      </FormContainer>
-    </GrayBackground>
+    <><GrayBackground />
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <h4>Resetoi salasana</h4>
+        <Input
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={handleInputChange}
+          required />
+        <Button type="submit">Lähetä</Button>
+      </Form>
+    </Container></>
   );
 };
 
