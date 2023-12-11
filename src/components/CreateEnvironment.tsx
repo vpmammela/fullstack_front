@@ -5,12 +5,15 @@ import { createEnvironment } from "../services/environment";
 import { getLocations } from '../services/locations';
 import LocationSelection from "./RoomSelection/LocationSelection";
 import EnvironmentTypeSelection from "./EnvironmentTypeSelection";
+import styled from 'styled-components';
+
+
 
 export default function CreateEnvironment() {
     const [name, setName] =useState('')
     const [description, setDescription]= useState('')
-    const [location_id, setLocation_id] = useState('')
-    const [environmenttype_id, setEnvironmentType_id] =useState('')
+    const [location_id, setLocation_id] = useState<number>(0)
+    const [environmenttype_id, setEnvironmentType_id] =useState<number>(0)
     const { setNotification } = useNotification();
 
 

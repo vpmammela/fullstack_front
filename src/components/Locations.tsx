@@ -13,6 +13,7 @@ const LocationContainer = styled.div`
   flex-direction: column;
   align-self: stretch; /* Täyttää koko leveyden */
   background-color: lightgray;
+  margin-top: 180px;
 `;
 const Container1 = styled.div`
   background-color: #f5f5f5;
@@ -72,7 +73,13 @@ export default function Locations() {
       <Container1>
         <CreateEnvironmentType></CreateEnvironmentType>
       </Container1>
-    
+      <Container1>
+      <Link className="button" to="/locations/create">
+        New location
+      </Link>
+      </Container1>
+      <Container1>
+        <h3>Toimipaikat</h3>
       {locations.length > 0 ? (
         locations.map((location) => (
           <p key={location.id}>id: {location.id}<br></br> name: {location.name}</p>
@@ -80,9 +87,7 @@ export default function Locations() {
       ) : (
         <p>Toimipaikkoja ei saatavilla</p>
       )}
-      <Link className="button" to="/locations/create">
-        New location
-      </Link>
+      </Container1>
     </LocationContainer>
   );
 }
