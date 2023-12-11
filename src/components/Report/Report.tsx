@@ -51,7 +51,7 @@ const Report: React.FC<{ inspectionform_id: number, user_id: number, environment
       }
     };
     fetchReports();
-  }, [user_id]);
+  }, [user_id, environment_id, inspectiontarget_id]);
 
   return (
     <div style={reportStyle}>
