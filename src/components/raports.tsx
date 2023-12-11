@@ -5,23 +5,24 @@ import EnvironmentSelection from './RoomSelection/EnviromentSelection';
 import InspectionsTargetsSelectionByEnvironmentId from './RoomSelection/InspectionsTargetsSelectioByEnviromentId'
 import {getEnvironmentReportsData} from '../services/report'
 import {getInspectionTargetReportsData} from '../services/report'
+import ChartRaport from './ChartRaport'
 
 // TODO: render dropdonw and text so it can be seen --> move lower.
 
 const GrayBackground = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: 50px; /* Adjust the margin based on your header height */
   width: 100%;
   background-color: lightgray;
   border-top-left-radius: 0% 50px;
   border-top-right-radius: 0% 50px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center vertically */
   box-sizing: border-box;
+  z-index: 1;
+  position: relative;
+  top: 70px;
 `;
 const SelectContainer=styled.div`
   display: flex;
@@ -172,7 +173,7 @@ const ReportsPage: React.FC = () => {
           if (selectedInspectionType) {
             const ReportData= await getEnvironmentReportsData(environment_id, selectedInspectionType);
             setReports(ReportData);
-            console.log("names", ReportData);
+            
           } else {
             console.error('Selected inspection type is undefined');
           }
@@ -180,7 +181,7 @@ const ReportsPage: React.FC = () => {
         else{
           const ReportData= await getInspectionTargetReportsData(inspectiontarget_id, selectedInspectionType);
             setReports(ReportData);
-            console.log("names", ReportData);
+            
         }
       }catch (error) {
         console.error('Error fetching locations:', error);
@@ -209,7 +210,6 @@ const ReportsPage: React.FC = () => {
         return acc;
       }, {});
   
-      console.log("grou", groupedData);
   
       // Set the grouped data to state
       setGroupedReports(groupedData);
@@ -221,9 +221,54 @@ const ReportsPage: React.FC = () => {
     console.log(selectedType)
   };
 
-console.log("gr",groupedReports)
-console.log(typeof groupedReports, groupedReports);
-console.log(environment_id, inspectiontarget_id)
+
+  const getAnswerText = (value: number, selectedInspectionType: InspectionType | null): string => {
+    if (selectedInspectionType === InspectionType.CONTINUOUS) {
+      switch (value) {
+        case 1:
+          return 'Puutteellinen';
+        case 2:
+          return 'Sitoutunut';
+        case 3:
+          return 'Edelläkävijä';
+        default:
+          return ''; // Voit määrittää oletustekstin tarpeidesi mukaan
+      }
+    }
+    else if (selectedInspectionType === InspectionType.SEMESTER || selectedInspectionType === InspectionType.SAFETY) {
+      switch (value) {
+        case 1:
+          return 'Puutteellinen';
+        case 2:
+          return 'Sitoutunut';
+        case 3:
+          return 'Edelläkävijä';
+        case 4:
+          return 'Ei sovellettavissa';
+        default:
+          return ''; // Voit määrittää oletustekstin tarpeidesi mukaan
+      }
+    }
+    else {
+      switch (value) {
+        case 1:
+          return 'Heikko';
+        case 2:
+          return 'Puutteellinen';
+        case 3:
+          return 'Perustaso';
+        case 4:
+          return 'Sitoutunut';
+        case 5:
+          return 'Edelläkävijä';
+        default:
+          return ''; // Voit määrittää oletustekstin tarpeidesi mukaan
+      }
+    }
+  };
+  
+
+
   return (
     <GrayBackground>
       <TextComponent>Haluatko nähdä raportit ympäristöstä vai tilasta?</TextComponent>
@@ -257,28 +302,35 @@ console.log(environment_id, inspectiontarget_id)
           </ButtonContainer>
           </div>
           )}
+          {selectedInspectionType === InspectionType.CONTINUOUS &&
+          // @ts-ignore
+            <ChartRaport reports={reports}></ChartRaport>}
+          
         </div> 
       )}
       </SelectionContainer>
 
       <ReportListContainer>
-        
       {groupedReports &&
         Object.entries(groupedReports).map(([key, groups]) => (
           <CardContainer key={key}>
             <TitleContainer>
             <h2>Katselmointi {key}</h2>
             </TitleContainer>
-            {groups.map((group: GroupType, innerGroupIndex: number) => (
+            
+            {
+            // @ts-ignore
+            groups.map((group: GroupType, innerGroupIndex: number) => (
             <QuestionContainer key={innerGroupIndex}>
               <p>{group.title}</p>
-              <p>Vastaus: {group.value}</p>
+              <p>Vastaus: {getAnswerText(group.value, selectedInspectionType)}</p>
               <p>Huomiot: {group.note}</p>
             </QuestionContainer>
             ))}
           </CardContainer>
        ))}
       </ReportListContainer>
+      
     </GrayBackground>
   );
 };
