@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import PreviousReviews from './PreviousReviews/PreviousReviews';
 
 const GrayBackground = styled.div`
   position: fixed;
@@ -43,6 +44,21 @@ interface InspectionResult {
   value: number;
   note: string;
   title: string;
+}
+
+const getType = (name: string) => {
+  switch(name) {
+    case 'Jatkuva katselmointi':
+      return 'continuous'
+    case 'Lukukausi- ja vuosikatselmoinni':
+      return 'semester'
+    case 'Toimintamallin ja johtamisen katselmoinnit':
+      return 'management'
+    case 'Turvallisuuskatselmoinnit':
+      return 'safety'
+    default:
+      return ''
+  }
 }
 
 const ReportsPage: React.FC = () => {
@@ -115,7 +131,10 @@ const ReportsPage: React.FC = () => {
             </ul>
           </div>
         ) : (
-          <p>RAPORTS RENDER HERE</p>
+          <div>
+            <p>RAPORTS RENDER HERE</p>
+            <PreviousReviews type={getType(selectedInspectionType!)}></PreviousReviews>
+          </div>
         )}
       </ReportListContainer>
     </GrayBackground>
