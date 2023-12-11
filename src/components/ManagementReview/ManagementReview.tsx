@@ -34,7 +34,13 @@ const FormContainer = styled.div`
   align-items: center;
   overflow-y: auto;
   width: 100vh;
-`
+
+  @media (max-width: 768px) {
+    padding-top: /* Adjust for smaller devices */;
+    width: 100%; /* Reset width for smaller devices */
+  }
+`;
+
 const FormInput = styled.input`
   width: 100%;
   padding: 8px;

@@ -8,6 +8,9 @@ import Notification from '../Notification/Notification';
 import redSnow from '../../Images/redsnow.jpg';
 import logo from '../../Images/logo.png';
 import ForgotPassword from '../ForgotPassword';
+import ManagementReview from '../ManagementReview/ManagementReview';
+import SafetyReview from '../SafetyReview/SafetyReview';
+import SemesterReview from '../SemesterReview/SemesterReview';
 
 const AppContainer = styled.div`
   position: relative;

@@ -13,21 +13,20 @@ import PreviousReviews from "../PreviousReviews/PreviousReviews";
 
 
 const GrayBackground = styled.div`
-  position: fixed; /* Fixed position to keep it visible while scrolling */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: lightgray;
-  border-top-left-radius: 0% 50px;
-  border-top-right-radius: 0% 50px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  z-index: 1; /* Ensure it's above the photo container */
+  z-index: 1;
 `;
 
 const FormContainer = styled.div`
@@ -35,8 +34,15 @@ const FormContainer = styled.div`
   height: 100%;
   align-items: center;
   overflow-y: auto;
-  width: 100vh;
-`
+  width: 100%;
+  padding: 20px; /* Add padding for better spacing */
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding-top: 50px; /* Adjust for mobile */
+  }
+`;
+
 const FormInput = styled.input`
   width: 100%;
   padding: 8px;
