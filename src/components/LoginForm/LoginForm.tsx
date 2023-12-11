@@ -11,6 +11,10 @@ import ForgotPassword from '../ForgotPassword';
 import ManagementReview from '../ManagementReview/ManagementReview';
 import SafetyReview from '../SafetyReview/SafetyReview';
 import SemesterReview from '../SemesterReview/SemesterReview';
+import ReviewSelection from '../ReviewSelection/ReviewSelection';
+import ContinuousReview from '../ContinuousReview/ContinuousReview';
+import PreviousReviews from '../PreviousReviews/PreviousReviews';
+import EnvironmentSelection from '../RoomSelection/EnviromentSelection';
 
 const AppContainer = styled.div`
   position: relative;
@@ -121,8 +125,8 @@ const LoginForm = () => {
     event.preventDefault();
 
     try {
-      await authStore.login({ username, password });
-      //authStore.isAuth = true;
+      //await authStore.login({ username, password });
+      authStore.isAuth = true;
 
       setUsername('');
       setPassword('');

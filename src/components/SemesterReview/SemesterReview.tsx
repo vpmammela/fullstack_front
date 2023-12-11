@@ -30,7 +30,7 @@ const GrayBackground = styled.div`
 `;
 
 const FormContainer = styled.div`
-  padding-top: 185px;
+  padding-top: 250px;
   height: 100%;
   align-items: center;
   overflow-y: auto;
