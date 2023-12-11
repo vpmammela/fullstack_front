@@ -49,6 +49,8 @@ const PreviousReviews: React.FC<{ type: string }> = ({ type }) => {
         key={`${report.createdAt}-${report.inspectionform_id}`}
         inspectionform_id={report.inspectionform_id}
         user_id={report.inspectionform.user_id}
+        environment_id={report.inspectionform.environment_id}
+        inspectiontarget_id={report.inspectionform.inspectiontarget_id}
         createdAt={report.createdAt}
         title={report.title}
         value={report.value}
