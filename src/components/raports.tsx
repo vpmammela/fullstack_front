@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import LocationSelection from './RoomSelection/LocationSelection';
+import EnvironmentSelection from './RoomSelection/EnviromentSelection';
+import InspectionsTargetsSelectionByEnvironmentId from './RoomSelection/InspectionsTargetsSelectioByEnviromentId'
+import {getEnvironmentReportsData} from '../services/report'
+import {getInspectionTargetReportsData} from '../services/report'
 
 // TODO: render dropdonw and text so it can be seen --> move lower.
 
@@ -18,17 +23,38 @@ const GrayBackground = styled.div`
   box-sizing: border-box;
   z-index: 1;
 `;
-
+const ViewingContainer=styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 const ReportListContainer = styled.div`
   margin-top: 20px;
   width: 80%;
   overflow-y: auto;
 `;
-
+const ButtonContainer=styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const RedButton = styled.button`
+  background-color: #c9431b;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-size: 18px;
+  border-radius: 5px;
+  margin-top: 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 // Enum for inspection types
 enum InspectionType {
   CONTINUOUS = 'Jatkuva katselmointi',
-  SEMESTER_AND_YEAR = 'Lukukausi- ja vuosikatselmoinni',
+  SEMESTER = 'Lukukausi- ja vuosikatselmoinni',
   MANAGEMENT = 'Toimintamallin ja johtamisen katselmoinnit',
   SAFETY = 'Turvallisuuskatselmoinnit',
 }
@@ -46,54 +72,113 @@ interface InspectionResult {
   title: string;
 }
 
+interface ReportData {
+  items: [
+    {
+      id: number,
+      note: string,
+      inspectionform_id: number,
+      createdAt: string,
+      value: number,
+      title: string,
+      inspectionform: {
+        createdAt: string,
+        user_id: number,
+        inspectiontarget_id: number,
+        id: number,
+        closedAt: string,
+        environment_id: number,
+        inspectiontype_id: number
+      }
+    }
+  ]
+}
+
+
 const ReportsPage: React.FC = () => {
-  const [reports, setReports] = useState<Report[]>([]);
+  const [reports, setReports] = useState<ReportData | null>(null);
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [inspectionResults, setInspectionResults] = useState<InspectionResult[]>([]);
   const [selectedInspectionType, setSelectedInspectionType] = useState<InspectionType | null>(null);
 
-  const fetchInspectionResults = async (inspectionFormId: number) => {
-    try {
-      const response = await axios.get(`http://localhost:8001/inspectionresults/${inspectionFormId}`);
-      setInspectionResults(response.data);
-    } catch (error) {
-      console.error('Error fetching inspection results:', error);
+  const [location_id, setLocation_id] = useState('')
+  const [ environment_id, setEnvironment_id ] = useState<number| null>(null)
+  const [ inspectiontarget_id, setInspectiontarget_id ] = useState<number| null>(null)
+
+
+  const sendReportData= async()=>{
+      try{
+        if (inspectiontarget_id == null){
+          if (selectedInspectionType) {
+            const ReportData= await getEnvironmentReportsData(environment_id, selectedInspectionType);
+            setReports(ReportData);
+            console.log("names", ReportData);
+          } else {
+            console.error('Selected inspection type is undefined');
+          }
+        }
+        else{
+          const ReportData= await getInspectionTargetReportsData(inspectiontarget_id, selectedInspectionType);
+            setReports(ReportData);
+            console.log("names", ReportData);
+        }
+      }catch (error) {
+        console.error('Error fetching locations:', error);
+      }
     }
-  };
+  
 
-  useEffect(() => {
-    // Fetch reports when the component mounts.
-    axios.get('http://localhost:8001/reports')
-      .then((response) => {
-        setReports(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching reports:', error);
-      });
-  }, []);
-
-  const handleReportSelection = (selectedId: number) => {
-    const selected = reports.find((report) => report.id === selectedId);
-    setSelectedReport(selected || null);
-  };
 
   const handleInspectionTypeSelection = (selectedType: InspectionType) => {
     setSelectedInspectionType(selectedType);
+    console.log(selectedType)
   };
+
 
   return (
     <GrayBackground>
-      <label>Valitse tarkasteltavat raportit:</label>
-      <select onChange={(e) => handleInspectionTypeSelection(e.target.value as InspectionType)}>
-        <option value="">Select an inspection type</option>
-        {Object.values(InspectionType).map((type) => (
-          <option key={type} value={type}>
-            {type}
-          </option>
-        ))}
-      </select>
+      <h3>Haluatko nähdä raportit ympäristöstä vai tilasta?</h3>
+      <LocationSelection setLocation_id={setLocation_id}></LocationSelection>
+
+      {location_id && (
+              <div className="selectStyle">
+                <EnvironmentSelection setEnvironment_id={setEnvironment_id} location_id={parseInt(location_id, 10)}></EnvironmentSelection>
+
+                {environment_id && (
+                  <div>
+                  <text>Jos haluat nähdä raportit ympäristöstä jätä tila valitsematta</text>
+                  <InspectionsTargetsSelectionByEnvironmentId setInspectiontarget_id={setInspectiontarget_id} environment_id={environment_id}></InspectionsTargetsSelectionByEnvironmentId>
+                  <ViewingContainer>
+                  <label>Valitse tarkasteltavat raportit:</label>
+                  <select onChange={(e) => handleInspectionTypeSelection(e.target.value as InspectionType)}>
+                    <option value="">Valitse katselmointi tyyppi</option>
+                    {Object.values(InspectionType).map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                </ViewingContainer>
+                <ButtonContainer>
+                  <RedButton type="button" onClick={() => sendReportData()}>
+                    Hae raportit
+                  </RedButton>
+                </ButtonContainer>
+                </div>
+                )}
+              </div> 
+            )}
+      
 
       <ReportListContainer>
+        
+        {reports && reports.items.map((item: any, index: number) => (
+          <div key={index}>
+            <p>Report ID: {item.id}</p>
+          </div>
+          
+        ))}
+
         {selectedReport && selectedInspectionType ? (
           <div>
             <p>Report ID: {selectedReport.id}</p>

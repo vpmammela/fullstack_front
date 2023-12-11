@@ -35,7 +35,7 @@ const InspectionsTargetsSelectionByEnvironmentId: React.FC<{ setInspectiontarget
   
       return(
           <div className="selectStyle">
-              <label>Valitse luokka tai tila</label>
+              <label>Valitse tila.</label>
               <select value={selectedInspectionTarget} onChange={handleEnvironmentChange}>
               <option value="">Valitse luokka tai tila</option>
               {inspectionTargetArray.map((inspectionTarget, index) => (
