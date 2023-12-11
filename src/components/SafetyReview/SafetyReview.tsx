@@ -28,40 +28,32 @@ const SafetyReviewContainer = styled.div`
 
 const GrayBackground = styled.div`
   position: fixed;
-  top: 75%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100vh;
-  height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-color: lightgray;
-  border-top-left-radius: 0% 50px;
-  border-top-right-radius: 0% 50px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+  z-index: 1;
 `;
 
 const FormContainer = styled.div`
-  position: absolute;
-  top: 100px; /* Adjust value based on header height */
-  left: 50%;
-  transform: translate(-50%, 0);
-  width: 100%;
-  min-height: calc(100vh - 100px); /* Adjust value based on header height */
-  background-color: lightgray;
-  border-top-left-radius: 0% 50px;
-  border-top-right-radius: 0% 50px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
+  padding-top: 250px;
+  height: 100%;
   align-items: center;
+  overflow-y: auto;
+  width: 100%;
+  padding: 20px; /* Add padding for better spacing */
   box-sizing: border-box;
 
   @media (max-width: 768px) {
-    top: 0; 
-    min-height: 100%; 
-    border-radius: 0; 
+    padding-top: 50px; /* Adjust for mobile */
   }
 `;
 
@@ -238,7 +230,7 @@ const SafetyReview = () => {
   };
   
   return (
-    <SafetyReviewContainer>
+    <div>
       <Header/>
       <FormContainer>
       <GrayBackground>
@@ -491,7 +483,7 @@ const SafetyReview = () => {
       </FormContainer>
       <br/>
       <br/>
-    </SafetyReviewContainer>
+      </div>
 
 
   );
