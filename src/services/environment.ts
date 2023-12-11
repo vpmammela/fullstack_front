@@ -42,6 +42,16 @@ export const getEnvironmentType = async () => {
   return response.data;
 }
 
+export const getEnvironmentById = async (id: number) => {
+  const response = await axiosInstance.get(`/environments/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  console.log("env by id:", response.data)
+  return response.data
+}
+
 export const getEnvironmentByLocationId = async (location_id: number) => {
   const response = await axiosInstance.get(`locations/${location_id}/environments`, {
     headers: {
