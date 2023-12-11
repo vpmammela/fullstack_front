@@ -38,7 +38,7 @@ const LocationSelection: React.FC<{ setLocation_id: React.Dispatch<React.SetStat
 
     return(
         <div className="selectStyle">
-            <label>Valitse toimipiste</label>
+            <label>Valitse ensin toimipiste</label>
             <select value={selectedLocation} onChange={handleLocationChange}>
             <option value="">Valitse toimipiste</option>
             {locationsArray.map((location, index) => (
