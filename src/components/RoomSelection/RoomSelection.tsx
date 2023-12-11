@@ -96,8 +96,7 @@ export default function Home() {
 
     fetchLocations();
   }, []);
-  // Rooms are searched from the database
-  const roomsArray = ['1A', '2A', '3A', '1B', '2B', '1C', '2C', '3C', '4C'];
+  
 
   return (
     <RoomSelectionContainer>
@@ -112,15 +111,11 @@ export default function Home() {
             {location_id && (
               <div className="selectStyle">
                 <EnvironmentSelection setEnvironment_id={setEnvironment_id} location_id={parseInt(location_id, 10)}></EnvironmentSelection>
-                <InspectionsTargetsSelectionByEnvironmentId setInspectiontarget_id={setInspectiontarget_id} environment_id={environment_id}></InspectionsTargetsSelectionByEnvironmentId>
-                <label>Valitse huone</label>
-                <select>
-                  {roomsArray.map((room, index) => (
-                    <option key={index} value={room}>
-                      {room}
-                    </option>
-                  ))}
-                </select>
+                <text>Valitse seuraava tila. Jos haluat tehdä katselmoinnin ympärisölle, niin jätä tila tyhjäksi</text>
+                {environment_id && (
+                  <InspectionsTargetsSelectionByEnvironmentId setInspectiontarget_id={setInspectiontarget_id} environment_id={environment_id}></InspectionsTargetsSelectionByEnvironmentId>
+                )}
+                
               </div>
             )}
             <RedButton to="/reviewSelection">Tee katselmointi</RedButton>

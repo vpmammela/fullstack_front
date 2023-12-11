@@ -13,6 +13,7 @@ select {
   }
   .selectStyle{
     margin: 15px;
+    
   }
   .roomSelectionButton{
     display: flex;
