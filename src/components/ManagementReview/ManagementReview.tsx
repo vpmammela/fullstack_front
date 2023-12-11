@@ -443,7 +443,7 @@ const ManagementReview = () => {
               <br/>
               <br/>
               <h3>Aiemmat Toimintamallin ja Johtamisen katselmoinnit</h3>
-              <PreviousReviews type={"semester"}></PreviousReviews>
+              <PreviousReviews type={"management"}></PreviousReviews>
             </div>
           </Form>
         </div>
