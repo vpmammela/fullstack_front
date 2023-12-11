@@ -173,7 +173,7 @@ const ReportsPage: React.FC = () => {
           if (selectedInspectionType) {
             const ReportData= await getEnvironmentReportsData(environment_id, selectedInspectionType);
             setReports(ReportData);
-            console.log("names", ReportData);
+            
           } else {
             console.error('Selected inspection type is undefined');
           }
@@ -181,7 +181,7 @@ const ReportsPage: React.FC = () => {
         else{
           const ReportData= await getInspectionTargetReportsData(inspectiontarget_id, selectedInspectionType);
             setReports(ReportData);
-            console.log("names", ReportData);
+            
         }
       }catch (error) {
         console.error('Error fetching locations:', error);
@@ -210,7 +210,6 @@ const ReportsPage: React.FC = () => {
         return acc;
       }, {});
   
-      console.log("grou", groupedData);
   
       // Set the grouped data to state
       setGroupedReports(groupedData);
@@ -272,7 +271,6 @@ const ReportsPage: React.FC = () => {
 
   return (
     <GrayBackground>
-      <ChartRaport reports={reports}></ChartRaport>
       <TextComponent>Haluatko nähdä raportit ympäristöstä vai tilasta?</TextComponent>
       <SelectionContainer>
       <div className="selectStyle">
@@ -304,19 +302,25 @@ const ReportsPage: React.FC = () => {
           </ButtonContainer>
           </div>
           )}
+          {selectedInspectionType === InspectionType.CONTINUOUS &&
+          // @ts-ignore
+            <ChartRaport reports={reports}></ChartRaport>}
+          
         </div> 
       )}
       </SelectionContainer>
 
       <ReportListContainer>
-        
       {groupedReports &&
         Object.entries(groupedReports).map(([key, groups]) => (
           <CardContainer key={key}>
             <TitleContainer>
             <h2>Katselmointi {key}</h2>
             </TitleContainer>
-            {groups.map((group: GroupType, innerGroupIndex: number) => (
+            
+            {
+            // @ts-ignore
+            groups.map((group: GroupType, innerGroupIndex: number) => (
             <QuestionContainer key={innerGroupIndex}>
               <p>{group.title}</p>
               <p>Vastaus: {getAnswerText(group.value, selectedInspectionType)}</p>
@@ -326,6 +330,7 @@ const ReportsPage: React.FC = () => {
           </CardContainer>
        ))}
       </ReportListContainer>
+      
     </GrayBackground>
   );
 };
