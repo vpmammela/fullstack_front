@@ -26,6 +26,7 @@ const HeaderContainer = styled.div`
   background-position: center;
   overflow: hidden; /* Scrolling disabled */
   z-index: 1000;
+  position: relative;
 `;
 
 const LogoContainer = styled.div`
