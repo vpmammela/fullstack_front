@@ -23,22 +23,42 @@ const GrayBackground = styled.div`
   z-index: 1;
   position: relative;
   top: 70px;
+  @media (max-width: 768px) {
+    padding-top: /* Adjust for smaller devices */;
+    width: 100%; /* Reset width for smaller devices */
+  }
+
 `;
 const SelectContainer=styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 15px;
+
+  @media (max-width: 768px) {
+    padding-top: /* Adjust for smaller devices */;
+    width: 100%; /* Reset width for smaller devices */
+  }
 `;
 const ReportListContainer = styled.div`
   margin-top: 20px;
   width: 50%; /* Set the width to 50% of the page */
   overflow-y: auto;
+
+  @media (max-width: 768px) {
+    padding-top: /* Adjust for smaller devices */;
+    width: 100%; /* Reset width for smaller devices */
+  }
 `;
 const ButtonContainer=styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 768px) {
+    padding-top: /* Adjust for smaller devices */;
+    width: 100%; /* Reset width for smaller devices */
+  }
 `;
 const RedButton = styled.button`
   background-color: #c9431b;
@@ -52,6 +72,12 @@ const RedButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    padding-top: /* Adjust for smaller devices */;
+    width: 100%; /* Reset width for smaller devices */
+  }
+
 `;
 const CardContainer =styled.div`
   background-color: #f5f5f5;
@@ -64,6 +90,11 @@ const CardContainer =styled.div`
   padding: 20px;
   margin: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    padding-top: /* Adjust for smaller devices */;
+    width: 100%; /* Reset width for smaller devices */
+  }
   
 `;
 const QuestionContainer =styled.div`
@@ -75,18 +106,32 @@ const QuestionContainer =styled.div`
   margin:10px;
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    padding-top: /* Adjust for smaller devices */;
+    width: 100%; /* Reset width for smaller devices */
+  }
 `;
 const TitleContainer =styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+
+  @media (max-width: 768px) {
+    padding-top: /* Adjust for smaller devices */;
+    width: 100%; /* Reset width for smaller devices */
+  }
 `;
 const SelectionContainer= styled.div`
 display: flex;
   flex-direction: column; /* Voit muuttaa suunnan tarpeesi mukaan */
   align-items: flex-start; /* Aseta tämä tarpeesi mukaan */
 
+  @media (max-width: 768px) {
+    padding-top: /* Adjust for smaller devices */;
+    width: 100%; /* Reset width for smaller devices */
+  }
 `;
 const TextComponent =styled.h3`
 color: #14827d ;
