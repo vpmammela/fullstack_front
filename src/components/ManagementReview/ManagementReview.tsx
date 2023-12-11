@@ -8,6 +8,7 @@ import Header from '../header';
 import { getInspectionTargetById, getInspectionTargetsByEnviromentsId } from '../../services/inspectiontarget';
 import { createInspectionResult } from "../../services/inspectionresult";
 import { createInspectionForm } from "../../services/inspectionform";
+import PreviousReviews from '../PreviousReviews/PreviousReviews';
 
 const GrayBackground = styled.div`
   position: fixed; /* Fixed position to keep it visible while scrolling */
@@ -441,6 +442,8 @@ const ManagementReview = () => {
               </button>
               <br/>
               <br/>
+              <h3>Aiemmat Toimintamallin ja Johtamisen katselmoinnit</h3>
+              <PreviousReviews type={"semester"}></PreviousReviews>
             </div>
           </Form>
         </div>

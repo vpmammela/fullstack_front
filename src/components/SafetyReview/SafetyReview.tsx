@@ -7,6 +7,7 @@ import { createInspectionForm } from '../../services/inspectionform';
 import { createInspectionResult } from '../../services/inspectionresult';
 import { useNotification } from '../../NotificationContext';
 import axios from 'axios';
+import PreviousReviews from '../PreviousReviews/PreviousReviews';
 
 const SafetyReviewContainer = styled.div`
   position: relative;
@@ -457,6 +458,8 @@ const SafetyReview = () => {
         <br></br>
         <br></br>
         </form>
+        <h3>Aiemmat Turvallisuuskatselmoinnit</h3>
+        <PreviousReviews type={"safety"}></PreviousReviews>
       </GrayBackground>
       </FormContainer>
     </SafetyReviewContainer>
