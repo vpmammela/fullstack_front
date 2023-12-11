@@ -5,6 +5,7 @@ import EnvironmentSelection from './RoomSelection/EnviromentSelection';
 import InspectionsTargetsSelectionByEnvironmentId from './RoomSelection/InspectionsTargetsSelectioByEnviromentId'
 import {getEnvironmentReportsData} from '../services/report'
 import {getInspectionTargetReportsData} from '../services/report'
+import ChartRaport from './ChartRaport'
 
 // TODO: render dropdonw and text so it can be seen --> move lower.
 
@@ -221,11 +222,57 @@ const ReportsPage: React.FC = () => {
     console.log(selectedType)
   };
 
-console.log("gr",groupedReports)
-console.log(typeof groupedReports, groupedReports);
-console.log(environment_id, inspectiontarget_id)
+
+  const getAnswerText = (value: number, selectedInspectionType: InspectionType | null): string => {
+    if (selectedInspectionType === InspectionType.CONTINUOUS) {
+      switch (value) {
+        case 1:
+          return 'Puutteellinen';
+        case 2:
+          return 'Sitoutunut';
+        case 3:
+          return 'Edelläkävijä';
+        default:
+          return ''; // Voit määrittää oletustekstin tarpeidesi mukaan
+      }
+    }
+    else if (selectedInspectionType === InspectionType.SEMESTER || selectedInspectionType === InspectionType.SAFETY) {
+      switch (value) {
+        case 1:
+          return 'Puutteellinen';
+        case 2:
+          return 'Sitoutunut';
+        case 3:
+          return 'Edelläkävijä';
+        case 4:
+          return 'Ei sovellettavissa';
+        default:
+          return ''; // Voit määrittää oletustekstin tarpeidesi mukaan
+      }
+    }
+    else {
+      switch (value) {
+        case 1:
+          return 'Heikko';
+        case 2:
+          return 'Puutteellinen';
+        case 3:
+          return 'Perustaso';
+        case 4:
+          return 'Sitoutunut';
+        case 5:
+          return 'Edelläkävijä';
+        default:
+          return ''; // Voit määrittää oletustekstin tarpeidesi mukaan
+      }
+    }
+  };
+  
+
+
   return (
     <GrayBackground>
+      <ChartRaport reports={reports}></ChartRaport>
       <TextComponent>Haluatko nähdä raportit ympäristöstä vai tilasta?</TextComponent>
       <SelectionContainer>
       <div className="selectStyle">
@@ -272,7 +319,7 @@ console.log(environment_id, inspectiontarget_id)
             {groups.map((group: GroupType, innerGroupIndex: number) => (
             <QuestionContainer key={innerGroupIndex}>
               <p>{group.title}</p>
-              <p>Vastaus: {group.value}</p>
+              <p>Vastaus: {getAnswerText(group.value, selectedInspectionType)}</p>
               <p>Huomiot: {group.note}</p>
             </QuestionContainer>
             ))}
