@@ -59,18 +59,22 @@ const FormContainer = styled.div`
   box-sizing: border-box;
 
   @media (max-width: 768px) {
-    top: 0; /* Adjust for smaller devices */;
-    min-height: 100%; /* Adjust for smaller devices */;
-    border-radius: 0; /* Optionally, remove border-radius for smaller devices */
+    top: 0; 
+    min-height: 100%; 
+    border-radius: 0; 
   }
 `;
 
 const TextInput = styled.input`
   width: 80%; 
-  padding: 15px; /* Adjust padding for smaller devices */
+  padding: 15px;
+  padding-left: 5px;
   
   @media (max-width: 768px) {
-    width: 100%; /* Adjust width for smaller devices */
+    left: -15px;
+    top: 0; 
+    min-height: 100%; 
+    border-radius: 0; 
   }
 `;
 
@@ -481,258 +485,15 @@ const SafetyReview = () => {
         </form>
         <h3>Aiemmat Turvallisuuskatselmoinnit</h3>
         <PreviousReviews type={"safety"}></PreviousReviews>
+        <br/>
+        <br/>
       </GrayBackground>
       </FormContainer>
+      <br/>
+      <br/>
     </SafetyReviewContainer>
 
-/*
-    <SafetyReviewContainer>
-      <Header/>
-      <FormContainer>
-      <GrayBackground>
-    <h2>6S Turvallisuuskatselmointi</h2>
-        <form>
-            <div>
-              <br></br>
-              <h4>Yleisilme</h4>
-              <div>
-                <br></br>
-              <label>Onko yleisilme siisi? Millä tasolla päivittäiskatselmointien tulokset ovat? Onko havaittuihin poikkeamiin reagoitu?</label>
-              <div>
-                <br></br>
-              <label>Puutteellinen</label>
-                <input type="radio" value=1 name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value=2 name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value=3 name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value=0 name="condition"/>
-                <br></br>
-                <br></br>
-                <label>Huomiot</label>
-                <br></br>
-                <TextInput type="text" name="attentions" />
-              </div>
-            </div>
-          </div>
 
-          <div>
-            <h4>Turvallisuusohjeistukset</h4>
-            <div>
-              <label>Onko ohjeistukset saatavilla ja ajantasaiset? Noudatetaanko annettuja ohjeita?</label>
-              <div>
-                <br></br>
-              <label>Puutteellinen</label>
-                <input type="radio" value=1 name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value=2 name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value=3 name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value=0 name="condition"/>
-                <br></br>
-                <br></br>
-                <label>Huomiot</label>
-                <br></br>
-                <TextInput type="text" name="attentions" />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h4>Toiminnan riskiarviointi</h4>
-            <div>
-              <label>Onko riskiarviointi ajantasalla ja onko toiminnan riskiä mahdollisuus pienentää?</label>
-              <div>
-                <br></br>
-              <label>Puutteellinen</label>
-                <input type="radio" value=1 name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value=2 name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value=3 name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value=0 name="condition"/>
-                <br></br>
-                <br></br>
-                <label>Huomiot</label>
-                <br></br>
-                <TextInput type="text" name="attentions" />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h4>Suojavarusteet</h4>
-            <div>
-              <label>Onko henkilökohtaiset suojavarusteet tunnistettu ja saatavilla? Käytetäänkö niitä?</label>
-              <div>
-                <br></br>
-              <label>Puutteellinen</label>
-                <input type="radio" value=1 name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value=2 name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value=3 name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value=0 name="condition"/>
-                <br></br>
-                <br></br>
-                <label>Huomiot</label>
-                <br></br>
-                <TextInput type="text" name="attentions" />
-             </div>
-            </div>
-          </div>
-
-          <div>
-            <h4>Ensiapu- ja palosammuttimet</h4>
-            <div>
-              <label>Onko ensiaputarvikkeet ja palosammuttimet käytettävissä ja ajan tasalla?</label>
-              <div>
-                <br></br>
-              <label>Puutteellinen</label>
-                <input type="radio" value=1 name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value=2 name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value=3 name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value=0 name="condition"/>
-                <br></br>
-                <br></br>
-                <label>Huomiot</label>
-                <br></br>
-                <TextInput type="text" name="attentions" />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h4>Kemikaalien hallinta</h4>
-            <div>
-              <label>Onko kemikaaliluettelot ajan tasalla? Säilytetäänkö kemikaalit asianmukaisesti? Onko varoitusmerkit ja käyttöturvatiedotteet saatavilla?</label>
-              <div>
-                <br></br>
-              <label>Puutteellinen</label>
-                <input type="radio" value=1 name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value=2 name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value=3 name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value=0 name="condition"/>
-                <br></br>
-                <br></br>
-                <label>Huomiot</label>
-                <br></br>
-                <TextInput type="text" name="attentions" />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h4>Räjähdyssuoja-arviointi</h4>
-            <div>
-              <label>Käsitelläänkö tilassa kemikaaleja tai pölyjä? Onko räjähdyssuoja-arviointi ajantasalla?</label>
-              <div>
-                <br></br>
-              <label>Puutteellinen</label>
-                <input type="radio" value=1 name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value=2 name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value=3 name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value=0 name="condition"/>
-                <br></br>
-                <br></br>
-                <label>Huomiot</label>
-                <br></br>
-                <TextInput type="text" name="attentions" />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h4>Säteilyturvallisuusdokumentit</h4>
-            <div>
-              <label>Onko säteilyturvallisuusohjeet ja luvat ajantasalla?</label>
-              <div>
-                <br></br>
-              <label>Puutteellinen</label>
-                <input type="radio" value=1 name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value=2 name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value=3 name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value=0 name="condition"/>
-                <br></br>
-                <br></br>
-                <label>Huomiot</label>
-                <br></br>
-                <TextInput type="text" name="attentions" />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h4>Turvallisuushavainnot</h4>
-            <div>
-              <label>Onko tilasta tullut turvallisuushavaintoja? Onko korjaavat toimenpiteet tehty?</label>
-              <div>
-                <br></br>
-              <label>Puutteellinen</label>
-                <input type="radio" value=1 name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value=2 name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value=3 name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value=0 name="condition"/>
-                <br></br>
-                <br></br>
-                <label>Huomiot</label>
-                <br></br>
-                <TextInput type="text" name="attentions" />
-              </div>
-              <br></br>
-            </div>
-          </div>
-
-          <div>
-            <label>Muita huomioita/ kehitysideat</label>
-            <TextInput type="text" name="attentions" />
-          </div>
-          <br></br>
-          <div>
-          <label>Mitä positiivista olet huomannut tarkastusjasolla?</label>
-          <TextInput type="text" name="attentions" />
-        </div>
-        <div>
-          <br></br>
-          <p>Lisää kuva</p>
-          <PhotoInput
-            type="file"
-            accept="image/*"
-            capture="environment"
-            onChange={handleFileChange}
-          />
-        </div>
-        <br></br>
-        <br></br>
-        <div>
-          <SaveButton type="submit">Tallenna</SaveButton>
-        </div>
-        <br></br>
-        <br></br>
-        </form>
-      </GrayBackground>
-      </FormContainer>
-    </SafetyReviewContainer>
-*/
   );
 };
   

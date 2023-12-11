@@ -65,11 +65,6 @@ const Home = () => {
           </ReviewLink>
         </LinkButton>
         <LinkButton>
-          <ReviewLink to="/roomselection" className="review-link">
-            Huoneen ohjeet
-          </ReviewLink>
-        </LinkButton>
-        <LinkButton>
           <ReviewLink to="/raports" className="review-link">
             Raportit
           </ReviewLink>

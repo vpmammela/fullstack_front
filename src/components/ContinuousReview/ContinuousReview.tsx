@@ -14,26 +14,13 @@ import { getInspectionTargetById, getInspectionTargetsByEnviromentsId } from '..
 import { createInspectionForm } from '../../services/inspectionform';
 import PreviousReviews from '../PreviousReviews/PreviousReviews';
 
-/*const ContinuousReviewContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-image: url(${redSnow});
-  background-size: cover;
-  background-position: center;
-  overflow: hidden; /* Scrolling disabled 
-`;*/
-
 const GrayBackground = styled.div`
-  position: fixed; /* Fixed position to keep it visible while scrolling */
-  top: 66%;
+  position: fixed;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: lightgray;
   border-top-left-radius: 0% 50px;
   border-top-right-radius: 0% 50px;
@@ -43,6 +30,10 @@ const GrayBackground = styled.div`
   align-items: center;
   box-sizing: border-box;
   z-index: 1; /* Ensure it's above the photo container */
+
+  @media (max-width: 768px) {
+    padding-top: 70px; /* Adjust padding for smaller screens */
+  }
 `;
 
 // Photo container for viewing downloaded photo.
@@ -50,64 +41,27 @@ const PhotoContainer = styled.div`
   overflow-y: auto; /* Enable vertical scrolling */
   height: 100%;
 `;
-// AMK logo.
-const LogoContainer = styled.div`
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%); 
-  z-index: 2; /* Logo is on top of everything */
-`;
-
-const LogoImage = styled.img`
-  width: 200px;
-  height: auto;
-`;
-
-const IconButtonContainer = styled.div`
-  display: flex;
-  margin-bottom: 10px;
-`;
-
-const IconButton = styled.button`
-  background-color: ${(props) => props.color || 'transparent'};
-  border: none;
-  margin-right: 5px;
-  padding: 0;
-  cursor: pointer;
-`;
 
 const FileInput = styled.input`
   margin-top: 5px;
+  @media (max-width: 768px) {
+    min-width: 100px;
+  }
 `;
-
-const IconSize = '3x';
 
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 70px;
-`;
+  padding-top: 230px;
 
-const FormLabel = styled.label`
-  display: block;
-  margin-bottom: 10px;
-`;
+  @media (max-width: 768px) {
+    padding-top: 100px; /* Adjust padding for smaller screens */
+  }
 
-const FormInput = styled.input`
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 20px;
-`;
-
-const SaveButton = styled.button`
-  background-color: #C9431B;
-  border-radius: 5px;
-  color: white;
-  font-size: 20px;
-  padding: 10px 20px;
-  margin-top: auto; // Show button at bottom of page.
+  /* Add styles for making the form scrollable */
+  max-height: calc(100vh - 70px); /* Adjust the value based on your design */
+  overflow-y: auto;
 `;
 
 // ACTION
@@ -229,6 +183,9 @@ const ContinuousReview = () => {
   };
 
   return (
+    <GrayBackground>
+      <Header/>
+    <FormContainer>
     <div>
       <div>
         <br></br>
@@ -264,67 +221,9 @@ const ContinuousReview = () => {
       <h3>Aiemmat jatkuvat katselmoinnit</h3>
         <PreviousReviews type={"continuous"}></PreviousReviews>
     </div>
+    </FormContainer>
+    </GrayBackground>
   )
-
-/*
-  return (
-    <div>
-        <Header></Header>
-      <LogoContainer>
-          <LogoImage src={logo} alt="Logo" />
-        </LogoContainer>
-        <GrayBackground>
-          <PhotoContainer>
-            <FormContainer>
-            <h2>Jatkuva katselmointi</h2>
-              <Form method="post">
-                <FormLabel> Tilan yleisilme</FormLabel>
-                <div>
-                  <IconButtonContainer>
-                    <IconButton
-                      type="button"
-                      color={selectedMood === 'happy' ? 'green' : 'transparent'}
-                      onClick={() => handleMoodSelection('happy')}
-                    >
-                      <FontAwesomeIcon icon={faSmile} size={IconSize} />
-                    </IconButton>
-                    <IconButton
-                      type="button"
-                      color={selectedMood === 'neutral' ? 'yellow' : 'transparent'}
-                      onClick={() => handleMoodSelection('neutral')}
-                    >
-                      <FontAwesomeIcon icon={faMeh} size={IconSize} />
-                    </IconButton>
-                    <IconButton
-                      type="button"
-                      color={selectedMood === 'sad' ? 'red' : 'transparent'}
-                      onClick={() => handleMoodSelection('sad')}
-                    >
-                      <FontAwesomeIcon icon={faFrown} size={IconSize} />
-                    </IconButton>
-                  </IconButtonContainer>
-                </div>
-                <FormInput type="text" name="attentions" placeholder="Huomiot ja kehitysideat" />
-                <FormInput type="text" name="developmentIdeas" placeholder="Kirjoita muut huomiot tähän" />
-                <FormInput type="text" name="positiveThings" placeholder="Mitä positiivista olet huomannut tarkastusjasolla?" />
-                <br />
-                <FormLabel>Valitse kuva</FormLabel>
-                <FileInput type="file" accept="image/*" capture="environment" onChange={handleFileChange} />
-                <p>
-                  Image preview:
-                  {photoUrl ? <img src={photoUrl} alt="Selected" style={{ maxWidth: '50%' }} /> : null}
-                </p>
-                <div></div>
-              </Form>
-              <div>
-                <SaveButton type="submit">Tallenna</SaveButton>
-              </div>
-            </FormContainer>
-          </PhotoContainer>
-        </GrayBackground>
-    </div>
-  );
-*/
 };
 
 export default ContinuousReview;
