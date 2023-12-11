@@ -223,9 +223,7 @@ const UserControl: React.FC<UserControlProps> = ({ isAdmin }) => {
           {users.map((user) => (
             <UserListItem key={user.id}>
               {user.firstName} {user.lastName}{' '}
-              {isAdmin && (
                 <GrayButton onClick={() => handleDeleteUser(user.id)}>Poista</GrayButton>
-              )}
             </UserListItem>
           ))}
         </UserList>
