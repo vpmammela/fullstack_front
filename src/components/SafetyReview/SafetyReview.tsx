@@ -18,6 +18,12 @@ const SafetyReviewContainer = styled.div`
   height: 100vh;
   background-size: cover;
   background-position: center;
+
+  @media (max-width: 768px) {
+    top: 0; /* Adjust for smaller devices */;
+    min-height: 100%; /* Adjust for smaller devices */;
+    border-radius: 0; /* Optionally, remove border-radius for smaller devices */
+  }
 `;
 
 const GrayBackground = styled.div`
@@ -38,7 +44,7 @@ const GrayBackground = styled.div`
 
 const FormContainer = styled.div`
   position: absolute;
-  top: 100px; /* Adjust alue based on header height */
+  top: 100px; /* Adjust value based on header height */
   left: 50%;
   transform: translate(-50%, 0);
   width: 100%;
@@ -51,15 +57,30 @@ const FormContainer = styled.div`
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    top: 0; /* Adjust for smaller devices */;
+    min-height: 100%; /* Adjust for smaller devices */;
+    border-radius: 0; /* Optionally, remove border-radius for smaller devices */
+  }
 `;
 
 const TextInput = styled.input`
   width: 80%; 
-  padding: 35px; 
+  padding: 15px; /* Adjust padding for smaller devices */
+  
+  @media (max-width: 768px) {
+    width: 100%; /* Adjust width for smaller devices */
+  }
 `;
 
 const PhotoInput = styled.input`
   margin-top: 5px;
+  width: 80%; /* Adjust width for smaller devices */
+  
+  @media (max-width: 768px) {
+    width: 100%; /* Adjust width for smaller devices */
+  }
 `;
 
 const SaveButton = styled.button`
