@@ -36,7 +36,7 @@ const PreviousReviews: React.FC<{ type: string }> = ({ type }) => {
         console.log("REPORTS:", reportData)
         setReportsArray(reportData.items)
       } catch (error) {
-        setNotification('Error fetching reports:', error);
+        setNotification(`Error fetching reports: ${error}`);
       }
     };
     fetchReports();

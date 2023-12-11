@@ -2,25 +2,6 @@ import { useEffect, useState } from "react";
 import { getUserById } from "../../services/user";
 import { useNotification } from "../../NotificationContext";
 
-interface FormData {
-  createdAt: string;
-  user_id: number;
-  inspectiontarget_id: number;
-  id: number;
-  closedAt: string;
-  environment_id: number;
-  inspectiontype_id: number;
-}
-
-interface ReportData {
-  id: number;
-  note: string;
-  inspectionform_id: number;
-  createdAt: string;
-  value: number;
-  title: string;
-  inspectionform: FormData;
-}
 
 interface UserData {
   id: number;
@@ -45,10 +26,9 @@ const Report: React.FC<{ inspectionform_id: number, user_id: number, createdAt: 
       console.log("Fetching reports")
       try {
         const userData: UserData = await getUserById(user_id);
-        console.log("USERNAME:", userData.username)
-        setUsername(userData.username)
+        setUsername(userData.username);
       } catch (error) {
-        setNotification('Error fetching reports:', error);
+        setNotification(`Error fetching user: ${error}`);
       }
     };
     fetchReports();
