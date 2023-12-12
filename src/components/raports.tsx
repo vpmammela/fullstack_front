@@ -10,24 +10,19 @@ import ChartRaport from './ChartRaport'
 // TODO: render dropdonw and text so it can be seen --> move lower.
 
 const GrayBackground = styled.div`
-  margin-top: 50px; /* Adjust the margin based on your header height */
+ position: absolute;
   width: 100%;
+  min-height: 100vh;
   background-color: lightgray;
-  border-top-left-radius: 0% 50px;
-  border-top-right-radius: 0% 50px;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
-  z-index: 1;
-  position: relative;
-  top: 70px;
   @media (max-width: 768px) {
     padding-top: /* Adjust for smaller devices */;
     width: 100%; /* Reset width for smaller devices */
   }
-
 `;
 const SelectContainer=styled.div`
   display: flex;

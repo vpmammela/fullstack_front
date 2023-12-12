@@ -10,16 +10,17 @@ import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import SlidingPanel from "../Instructions";
 import Notification from "./Notification/Notification";
 
+
 const HeaderContainer = styled.div`
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 25%;
-  width: 100%;
-  right: 0;
-  top:0;
   padding:5px;
   background-image: url(${redSnow});
   background-size: cover;

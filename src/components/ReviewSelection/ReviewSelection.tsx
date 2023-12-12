@@ -22,7 +22,12 @@ const GrayBackground = styled.div`
   box-sizing: border-box;
   z-index: -1000; /* Adjust the z-index as needed */
 `;
-
+const LinkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`
 
 // Links to all types of reviews when user is admin/staff. Link to ContinuousReview if user is student
 const ReviewSelection = () => {
@@ -47,7 +52,6 @@ const ReviewSelection = () => {
   if(role === "student"){
     return (
       <GrayBackground>
-        <Header/>
       <div className="all-links">
         <div className="linkbutton">
           <Link className="review-link" to="/continuous">
@@ -66,7 +70,7 @@ const ReviewSelection = () => {
   if(role === "admin"){
     return (
       <GrayBackground>
-        <Header/>
+        
       <div className="all-links">
       
         <div className="linkbutton">
@@ -89,7 +93,7 @@ const ReviewSelection = () => {
             Management Review
           </Link>
         </div>
-    
+        
         <Outlet></Outlet>
       </div>
       </GrayBackground>
@@ -100,7 +104,6 @@ const ReviewSelection = () => {
   if(role === "staff"){
     return (
       <GrayBackground>
-        <Header/>
       <div>
         <div className="linkbutton">
           <Link className="review-link" to="/continuous">

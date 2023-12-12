@@ -56,6 +56,9 @@ const LoginFormContainer = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 1;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const LoginFormContent = styled.div`
@@ -64,16 +67,18 @@ const LoginFormContent = styled.div`
   padding: 20px;
   box-sizing: border-box;
   text-align: center;
+  
 `;
 
 const StyledInput = styled.input`
   width: 100%;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   box-sizing: border-box;
   border: none;
-  border-radius: 5px;
-  background-color: white;
+  border-radius: 8px;
+  background-color: #efefef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Lisää varjo tässä */
 `;
 
 const StyledButton = styled.button`
@@ -81,11 +86,12 @@ const StyledButton = styled.button`
   padding: 12px;
   box-sizing: border-box;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   background-color: #C9431B;
   color: white;
   cursor: pointer;
   font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
 const SignInHeader = styled.h2`
@@ -93,6 +99,7 @@ const SignInHeader = styled.h2`
   margin-top: 0;
   margin-bottom: 20px;
   text-align: center;
+  font-size: 35px;
 `;
 
 const LoginForm = () => {

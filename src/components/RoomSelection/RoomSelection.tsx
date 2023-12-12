@@ -64,6 +64,9 @@ const RedButton = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 
@@ -100,7 +103,6 @@ export default function Home() {
 
   return (
     <RoomSelectionContainer>
-      <Header></Header>
       <GrayBackground>
         <FormContainer>
           <FormContent>
@@ -111,7 +113,6 @@ export default function Home() {
             {location_id && (
               <div className="selectStyle">
                 <EnvironmentSelection setEnvironment_id={setEnvironment_id} location_id={parseInt(location_id, 10)}></EnvironmentSelection>
-                <text>Valitse seuraava tila. Jos haluat tehdä katselmoinnin ympärisölle, niin jätä tila tyhjäksi</text>
                 {environment_id && (
                   <InspectionsTargetsSelectionByEnvironmentId setInspectiontarget_id={setInspectiontarget_id} environment_id={environment_id}></InspectionsTargetsSelectionByEnvironmentId>
                 )}

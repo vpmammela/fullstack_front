@@ -26,14 +26,24 @@ const LinkContainer = styled.div`
 `;
 
 const LinkButton = styled.div`
-  padding-top: 50px;
-  margin-top: 2%;
+  background-color: #c9431b;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-size: 18px;
+  border-radius: 5px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ReviewLink = styled(Link)`
-  color: black;
+  color: white;
   text-decoration: none; /* Remove default underline */
-  font-weight: bold;
   font-size: 20px;
   &:hover {
     color: white;
