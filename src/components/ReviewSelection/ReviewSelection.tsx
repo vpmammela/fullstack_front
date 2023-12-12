@@ -46,13 +46,19 @@ const ReviewSelection = () => {
   // Students can only access continuous reviews
   if(role === "student"){
     return (
-      <div className="linkbutton">
-        <Link className="review-link" to="/continuous">
-          Continuous Review
-        </Link>
+      <GrayBackground>
+        <Header/>
+      <div className="all-links">
+        <div className="linkbutton">
+          <Link className="review-link" to="/continuous">
+            Continuous Review
+          </Link>
 
+          <Outlet></Outlet>
+        </div>
         <Outlet></Outlet>
       </div>
+      </GrayBackground>
     )
   }
 
