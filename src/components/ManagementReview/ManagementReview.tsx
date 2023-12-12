@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { Form } from "react-router-dom";
 import '../styles.css';
@@ -9,6 +9,7 @@ import { getInspectionTargetById, getInspectionTargetsByEnviromentsId } from '..
 import { createInspectionResult } from "../../services/inspectionresult";
 import { createInspectionForm } from "../../services/inspectionform";
 import PreviousReviews from '../PreviousReviews/PreviousReviews';
+import { createPhoto } from '../../services/photo';
 
 const GrayBackground = styled.div`
   position: fixed; /* Fixed position to keep it visible while scrolling */
@@ -41,11 +42,11 @@ const FormContainer = styled.div`
   }
 `;
 
-const FormInput = styled.input`
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
+const FileInput = styled.input`
+  margin-top: 5px;
+  @media (max-width: 768px) {
+    min-width: 100px;
+  }
 `;
 
 
@@ -74,13 +75,6 @@ const questionsMap: Record<string, string> = {
   leadership:'6S-johtamisen portaikko - tason arviointi',
 };
 
-const evaluationMap: { [key: string]: number } = {
-  heikko: 0,
-  puutteelinen: 1,
-  perustaso: 2,
-  sitoutunut: 3,
-  edelläkävijä: 4
-};
 
 const ManagementReview = () => {
   const { setNotification } = useNotification();
@@ -91,13 +85,8 @@ const ManagementReview = () => {
 
   // Store the selected photo file.
   const [photo, setPhoto] = useState<File | null>(null);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-    if (file) {
-      setPhoto(file);
-    }
-  };
 
   // Initialize state to store selected values and notes
   const [formData, setFormData] = useState<FormData>({
@@ -147,6 +136,19 @@ const ManagementReview = () => {
     };
   };
 
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    setPhoto(file || null);
+
+    // photo preview
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setPhotoUrl(imageUrl);
+    } else {
+      setPhotoUrl(null);
+    }
+  };
+
   // Sends form data and result data to backend
   const sendResultData = async (inspectiontype: string) => {
     console.log(description);
@@ -171,26 +173,18 @@ const ManagementReview = () => {
       inspectiontarget_id: parseInt(target[0].id, 10),
       inspectiontype,
     };
-  
-    // Upload photo if available
-    if (photo) {
-      const formData = new FormData();
-      formData.append('photo', photo);
-  
-      try {
-        await fetch('https://localhost:5180/api/v1/images', {
-          method: 'POST',
-          body: formData,
-        });
-      } catch (e) {
-        setNotification(`Virhe kuvan lähettämisessä: ${e}`);
-      }
-    }
-  
+
     // creates form
     let inspectionform: { id: number } | null = null;
     try {
       inspectionform = await createInspectionForm(formSend);
+
+      // Upload photo if available
+      if (photo) {
+        const formData = new FormData();
+        formData.append('image', photo);
+        await createPhoto(inspectionform!.id, formData);
+      }
     } catch (e) {
       setNotification(`Virhe katselmoinnin tallentamisessa: ${e}`);
     }
@@ -436,10 +430,13 @@ const ManagementReview = () => {
                   </div>
                 </div>
               </div>
-              <div>
-                <label>Lataa kuva: </label>
-                <input type="file" accept="image/*" onChange={handlePhotoChange} />
-              </div>
+              <h3>Valitse kuva</h3>
+              <FileInput type="file" accept="image/*" capture="environment" onChange={handleFileChange} />
+              <p>
+                Kuvan esikatselu:
+                <br></br>
+                {photoUrl ? <img src={photoUrl} alt="Selected" style={{ maxWidth: '50%' }} /> : null}
+              </p>
             </div>
             <div>
               <br/>
@@ -456,127 +453,6 @@ const ManagementReview = () => {
       </FormContainer>
     </GrayBackground>
   );
-
-
-/*
-  return (
-    <ManagementReviewContainer>
-      <Header/>
-      <GrayBackground>
-        <h2>Toimintamallin ja johtamisen katselmointi</h2>
-        <FormTable className="table">
-        <FromThead>
-        <FormTitle>Toimintamallin katselmointi</FormTitle>
-          <tr>
-            <th>AIHE</th>
-            {ratingOptions.map((option, index) => (
-              <th key={index}>{option}</th>
-            ))}
-          </tr>
-        </FromThead>
-          <tbody>
-            {questions.map((question, questionIndex) => (
-            <tr key={questionIndex}>
-              <FromTd>{question}</FromTd>
-              {ratingOptions.map((option, optionIndex) => (
-                <FromTd key={optionIndex}>
-                {option !== 'HUOMIOT' ? (
-                  <RadioInput
-                    type="radio"
-                    name={`question${questionIndex}`}
-                    value={option}
-                    //checked={answers[questionIndex] === option}
-                    onChange={() => handleRadioChange('general', 'condition', option)}
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    name="generalComment"
-                    onChange={(e) => handleTextChange('general', e.target.value)}
-                  />
-                )}
-                </FromTd>
-             
-              ))}
-            </tr>
-            ))}
-            </tbody>
-            <FromThead>
-              <FormTitle>Johtamisen katselmointi</FormTitle>
-                <tr>
-                  <th>AIHE</th>
-                  {ratingOptions.map((option, index) => (
-                    <th key={index}>{option}</th>
-                  ))}
-                </tr>
-            </FromThead>
-            <tbody>
-              {questionsManagement.map((question, questionIndex) => (
-            <tr key={questionIndex}>
-              <FromTd>{question}</FromTd>
-              {ratingOptions.map((option, optionIndex) => (
-                <FromTd key={optionIndex}>
-                {option !== 'HUOMIOT' ? (
-                  <RadioInput
-                    type="radio"
-                    name={`question${questionIndex}`}
-                    value={option}
-                    //checked={answers[questionIndex] === option}
-                    onChange={() => handleRadioChange('general', 'condition', option)}
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    name="generalComment"
-                    onChange={(e) => handleTextChange('general', e.target.value)}
-                  />
-                )}
-                </FromTd>
-              ))}
-            </tr>
-            ))}
-            </tbody>
-            <tbody>
-            <FormRow>
-              <td>
-                <FormLabel>Muita Huomiota</FormLabel>
-                <FormInput type="text" id="comments1" onChange={handleDescriptionChange}/>
-              </td>
-            </FormRow>
-            <FormRow>
-              <td>
-                <FormLabel htmlFor="comments1">Mitä positiivista olet huomannut tarkastusjaksolla? Palkitsemusehdotus</FormLabel>
-                <FormInput type="text" id="comments2" onChange={handleDescriptionChange}/>
-              </td>
-            </FormRow>
-            <FormRow>
-              <td>
-                <FormLabel>
-                  Valitse kuva
-                  <FileInput
-                    type="file"
-                    accept="image"
-                    capture="environment"
-                    onChange={handleFileChange}
-                  />
-                </FormLabel>
-              </td>
-            </FormRow>
-            </tbody>
-          <br/>
-        <br/>
-        <div>
-        <SaveButton type="button" onClick={() => sendResultData("management")}>
-          Tallenna
-        </SaveButton>
-        </div>
-        <br/>
-        <br/>
-        </FormTable>
-      </GrayBackground>
-    </ManagementReviewContainer>
-  );
-*/
 };
 
 export default ManagementReview;

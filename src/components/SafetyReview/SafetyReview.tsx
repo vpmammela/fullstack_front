@@ -8,6 +8,7 @@ import { createInspectionResult } from '../../services/inspectionresult';
 import { useNotification } from '../../NotificationContext';
 import axios from 'axios';
 import PreviousReviews from '../PreviousReviews/PreviousReviews';
+import { createPhoto } from '../../services/photo';
 
 const GrayBackground = styled.div`
   position: fixed; /* Fixed position to keep it visible while scrolling */
@@ -61,6 +62,12 @@ const PhotoInput = styled.input`
   }
 `;
 
+const FileInput = styled.input`
+  margin-top: 5px;
+  @media (max-width: 768px) {
+    min-width: 100px;
+  }
+`;
 
 interface FormData {
   [key: string]: {
@@ -88,16 +95,10 @@ const questionsMap: Record<string, string> = {
   observations: "Onko tilasta tullut turvallisuushavaintoja? Onko korjaavat toimenpiteet tehty?",
 };
 
-const evaluationMap: { [key: string]: number } = {
-  inadequate: 1,
-  involved: 2,
-  precursor: 3,
-  notaApplicable: 0,
-};
-
 const SafetyReview = () => {
   const { setNotification } = useNotification();
   const [photo, setPhoto] = useState<File | null>(null);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
   const { environment_id } = useReviewContext();
   const { inspectiontarget_id } = useReviewContext();
@@ -105,6 +106,14 @@ const SafetyReview = () => {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     setPhoto(file || null);
+
+    // photo preview
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setPhotoUrl(imageUrl);
+    } else {
+      setPhotoUrl(null);
+    }
   };
 
   const [formData, setFormData] = useState<FormData>({
@@ -173,19 +182,17 @@ const SafetyReview = () => {
       inspectiontype
     }
 
-    // Upload photo if available
-    if (photo) {
-      const formData = new FormData();
-      formData.append('photo', photo);
-
-      // TODO: Replace with the actual API endpoint.
-      await axios.post('https://localhost:5180/api/v1/images', formData);
-    }
-
     // creates form
     let inspectionform: { id: number; } | null = null;
     try {
       inspectionform = await createInspectionForm(formSend);
+
+      // Upload photo if available
+      if (photo) {
+        const formData = new FormData();
+        formData.append('image', photo);
+        await createPhoto(inspectionform!.id, formData);
+      }
     } catch (e) {
       setNotification(`Virhe katselmoinnin tallentamisessa: ${e}`)
     }
@@ -428,14 +435,13 @@ const SafetyReview = () => {
                 <TextInput type="text" name="attentions" />
               </div>
               <div>
-                <br></br>
-                <p>Lisää kuva</p>
-                <PhotoInput
-                  type="file"
-                  accept="image/*"
-                  capture="environment"
-                  onChange={handleFileChange}
-                />
+                <h3>Valitse kuva</h3>
+                <FileInput type="file" accept="image/*" capture="environment" onChange={handleFileChange} />
+                <p>
+                  Kuvan esikatselu:
+                  <br></br>
+                  {photoUrl ? <img src={photoUrl} alt="Selected" style={{ maxWidth: '50%' }} /> : null}
+                </p>
               </div>
               <br></br>
               <br></br>

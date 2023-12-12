@@ -19,7 +19,6 @@ import Raports from './components/raports.tsx'
 import UserControl from './components/UserControl.tsx'
 import { ReviewProvider } from './ReviewContext.tsx'
 import ForgotPassword from './components/ForgotPassword.tsx'
-import  Reset from './components/ResetPassword.tsx'
 import ResetPassword from './components/ResetPassword.tsx'
 
 
@@ -55,7 +54,7 @@ const router = createBrowserRouter([
       {
         path: "/continuous",
         element: <ContinuousReview></ContinuousReview>,
-        action: continuosReviewAction
+        //action: continuosReviewAction
       },
       {
         path: "/semester",

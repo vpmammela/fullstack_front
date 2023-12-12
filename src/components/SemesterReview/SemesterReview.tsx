@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import "../styles.css";
 import { Form } from "react-router-dom";
 import { createInspectionResult } from "../../services/inspectionresult";
@@ -10,6 +10,7 @@ import Header from "../header";
 import { useNotification } from "../../NotificationContext";
 import axios from "axios";
 import PreviousReviews from "../PreviousReviews/PreviousReviews";
+import { createPhoto } from "../../services/photo";
 
 
 const GrayBackground = styled.div`
@@ -43,11 +44,11 @@ const FormContainer = styled.div`
   }
 `;
 
-const FormInput = styled.input`
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
+const FileInput = styled.input`
+  margin-top: 5px;
+  @media (max-width: 768px) {
+    min-width: 100px;
+  }
 `;
 
 interface FormData {
@@ -83,14 +84,22 @@ const SemesterReview = () => {
 
   // Store the selected photo file.
   const [photo, setPhoto] = useState<File | null>(null);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    setPhoto(file || null);
+
+    // photo preview
     if (file) {
-      setPhoto(file);
+      const imageUrl = URL.createObjectURL(file);
+      setPhotoUrl(imageUrl);
+    } else {
+      setPhotoUrl(null);
     }
   };
 
+  
   // Initialize state to store selected values and notes
   const [formData, setFormData] = useState<FormData>({
     general: { condition: '0', note: '' },
@@ -161,19 +170,18 @@ const SemesterReview = () => {
       inspectiontarget_id: parseInt(target[0].id, 10),
       inspectiontype
     }
-    
-    // Upload photo if available
-    if (photo) {
-      const formData = new FormData();
-      formData.append('photo', photo);
-
-      await axios.post('https://localhost:5180/api/v1/images', formData);
-    }
 
     // creates form
     let inspectionform: { id: number; } | null = null;
     try{
       inspectionform = await createInspectionForm(formSend);
+
+      // Upload photo if available
+      if (photo) {
+        const formData = new FormData();
+        formData.append('image', photo);
+        await createPhoto(inspectionform!.id, formData);
+      }
     } catch (e) {
       setNotification(`Virhe katselmoinnin tallentamisessa: ${e}`)
     }
@@ -359,10 +367,13 @@ const SemesterReview = () => {
                   </div>
                 </div>
               </div>
-              <div>
-                <label>Lataa kuva: </label>
-                <input type="file" accept="image/*" onChange={handlePhotoChange} />
-              </div>
+              <h3>Valitse kuva</h3>
+              <FileInput type="file" accept="image/*" capture="environment" onChange={handleFileChange} />
+              <p>
+                Kuvan esikatselu:
+                <br></br>
+                {photoUrl ? <img src={photoUrl} alt="Selected" style={{ maxWidth: '50%' }} /> : null}
+              </p>
             </div>
             <div>
               <br/>
@@ -379,146 +390,6 @@ const SemesterReview = () => {
       </FormContainer>
     </GrayBackground>
   );
-/*
-  return (
-    <div>
-      <h2>
-        6S Lukukausi / vuosikatselmointi
-      </h2>
-      <Form>
-        <div>
-          <div>
-            <label>Yleisilme</label>
-            <div>
-              <label>Onko yleisilme siisi? Millä tasolla päivittäiskatselmointien tulokset ovat? Onko havaittuihin poikkeamiin reagoitu?</label>
-              <div>
-              <label>Puutteellinen</label>
-                <input type="radio" value="1" name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value="2" name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value="3" name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value="4" name="condition"/>
-                <label>Huomiot</label>
-                <input type="text" name="attentions"/>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label>Ohjeistukset</label>
-            <div>
-              <label>Onko ohjeistukset saatavilla ja ajantasaiset? Noudatetaanko annettuja ohjeita?</label>
-              <div>
-              <label>Puutteellinen</label>
-                <input type="radio" value="1" name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value="2" name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value="3" name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value="4" name="condition"/>
-                <label>Huomiot</label>
-                <input type="text" name="attentions"/>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label>Turvallisuus</label>
-            <div>
-              <label>Turvallisuushavaitojen läpikäynti, koneiden ja laitteiden kunto ja turvallisuus, henkilösuojaimet</label>
-              <div>
-              <label>Puutteellinen</label>
-                <input type="radio" value="1" name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value="2" name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value="3" name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value="4" name="condition"/>
-                <label>Huomiot</label>
-                <input type="text" name="attentions"/>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label>Kiertotalous</label>
-            <div>
-              <label>Onko syntyvät erityisjätteet tunnistettu? Onko tarpeelliset kierrätysastiat saatavilla? Huolehditaanko tarvittavat tyhjennykset?</label>
-              <div>
-              <label>Puutteellinen</label>
-                <input type="radio" value="1" name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value="2" name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value="3" name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value="4" name="condition"/>
-                <label>Huomiot</label>
-                <input type="text" name="attentions"/>
-             </div>
-            </div>
-          </div>
-
-          <div>
-            <label>Kemikaalien hallinta</label>
-            <div>
-              <label>Onko kemikaaliluettelot ajantasalla? Säilytetäänkö kemikaalit asianmukaisesti? Onko varoitusmerkit ja käyttöturvatiedotteet saatavilla?</label>
-              <div>
-              <label>Puutteellinen</label>
-                <input type="radio" value="1" name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value="2" name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value="3" name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value="4" name="condition"/>
-                <label>Huomiot</label>
-                <input type="text" name="attentions"/>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label>Trail - kalustonhallinta</label>
-            <div>
-              <label>Onko laitteet ajantasalla kalustonhallintajärjestelmässä? </label>
-              <div>
-              <label>Puutteellinen</label>
-                <input type="radio" value="1" name="condition"/>
-                <label>Sitoutunut</label>
-                <input type="radio" value="2" name="condition"/>
-                <label>Edelläkävijä</label>
-                <input type="radio" value="3" name="condition"/>
-                <label>Ei sovellettavissa</label>
-                <input type="radio" value="4" name="condition"/>
-                <label>Huomiot</label>
-                <input type="text" name="attentions"/>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label>Muita huomioita/ kehitysideat</label>
-            <input type="text" name="othetAttentions"/>
-          </div>
-
-          <div>
-          <label>Mitä positiivista olet huomannut tarkastusjasolla?</label>
-          <input type="text" name="positiveThings"></input>
-        </div>
-        <div>
-          <p>VALOKUVAUN LISÄYS TÄHÄN</p>
-        </div>
-
-        </div>
-      </Form>
-    </div>
-  );
-  */
 };
 
 export default SemesterReview;
