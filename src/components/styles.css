@@ -18,28 +18,32 @@
 }*/
 
 .linkbutton{
-  display: block;
-  padding: 10px 20px; 
-  background-color: #78d8d2;
-  color: #fff; 
-  text-decoration: none; 
-  border: none; 
-  border-radius: 5px; 
-  font-weight: bold;
-  cursor: pointer; 
-  text-align: center; 
-  margin: 15px;
+  background-color: #c9431b;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-size: 18px;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: 20%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 }
 
 
-/*.review-link {
+.review-link {
   color:black;
   text-decoration: none;
   font-size: 18px;
   font-weight: bold;
   margin-top: 10px;
   margin-bottom: 10px;
-}*/
+}
 
 /*.links {
   margin-bottom: 1000px;
@@ -151,16 +155,18 @@ button:hover {
 }
 
 .button {
+  background-color: #c9431b;
+  color: white;
+  padding: 10px 20px;
   text-decoration: none;
-  color: #f9f9f9;
-  margin-bottom: 10%;
-  border-radius: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  font-weight: bold;
-  background-color: #e16969;
+  font-size: 18px;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: 90%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
 }
 
