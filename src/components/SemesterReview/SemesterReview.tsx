@@ -8,7 +8,6 @@ import styled from "styled-components";
 import { useReviewContext } from "../../ReviewContext";
 import Header from "../header";
 import { useNotification } from "../../NotificationContext";
-import axios from "axios";
 import PreviousReviews from "../PreviousReviews/PreviousReviews";
 import { createPhoto } from "../../services/photo";
 
@@ -385,7 +384,7 @@ const SemesterReview = () => {
             </div>
           </Form>
         </div>
-        <h3>Aiemmat Lukukausi / vuosikatselmoinnit</h3>
+        <h3>Huoneen aiemmat Lukukausi / vuosikatselmoinnit</h3>
         <PreviousReviews type={"semester"}></PreviousReviews>
       </FormContainer>
     </GrayBackground>

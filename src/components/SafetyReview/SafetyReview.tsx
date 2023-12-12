@@ -52,16 +52,6 @@ const TextInput = styled.input`
   }
 `;
 
-const PhotoInput = styled.input`
-  margin-top: 5px;
-  width: 80%;
-
-  @media (max-width: 768px) {
-    padding-top: /* Adjust for smaller devices */;
-    width: 100%; /* Reset width for smaller devices */
-  }
-`;
-
 const FileInput = styled.input`
   margin-top: 5px;
   @media (max-width: 768px) {
@@ -453,7 +443,7 @@ const SafetyReview = () => {
               <br></br>
               <br></br>
             </form>
-            <h3>Aiemmat Turvallisuuskatselmoinnit</h3>
+            <h3>Huoneen aiemmat Turvallisuuskatselmoinnit</h3>
             <PreviousReviews type={"safety"}></PreviousReviews>
             <br />
             <br />
