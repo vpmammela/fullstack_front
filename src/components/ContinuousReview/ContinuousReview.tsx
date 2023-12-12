@@ -193,7 +193,7 @@ const ContinuousReview = () => {
             <br/>
         </div>
       </div>
-      <h3>Aiemmat jatkuvat katselmoinnit</h3>
+      <h3>Huoneen aiemmat jatkuvat katselmoinnit</h3>
         <PreviousReviews type={"continuous"}></PreviousReviews>
     </div>
     </FormContainer>

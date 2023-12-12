@@ -445,7 +445,7 @@ const ManagementReview = () => {
               </button>
               <br/>
               <br/>
-              <h3>Aiemmat Toimintamallin ja Johtamisen katselmoinnit</h3>
+              <h3>Huoneen aiemmat Toimintamallin ja Johtamisen katselmoinnit</h3>
               <PreviousReviews type={"management"}></PreviousReviews>
             </div>
           </Form>

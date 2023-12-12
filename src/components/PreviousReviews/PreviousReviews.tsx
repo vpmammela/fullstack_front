@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { getReports } from '../../services/reports';
 import { useNotification } from "../../NotificationContext";
 import Report from "../Report/Report";
+import { useReviewContext } from "../../ReviewContext";
 
 interface FormData {
   createdAt: string;
@@ -27,6 +28,7 @@ interface ReportData {
 const PreviousReviews: React.FC<{ type: string }> = ({ type }) => {
   const { setNotification } = useNotification();
   const [reportsArray, setReportsArray] = useState<ReportData[]>([]);
+  const { inspectiontarget_id } = useReviewContext();
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -41,23 +43,25 @@ const PreviousReviews: React.FC<{ type: string }> = ({ type }) => {
     };
     fetchReports();
   }, [type]);
+
   
   return (
     <div>
-    {reportsArray.map(report => (
-      <Report
-        key={`${report.createdAt}-${report.inspectionform_id}`}
-        inspectionform_id={report.inspectionform_id}
-        user_id={report.inspectionform.user_id}
-        environment_id={report.inspectionform.environment_id}
-        inspectiontarget_id={report.inspectionform.inspectiontarget_id}
-        createdAt={report.createdAt}
-        title={report.title}
-        value={report.value}
-        note={report.note}
-      />
-    ))}
-  </div>
+      {reportsArray.map(report => (
+        inspectiontarget_id !== report.inspectionform.inspectiontarget_id ? null :
+        <Report
+          key={`${report.createdAt}-${report.inspectionform_id}`}
+          inspectionform_id={report.inspectionform_id}
+          user_id={report.inspectionform.user_id}
+          environment_id={report.inspectionform.environment_id}
+          inspectiontarget_id={report.inspectionform.inspectiontarget_id}
+          createdAt={report.createdAt}
+          title={report.title}
+          value={report.value}
+          note={report.note}
+        />
+      ))}
+    </div>
   );
 }
 
