@@ -11,6 +11,10 @@ const GrayBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 150px;
+  @media (max-width: 768px) {
+    margin-top: 110px;
+  }
 `;
 
 const FormContainer = styled.div`

@@ -10,7 +10,7 @@ import ChartRaport from './ChartRaport'
 // TODO: render dropdonw and text so it can be seen --> move lower.
 
 const GrayBackground = styled.div`
- position: absolute;
+ position: relative;
   width: 100%;
   min-height: 100vh;
   background-color: lightgray;
@@ -88,7 +88,7 @@ const CardContainer =styled.div`
 
   @media (max-width: 768px) {
     padding-top: /* Adjust for smaller devices */;
-    width: 100%; /* Reset width for smaller devices */
+    width: 90%; /* Reset width for smaller devices */
   }
   
 `;
