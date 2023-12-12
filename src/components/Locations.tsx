@@ -1,9 +1,8 @@
-import { Form, Link, redirect, useLoaderData } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getLocations } from '../services/locations';
 import { useEffect, useState } from 'react';
 import CreateEnvironmentType from './CreateEnvironmentType';
 import CreateEnvironment from './CreateEnvironment';
-import EnvironmentTypeSelection from './EnvironmentTypeSelection';
 import styled from 'styled-components';
 
 const LocationContainer = styled.div`

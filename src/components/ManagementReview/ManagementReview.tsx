@@ -101,6 +101,7 @@ const ManagementReview = () => {
   });
 
   // Event handler for the "description" input field
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDescriptionChange = (e: { target: { value: any; }; }) => {
     const newDescription = e.target.value;
     setDescription(newDescription);

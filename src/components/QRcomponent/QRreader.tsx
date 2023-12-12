@@ -21,6 +21,7 @@ const QRreader: React.FC = () => {
       scanner.clear();
       setScanResult(result);
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function error(err: any) {
       console.warn(err);
     }

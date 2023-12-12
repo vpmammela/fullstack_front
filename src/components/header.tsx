@@ -144,6 +144,7 @@ export default function Header() {
               color: "#1e8278", // primary color
               backgroundColor: "#e0e9e8",
               borderRadius: 30,
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               ["--fa-secondary-opacity" as any]: 1, // Type cast to any
             }}
           />

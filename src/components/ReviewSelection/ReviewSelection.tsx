@@ -4,7 +4,6 @@ import useAuthStore from "../../stores/auth";
 import { useEffect, useState } from "react";
 import { useNotification } from "../../NotificationContext";
 import styled from "styled-components";
-import Header from "../header";
 
 const GrayBackground = styled.div`
   position: fixed;
@@ -22,12 +21,7 @@ const GrayBackground = styled.div`
   box-sizing: border-box;
   z-index: -1000; /* Adjust the z-index as needed */
 `;
-const LinkContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-`
+
 
 // Links to all types of reviews when user is admin/staff. Link to ContinuousReview if user is student
 const ReviewSelection = () => {

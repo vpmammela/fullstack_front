@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { getAccount, loginService, logoutUser } from "../services/auth"
-import { isAxiosError } from "axios";
 
 
 interface LoginCredentials {

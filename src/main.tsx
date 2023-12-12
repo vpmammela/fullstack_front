@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Root from './Root.jsx'
 import SemesterReview from './components/SemesterReview/SemesterReview.tsx'
-import ContinuousReview, {action as continuosReviewAction} from './components/ContinuousReview/ContinuousReview.tsx'
+import ContinuousReview from './components/ContinuousReview/ContinuousReview.tsx'
 import SafetyReview from './components/SafetyReview/SafetyReview.tsx'
 import ManagementReview from './components/ManagementReview/ManagementReview.tsx'
 import { UserProvider } from './UserContext';
@@ -38,10 +38,6 @@ const router = createBrowserRouter([
       {
         path: "/locations/create",
         element: <CreateLocation></CreateLocation>
-      },
-      {
-        path: "/locations/:id",
-        element: <Location></Location>
       },
       {
         path: "/roomselection",
