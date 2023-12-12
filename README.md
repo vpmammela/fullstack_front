@@ -28,7 +28,7 @@ If you are developing a production application, we recommend updating the config
 
 
 ## Create .env file
-- see .env_example
+- see example.env
 
 ## Install dependencies
 ```npm install```
