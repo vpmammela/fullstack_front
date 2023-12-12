@@ -55,7 +55,7 @@ const ReviewSelection = () => {
       <div className="all-links">
         <div className="linkbutton">
           <Link className="review-link" to="/continuous">
-            Continuous Review
+            Jatkuvakatselmointi
           </Link>
 
           <Outlet></Outlet>
@@ -75,22 +75,22 @@ const ReviewSelection = () => {
       
         <div className="linkbutton">
           <Link className="review-link" to="/continuous">
-            Continuous Review
+          Jatkuvakatselmointi
           </Link>
         </div>
         <div className="linkbutton">
           <Link className="review-link" to="/semester">
-            Semester Review
+            Lukukausikatselmointi
           </Link>
         </div>
         <div className="linkbutton">
           <Link className="review-link" to="/safety">
-            Safety Review
+            Turvallisuuskatselmointi
           </Link>
         </div>
         <div className="linkbutton">
           <Link className="review-link" to="/management">
-            Management Review
+            Johtamisenkatselmointi
           </Link>
         </div>
         
@@ -107,22 +107,22 @@ const ReviewSelection = () => {
       <div>
         <div className="linkbutton">
           <Link className="review-link" to="/continuous">
-            Continuous Review
+          Jatkuvakatselmointi
           </Link>
         </div>
         <div className="linkbutton">
           <Link className="review-link" to="/semester">
-            Semester Review
+            lukukausikatselmointi
           </Link>
         </div>
         <div className="linkbutton">
           <Link className="review-link" to="/safety">
-            Safety Review
+            Turvallisuuskatselmointi
           </Link>
         </div>
         <div className="linkbutton">
           <Link className="review-link" to="/management">
-            Management Review
+            Johtamisenkatselmointi
           </Link>
         </div>
     
