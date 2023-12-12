@@ -1,11 +1,6 @@
-import React, { useState, ChangeEvent } from 'react';
-import { Form } from 'react-router-dom';
-import { useUser } from '../../UserContext';
-import redSnow from '../../Images/redsnow.jpg';
-import logo from '../../Images/logo.png';
+import { useState, ChangeEvent } from 'react';
+
 import styled from 'styled-components';
-import { faSmile, faMeh, faFrown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Header from '../header';
 import { useNotification } from '../../NotificationContext';
 import { useReviewContext } from '../../ReviewContext';
@@ -13,6 +8,7 @@ import { createInspectionResult } from '../../services/inspectionresult';
 import { getInspectionTargetById, getInspectionTargetsByEnviromentsId } from '../../services/inspectiontarget';
 import { createInspectionForm } from '../../services/inspectionform';
 import PreviousReviews from '../PreviousReviews/PreviousReviews';
+import { createPhoto } from '../../services/photo';
 
 const GrayBackground = styled.div`
   position: fixed;
@@ -36,11 +32,6 @@ const GrayBackground = styled.div`
   }
 `;
 
-// Photo container for viewing downloaded photo.
-const PhotoContainer = styled.div`
-  overflow-y: auto; /* Enable vertical scrolling */
-  height: 100%;
-`;
 
 const FileInput = styled.input`
   margin-top: 5px;
@@ -64,21 +55,6 @@ const FormContainer = styled.div`
   overflow-y: auto;
 `;
 
-// ACTION
-export async function action({ request }: { request: Request }) {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  const response = await fetch('', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-  const result = await response.json();
-  console.log(result);
-}
-
 interface ResultData {
   value: number;
   note: string;
@@ -99,11 +75,11 @@ const ContinuousReview = () => {
   const { inspectiontarget_id } = useReviewContext();
 
 
-
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     setPhoto(file || null);
 
+    // photo preview
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setPhotoUrl(imageUrl);
@@ -156,19 +132,17 @@ const ContinuousReview = () => {
       inspectiontype
     }
     
-    // Upload photo if available
-    if (photo) {
-      const formData = new FormData();
-      formData.append('photo', photo);
-
-      // TODO: Replace with the actual API endpoint.
-      //await axios.post('your-upload-api', formData);
-    }
-
     // creates form
     let inspectionform: { id: number; } | null = null;
     try{
       inspectionform = await createInspectionForm(formSend);
+
+      // Upload photo if available
+      if (photo) {
+        const formData = new FormData();
+        formData.append('image', photo);
+        await createPhoto(inspectionform!.id, formData);
+      }
     } catch (e) {
       setNotification(`Virhe katselmoinnin tallentamisessa: ${e}`)
     }
@@ -206,7 +180,8 @@ const ContinuousReview = () => {
         <h3>Valitse kuva</h3>
           <FileInput type="file" accept="image/*" capture="environment" onChange={handleFileChange} />
           <p>
-            Image preview:
+            Kuvan esikatselu:
+            <br></br>
             {photoUrl ? <img src={photoUrl} alt="Selected" style={{ maxWidth: '50%' }} /> : null}
           </p>
         <div>
@@ -227,7 +202,3 @@ const ContinuousReview = () => {
 };
 
 export default ContinuousReview;
-function handleDataForResult(category: string, id: number) {
-  throw new Error('Function not implemented.');
-}
-
