@@ -7,7 +7,31 @@ import LocationSelection from "./RoomSelection/LocationSelection";
 import EnvironmentTypeSelection from "./EnvironmentTypeSelection";
 import styled from 'styled-components';
 
+const Container = styled.div`
+  margin:10px;
+`
+const Inputstyle = styled.input`
+margin: 10px;
+border-radius: 4px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+border: 0;
+padding: 10px; 
 
+`
+
+const StyledButton = styled.button`
+width: 80%;
+padding: 12px;
+box-sizing: border-box;
+border: none;
+border-radius: 8px;
+background-color: #C9431B;
+color: white;
+cursor: pointer;
+font-weight: bold;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+margin-top: 10px;
+`;
 
 export default function CreateEnvironment() {
     const [name, setName] =useState('')
@@ -42,9 +66,9 @@ export default function CreateEnvironment() {
         <div>
           <h2>Lisää uusi ympäristö</h2>
             <form onSubmit={handleSubmit}>
-                <div>
+                <Container>
                 <label>Ympäristön nimi</label>
-                <input
+                <Inputstyle
                     id="name"
                     type="text"
                     value={name}
@@ -52,10 +76,10 @@ export default function CreateEnvironment() {
                     onChange={({ target }) => setName(target.value)}
                     placeholder="Ympäristön nimi"
                 />
-                </div>
-                <div>
+                </Container>
+                <Container>
                 <label>Ympäristön kuvaus</label>
-                <input
+                <Inputstyle
                     id="description"
                     type="text"
                     value={description}
@@ -63,11 +87,11 @@ export default function CreateEnvironment() {
                     onChange={({ target }) => setDescription(target.value)}
                     placeholder="Kuvaus ympäristöstä"
                 />
-                </div>
+                </Container>
                 <LocationSelection setLocation_id={setLocation_id}></LocationSelection>
                 <EnvironmentTypeSelection setEnvironmentType_id={setEnvironmentType_id}></EnvironmentTypeSelection>
                 <div>
-                  <button type="submit">Tallenna</button>
+                  <StyledButton type="submit">Tallenna</StyledButton>
                 </div>
         </form>
         </div>

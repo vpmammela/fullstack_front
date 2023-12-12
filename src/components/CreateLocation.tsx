@@ -6,7 +6,7 @@ import { useNotification } from "../NotificationContext";
 import styled from "styled-components";
 
 const GrayBackground = styled.div`
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
@@ -18,7 +18,49 @@ const GrayBackground = styled.div`
 `;
 
 const FormContainer = styled.div`
-  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Väli input-kenttien välillä */
+`;
+
+const Inputstyle = styled.input`
+margin: 10px;
+border-radius: 4px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+border: 0;
+padding: 10px; 
+
+`
+const Container1 = styled.div`
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  margin: 20px;
+  width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  @media (max-width: 768px) {
+    width: 90%;
+    box-shadow: none; /* Voit muuttaa varjoa tarpeidesi mukaan tai jättää sen pois kokonaan */
+  }
+`;
+
+const StyledButton = styled.button`
+width: 80%;
+padding: 12px;
+box-sizing: border-box;
+border: none;
+border-radius: 8px;
+background-color: #C9431B;
+color: white;
+cursor: pointer;
+font-weight: bold;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+margin-top: 10px;
 `;
 
 const CreateLocation = () => {
@@ -50,11 +92,13 @@ const CreateLocation = () => {
   return (
     <div>
       <GrayBackground>
+        <Container1>
         <FormContainer>
+          <h2>Lisää toimipaikka</h2>
           <form onSubmit={handleSubmit}>
             <div>
               <label>Toimipaikan nimi</label>
-              <input
+              <Inputstyle
                 id="name"
                 type="text"
                 value={name}
@@ -66,7 +110,7 @@ const CreateLocation = () => {
 
             <div>
               <label>Osoite</label>
-              <input
+              <Inputstyle
                 id="address"
                 type="text"
                 value={address}
@@ -78,7 +122,7 @@ const CreateLocation = () => {
 
             <div>
               <label>Postinumero</label>
-              <input
+              <Inputstyle
                 id="zipcode"
                 type="text"
                 value={zipcode}
@@ -90,7 +134,7 @@ const CreateLocation = () => {
 
             <div>
               <label>Kaupunki</label>
-              <input
+              <Inputstyle
                 id="city"
                 type="text"
                 value={city}
@@ -101,10 +145,11 @@ const CreateLocation = () => {
             </div>
 
             <div>
-              <button type="submit">Tallenna</button>
+              <StyledButton type="submit">Tallenna</StyledButton>
             </div>
           </form>
         </FormContainer>
+        </Container1>
       </GrayBackground>
     </div>
   );

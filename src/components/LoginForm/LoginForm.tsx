@@ -72,7 +72,7 @@ const LoginFormContent = styled.div`
 
 const StyledInput = styled.input`
   width: 100%;
-  padding: 10px;
+  padding: 15px;
   margin-bottom: 20px;
   box-sizing: border-box;
   border: none;
